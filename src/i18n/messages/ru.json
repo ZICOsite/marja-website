@@ -1,0 +1,33 @@
+{
+  "common": {
+    "readMore": "Читать далее",
+    "backToList": "Назад к списку",
+    "search": "Поиск",
+    "noResults": "Ничего не найдено",
+    "home": "Главная",
+    "loading": "Загрузка..."
+  },
+  "nav": {
+    "toggleMenu": "Открыть меню",
+    "search": "Поиск"
+  },
+  "post": {
+    "publishedAt": "Опубликовано {date}",
+    "by": "Автор",
+    "relatedPosts": "Похожие статьи"
+  },
+  "posts": {
+    "title": "Статьи",
+    "page": "Страница {number}"
+  },
+  "search": {
+    "title": "Поиск",
+    "placeholder": "Искать...",
+    "noResults": "Ничего не найдено."
+  },
+  "errors": {
+    "notFound": "Страница не найдена",
+    "notFoundDescription": "Страница, которую вы ищете, не существует.",
+    "goHome": "На главную"
+  }
+}

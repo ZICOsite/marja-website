@@ -1,0 +1,33 @@
+{
+  "common": {
+    "readMore": "Толығырақ оқу",
+    "backToList": "Тізімге оралу",
+    "search": "Іздеу",
+    "noResults": "Ештеңе табылмады",
+    "home": "Басты бет",
+    "loading": "Жүктелуде..."
+  },
+  "nav": {
+    "toggleMenu": "Мәзірді ашу",
+    "search": "Іздеу"
+  },
+  "post": {
+    "publishedAt": "{date} жарияланды",
+    "by": "Автор",
+    "relatedPosts": "Ұқсас мақалалар"
+  },
+  "posts": {
+    "title": "Мақалалар",
+    "page": "Бет {number}"
+  },
+  "search": {
+    "title": "Іздеу",
+    "placeholder": "Іздеу...",
+    "noResults": "Ештеңе табылмады."
+  },
+  "errors": {
+    "notFound": "Бет табылмады",
+    "notFoundDescription": "Сіз іздеген бет жоқ.",
+    "goHome": "Басты бетке"
+  }
+}

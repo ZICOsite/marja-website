@@ -1,0 +1,33 @@
+{
+  "common": {
+    "readMore": "Бештар хонед",
+    "backToList": "Бозгашт ба рӯйхат",
+    "search": "Ҷустуҷӯ",
+    "noResults": "Ҳеҷ чиз ёфт нашуд",
+    "home": "Саҳифаи асосӣ",
+    "loading": "Боргузорӣ..."
+  },
+  "nav": {
+    "toggleMenu": "Кушодани меню",
+    "search": "Ҷустуҷӯ"
+  },
+  "post": {
+    "publishedAt": "Нашр шуд {date}",
+    "by": "Муаллиф",
+    "relatedPosts": "Мақолаҳои монанд"
+  },
+  "posts": {
+    "title": "Мақолаҳо",
+    "page": "Саҳифа {number}"
+  },
+  "search": {
+    "title": "Ҷустуҷӯ",
+    "placeholder": "Ҷустуҷӯ кунед...",
+    "noResults": "Ҳеҷ чиз ёфт нашуд."
+  },
+  "errors": {
+    "notFound": "Саҳифа ёфт нашуд",
+    "notFoundDescription": "Саҳифае, ки шумо меҷӯед, вуҷуд надорад.",
+    "goHome": "Ба саҳифаи асосӣ"
+  }
+}

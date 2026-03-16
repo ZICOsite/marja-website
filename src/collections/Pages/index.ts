@@ -44,6 +44,7 @@ export const Pages: CollectionConfig<'pages'> = {
           slug: data?.slug,
           collection: 'pages',
           req,
+          locale: (req.locale as string) || 'uz',
         }),
     },
     preview: (data, { req }) =>
@@ -51,6 +52,7 @@ export const Pages: CollectionConfig<'pages'> = {
         slug: data?.slug as string,
         collection: 'pages',
         req,
+        locale: (req.locale as string) || 'uz',
       }),
     useAsTitle: 'title',
   },
@@ -59,6 +61,7 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       type: 'tabs',
@@ -74,6 +77,7 @@ export const Pages: CollectionConfig<'pages'> = {
               type: 'blocks',
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
               required: true,
+              localized: true,
               admin: {
                 initCollapsed: true,
               },

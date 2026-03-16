@@ -5,14 +5,25 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
     doc: { relationTo: collection },
   } = searchDoc
 
-  const { slug, id, categories, title, meta } = originalDoc
+  const { slug, id, categories, meta } = originalDoc
+
+  // originalDoc.title is an object when localized: { uz: '...', ru: '...', ... }
+  // We flatten all locale titles into the search document so the post is
+  // discoverable regardless of which locale the user searches from.
+  const titleByLocale = originalDoc.title
+
+  const titleForSearch =
+    typeof titleByLocale === 'object' && titleByLocale !== null
+      ? Object.values(titleByLocale).filter(Boolean).join(' ')
+      : titleByLocale || ''
 
   const modifiedDoc: DocToSync = {
     ...searchDoc,
     slug,
+    title: titleForSearch,
     meta: {
       ...meta,
-      title: meta?.title || title,
+      title: meta?.title || titleForSearch,
       image: meta?.image?.id || meta?.image,
       description: meta?.description,
     },
@@ -36,12 +47,18 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
         id: category,
         disableErrors: true,
         depth: 0,
+        locale: 'all',
         select: { title: true },
         req,
       })
 
       if (doc !== null) {
-        populatedCategories.push(doc)
+        // Merge all locale titles for category search too
+        const catTitle =
+          typeof doc.title === 'object' && doc.title !== null
+            ? Object.values(doc.title).filter(Boolean).join(' ')
+            : doc.title || ''
+        populatedCategories.push({ id: doc.id, title: catTitle })
       } else {
         console.error(
           `Failed. Category not found when syncing collection '${collection}' with id: '${id}' to search.`,

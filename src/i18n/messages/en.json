@@ -1,0 +1,33 @@
+{
+  "common": {
+    "readMore": "Read more",
+    "backToList": "Back to list",
+    "search": "Search",
+    "noResults": "Nothing found",
+    "home": "Home",
+    "loading": "Loading..."
+  },
+  "nav": {
+    "toggleMenu": "Open menu",
+    "search": "Search"
+  },
+  "post": {
+    "publishedAt": "Published on {date}",
+    "by": "By",
+    "relatedPosts": "Related posts"
+  },
+  "posts": {
+    "title": "Posts",
+    "page": "Page {number}"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search...",
+    "noResults": "No results found."
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "notFoundDescription": "The page you are looking for does not exist.",
+    "goHome": "Go home"
+  }
+}

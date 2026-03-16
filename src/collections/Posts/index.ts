@@ -55,6 +55,7 @@ export const Posts: CollectionConfig<'posts'> = {
           slug: data?.slug,
           collection: 'posts',
           req,
+          locale: (req.locale as string) || 'uz',
         }),
     },
     preview: (data, { req }) =>
@@ -62,6 +63,7 @@ export const Posts: CollectionConfig<'posts'> = {
         slug: data?.slug as string,
         collection: 'posts',
         req,
+        locale: (req.locale as string) || 'uz',
       }),
     useAsTitle: 'title',
   },
@@ -70,6 +72,7 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       type: 'tabs',
@@ -84,6 +87,7 @@ export const Posts: CollectionConfig<'posts'> = {
             {
               name: 'content',
               type: 'richText',
+              localized: true,
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
                   return [

@@ -1,0 +1,33 @@
+{
+  "common": {
+    "readMore": "Ko'proq o'qish",
+    "backToList": "Ro'yxatga qaytish",
+    "search": "Qidirish",
+    "noResults": "Hech narsa topilmadi",
+    "home": "Bosh sahifa",
+    "loading": "Yuklanmoqda..."
+  },
+  "nav": {
+    "toggleMenu": "Menyuni ochish",
+    "search": "Qidirish"
+  },
+  "post": {
+    "publishedAt": "{date} da e'lon qilindi",
+    "by": "Muallif",
+    "relatedPosts": "O'xshash maqolalar"
+  },
+  "posts": {
+    "title": "Maqolalar",
+    "page": "Sahifa {number}"
+  },
+  "search": {
+    "title": "Qidirish",
+    "placeholder": "Qidirish...",
+    "noResults": "Hech narsa topilmadi."
+  },
+  "errors": {
+    "notFound": "Sahifa topilmadi",
+    "notFoundDescription": "Siz qidirayotgan sahifa mavjud emas.",
+    "goHome": "Bosh sahifaga o'tish"
+  }
+}

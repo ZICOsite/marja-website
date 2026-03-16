@@ -17,10 +17,11 @@ const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Post | Page> = ({ doc, locale }) => {
   const url = getServerSideURL()
+  const localePrefix = locale ? `/${locale}` : '/uz'
 
-  return doc?.slug ? `${url}/${doc.slug}` : url
+  return doc?.slug ? `${url}${localePrefix}/${doc.slug}` : url
 }
 
 export const plugins: Plugin[] = [

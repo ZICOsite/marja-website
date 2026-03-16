@@ -3,6 +3,8 @@ import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
+import { ru } from '@payloadcms/translations/languages/ru'
+import { en } from '@payloadcms/translations/languages/en'
 
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
@@ -19,6 +21,21 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  localization: {
+    locales: [
+      { label: "O'zbekcha", code: 'uz' },
+      { label: 'Русский', code: 'ru' },
+      { label: 'English', code: 'en' },
+      { label: 'Тоҷикӣ', code: 'tg' },
+      { label: 'Қазақша', code: 'kk' },
+    ],
+    defaultLocale: 'uz',
+    fallback: true,
+  },
+  i18n: {
+    supportedLanguages: { ru, en },
+    fallbackLanguage: 'en',
+  },
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.

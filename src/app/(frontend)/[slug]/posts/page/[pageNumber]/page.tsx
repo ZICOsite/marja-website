@@ -5,22 +5,25 @@ import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import { setRequestLocale } from 'next-intl/server'
 import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
+import { routing } from '@/i18n/routing'
 
 export const revalidate = 600
 
+// slug = locale, pageNumber = page number
 type Args = {
-  params: Promise<{
-    pageNumber: string
-  }>
+  params: Promise<{ slug: string; pageNumber: string }>
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
-  const { pageNumber } = await paramsPromise
-  const payload = await getPayload({ config: configPromise })
+  const { slug: locale, pageNumber } = await paramsPromise
 
+  setRequestLocale(locale)
+
+  const payload = await getPayload({ config: configPromise })
   const sanitizedPageNumber = Number(pageNumber)
 
   if (!Number.isInteger(sanitizedPageNumber)) notFound()
@@ -31,6 +34,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     limit: 12,
     page: sanitizedPageNumber,
     overrideAccess: false,
+    locale: locale as any,
   })
 
   return (
@@ -41,7 +45,6 @@ export default async function Page({ params: paramsPromise }: Args) {
           <h1>Posts</h1>
         </div>
       </div>
-
       <div className="container mb-8">
         <PageRange
           collection="posts"
@@ -50,9 +53,7 @@ export default async function Page({ params: paramsPromise }: Args) {
           totalDocs={posts.totalDocs}
         />
       </div>
-
       <CollectionArchive posts={posts.docs} />
-
       <div className="container">
         {posts?.page && posts?.totalPages > 1 && (
           <Pagination page={posts.page} totalPages={posts.totalPages} />
@@ -64,9 +65,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
-  return {
-    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
-  }
+  return { title: `Posts Page ${pageNumber || ''}` }
 }
 
 export async function generateStaticParams() {
@@ -76,13 +75,13 @@ export async function generateStaticParams() {
     overrideAccess: false,
   })
 
-  const totalPages = Math.ceil(totalDocs / 10)
+  const totalPages = Math.ceil(totalDocs / 12)
 
-  const pages: { pageNumber: string }[] = []
-
-  for (let i = 1; i <= totalPages; i++) {
-    pages.push({ pageNumber: String(i) })
-  }
-
-  return pages
+  return routing.locales.flatMap((locale) => {
+    const pages: { slug: string; pageNumber: string }[] = []
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push({ slug: locale, pageNumber: String(i) })
+    }
+    return pages
+  })
 }

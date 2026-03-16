@@ -10,32 +10,46 @@ export const revalidatePage: CollectionAfterChangeHook<Page> = ({
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
+    const locales = payload.config.localization
+      ? payload.config.localization.locales.map((l) => (typeof l === 'string' ? l : l.code))
+      : ['uz']
+
     if (doc._status === 'published') {
-      const path = doc.slug === 'home' ? '/' : `/${doc.slug}`
-
-      payload.logger.info(`Revalidating page at path: ${path}`)
-
-      revalidatePath(path)
+      for (const locale of locales) {
+        const path = doc.slug === 'home' ? `/${locale}` : `/${locale}/${doc.slug}`
+        payload.logger.info(`Revalidating page at path: ${path}`)
+        revalidatePath(path)
+      }
       revalidateTag('pages-sitemap')
     }
 
     // If the page was previously published, we need to revalidate the old path
     if (previousDoc?._status === 'published' && doc._status !== 'published') {
-      const oldPath = previousDoc.slug === 'home' ? '/' : `/${previousDoc.slug}`
-
-      payload.logger.info(`Revalidating old page at path: ${oldPath}`)
-
-      revalidatePath(oldPath)
+      for (const locale of locales) {
+        const oldPath =
+          previousDoc.slug === 'home' ? `/${locale}` : `/${locale}/${previousDoc.slug}`
+        payload.logger.info(`Revalidating old page at path: ${oldPath}`)
+        revalidatePath(oldPath)
+      }
       revalidateTag('pages-sitemap')
     }
   }
   return doc
 }
 
-export const revalidateDelete: CollectionAfterDeleteHook<Page> = ({ doc, req: { context } }) => {
+export const revalidateDelete: CollectionAfterDeleteHook<Page> = ({
+  doc,
+  req: { payload, context },
+}) => {
   if (!context.disableRevalidate) {
-    const path = doc?.slug === 'home' ? '/' : `/${doc?.slug}`
-    revalidatePath(path)
+    const locales = payload.config.localization
+      ? payload.config.localization.locales.map((l) => (typeof l === 'string' ? l : l.code))
+      : ['uz']
+
+    for (const locale of locales) {
+      const path = doc?.slug === 'home' ? `/${locale}` : `/${locale}/${doc?.slug}`
+      revalidatePath(path)
+    }
     revalidateTag('pages-sitemap')
   }
 

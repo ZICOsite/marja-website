@@ -9,9 +9,10 @@ type Props = {
   collection: keyof typeof collectionPrefixMap
   slug: string
   req: PayloadRequest
+  locale?: string
 }
 
-export const generatePreviewPath = ({ collection, slug }: Props) => {
+export const generatePreviewPath = ({ collection, slug, locale = 'uz' }: Props) => {
   // Allow empty strings, e.g. for the homepage
   if (slug === undefined || slug === null) {
     return null
@@ -23,8 +24,9 @@ export const generatePreviewPath = ({ collection, slug }: Props) => {
   const encodedParams = new URLSearchParams({
     slug: encodedSlug,
     collection,
-    path: `${collectionPrefixMap[collection]}/${encodedSlug}`,
+    path: `/${locale}${collectionPrefixMap[collection]}/${encodedSlug}`,
     previewSecret: process.env.PREVIEW_SECRET || '',
+    locale,
   })
 
   const url = `/next/preview?${encodedParams.toString()}`
