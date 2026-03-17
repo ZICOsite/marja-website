@@ -217,6 +217,9 @@ export interface Page {
       }
     | ArchiveBlock
     | FormBlock
+    | FeaturesBlock
+    | StatsBlock
+    | SolutionsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -460,6 +463,8 @@ export interface User {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
+  title: string;
+  titleTag: 'h1' | 'h2' | 'h3' | 'h4';
   richText?: {
     root: {
       type: string;
@@ -789,6 +794,61 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturesBlock".
+ */
+export interface FeaturesBlock {
+  items?:
+    | {
+        icon: 'infinity' | 'badgePercent' | 'shieldCheck' | 'factory';
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'features';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsBlock".
+ */
+export interface StatsBlock {
+  items?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stats';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SolutionsBlock".
+ */
+export interface SolutionsBlock {
+  tagline?: string | null;
+  title?: string | null;
+  description?: string | null;
+  cards?:
+    | {
+        image: number | Media;
+        title?: string | null;
+        description?: string | null;
+        type?: ('foundation' | 'roof') | null;
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'solutions';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1095,6 +1155,9 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        features?: T | FeaturesBlockSelect<T>;
+        stats?: T | StatsBlockSelect<T>;
+        solutions?: T | SolutionsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1115,6 +1178,8 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "CallToActionBlock_select".
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
+  title?: T;
+  titleTag?: T;
   richText?: T;
   links?:
     | T
@@ -1191,6 +1256,58 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturesBlock_select".
+ */
+export interface FeaturesBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsBlock_select".
+ */
+export interface StatsBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SolutionsBlock_select".
+ */
+export interface SolutionsBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  title?: T;
+  description?: T;
+  cards?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+        type?: T;
+        link?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

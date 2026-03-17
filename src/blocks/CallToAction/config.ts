@@ -14,8 +14,28 @@ export const CallToAction: Block = {
   interfaceName: 'CallToActionBlock',
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      localized: true,
+      required: true,
+      label: 'Title',
+    },
+    {
+      name: 'titleTag',
+      type: 'select',
+      defaultValue: 'h2',
+      options: [
+        { label: 'H1', value: 'h1' },
+        { label: 'H2', value: 'h2' },
+        { label: 'H3', value: 'h3' },
+        { label: 'H4', value: 'h4' },
+      ],
+      required: true,
+    },
+    {
       name: 'richText',
       type: 'richText',
+      localized: true,
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [

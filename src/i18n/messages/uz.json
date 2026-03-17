@@ -29,5 +29,8 @@
     "notFound": "Sahifa topilmadi",
     "notFoundDescription": "Siz qidirayotgan sahifa mavjud emas.",
     "goHome": "Bosh sahifaga o'tish"
+  },
+  "cta": {
+    "abovetitle": "O‘zbekistonda ishlab chiqarilgan"
   }
 }

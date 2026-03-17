@@ -29,5 +29,8 @@
     "notFound": "Бет табылмады",
     "notFoundDescription": "Сіз іздеген бет жоқ.",
     "goHome": "Басты бетке"
+  },
+  "cta": {
+    "abovetitle": "Өзбекстанда жасалған"
   }
 }

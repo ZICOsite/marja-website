@@ -29,5 +29,8 @@
     "notFound": "Page not found",
     "notFoundDescription": "The page you are looking for does not exist.",
     "goHome": "Go home"
+  },
+  "cta": {
+    "abovetitle": "Made in Uzbekistan"
   }
 }

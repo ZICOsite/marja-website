@@ -7,6 +7,9 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { FeaturesBlock } from '@/blocks/Features/Component'
+import { StatsBlock } from '@/blocks/Statistics/Component'
+import { SolutionsBlock } from '@/blocks/Solutions/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -14,6 +17,9 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  features: FeaturesBlock,
+  stats: StatsBlock,
+  solutions: SolutionsBlock,
 }
 
 export const RenderBlocks: React.FC<{
