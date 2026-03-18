@@ -29,7 +29,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({ title, titleTag = '
           {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
           <div className="flex gap-8">
             {(links || []).map(({ link }, i) => {
-              return <CMSLink key={i} size="lg" {...link} />
+              return <CMSLink key={i} size="lg" {...link} className='uppercase' />
             })}
           </div>
         </div>

@@ -220,6 +220,7 @@ export interface Page {
     | FeaturesBlock
     | StatsBlock
     | SolutionsBlock
+    | AboutCompanyBlock
   )[];
   meta?: {
     title?: string | null;
@@ -849,6 +850,71 @@ export interface SolutionsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutCompanyBlock".
+ */
+export interface AboutCompanyBlock {
+  /**
+   * Small label above the heading (e.g. "Наша история")
+   */
+  label: string;
+  title: string;
+  /**
+   * Part of the heading rendered in accent color
+   */
+  titleHighlight?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image: number | Media;
+  /**
+   * e.g. "15+"
+   */
+  statValue?: string | null;
+  /**
+   * e.g. "Лет на рынке Узбекистана"
+   */
+  statLabel?: string | null;
+  features?:
+    | {
+        icon: 'shield' | 'factory' | 'check' | 'award' | 'zap';
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  button: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'aboutCompany';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1158,6 +1224,7 @@ export interface PagesSelect<T extends boolean = true> {
         features?: T | FeaturesBlockSelect<T>;
         stats?: T | StatsBlockSelect<T>;
         solutions?: T | SolutionsBlockSelect<T>;
+        aboutCompany?: T | AboutCompanyBlockSelect<T>;
       };
   meta?:
     | T
@@ -1307,6 +1374,38 @@ export interface SolutionsBlockSelect<T extends boolean = true> {
         type?: T;
         link?: T;
         id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutCompanyBlock_select".
+ */
+export interface AboutCompanyBlockSelect<T extends boolean = true> {
+  label?: T;
+  title?: T;
+  titleHighlight?: T;
+  description?: T;
+  image?: T;
+  statValue?: T;
+  statLabel?: T;
+  features?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  button?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
       };
   id?: T;
   blockName?: T;

@@ -3,13 +3,20 @@
 import { usePathname, useRouter } from '@/navigation'
 import { useLocale } from 'next-intl'
 import { locales, type Locale } from '@/i18n/routing'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const localeLabels: Record<Locale, string> = {
-  uz: "O'z",
-  ru: 'Ру',
-  en: 'En',
-  tg: 'Тҷ',
-  kk: 'Қз',
+  uz: "O'zbek",
+  ru: 'Русский',
+  en: 'English',
+  tg: 'Тоҷикӣ',
+  kk: 'Қазақша',
 }
 
 export function LocaleSwitcher() {
@@ -22,21 +29,17 @@ export function LocaleSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1">
-      {locales.map((l) => (
-        <button
-          key={l}
-          onClick={() => handleChange(l)}
-          className={`px-2 py-1 text-xs rounded transition-colors ${
-            l === locale
-              ? 'bg-primary text-primary-foreground font-semibold'
-              : 'text-muted-foreground hover:text-foreground'
-          }`}
-          aria-label={`Switch to ${l}`}
-        >
-          {localeLabels[l]}
-        </button>
-      ))}
-    </div>
+    <Select value={locale} onValueChange={handleChange}>
+      <SelectTrigger className="w-[120px] h-8 text-xs">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {locales.map((l) => (
+          <SelectItem key={l} value={l} className="text-xs">
+            {localeLabels[l]}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   )
 }

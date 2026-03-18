@@ -10,6 +10,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { FeaturesBlock } from '@/blocks/Features/Component'
 import { StatsBlock } from '@/blocks/Statistics/Component'
 import { SolutionsBlock } from '@/blocks/Solutions/Component'
+import { AboutCompanyBlock } from '@/blocks/AboutCompany/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -20,6 +21,7 @@ const blockComponents = {
   features: FeaturesBlock,
   stats: StatsBlock,
   solutions: SolutionsBlock,
+  aboutCompany: AboutCompanyBlock,
 }
 
 export const RenderBlocks: React.FC<{
