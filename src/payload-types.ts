@@ -221,6 +221,7 @@ export interface Page {
     | StatsBlock
     | SolutionsBlock
     | AboutCompanyBlock
+    | ClientsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -915,6 +916,26 @@ export interface AboutCompanyBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ClientsBlock".
+ */
+export interface ClientsBlock {
+  heading?: string | null;
+  clients?:
+    | {
+        logo: number | Media;
+        /**
+         * Used as alt text for the logo image
+         */
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'clients';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1225,6 +1246,7 @@ export interface PagesSelect<T extends boolean = true> {
         stats?: T | StatsBlockSelect<T>;
         solutions?: T | SolutionsBlockSelect<T>;
         aboutCompany?: T | AboutCompanyBlockSelect<T>;
+        clients?: T | ClientsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1406,6 +1428,22 @@ export interface AboutCompanyBlockSelect<T extends boolean = true> {
         reference?: T;
         url?: T;
         label?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ClientsBlock_select".
+ */
+export interface ClientsBlockSelect<T extends boolean = true> {
+  heading?: T;
+  clients?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+        id?: T;
       };
   id?: T;
   blockName?: T;

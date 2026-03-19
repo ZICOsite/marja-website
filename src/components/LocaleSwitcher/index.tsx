@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Globe } from 'lucide-react'
 
 const localeLabels: Record<Locale, string> = {
   uz: "O'zbek",
@@ -30,7 +31,8 @@ export function LocaleSwitcher() {
 
   return (
     <Select value={locale} onValueChange={handleChange}>
-      <SelectTrigger className="w-[120px] h-8 text-xs">
+      <SelectTrigger className="w-[130px] h-8 text-xs gap-1">
+        <Globe className="w-3.5 h-3.5 shrink-0" />
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
