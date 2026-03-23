@@ -1,4 +1,4 @@
-import { ArrowRight, Award, CheckCircle, Factory, ShieldCheck, Zap } from 'lucide-react'
+import { ArrowRight, Award, CheckCircle, Factory, LucideIcon, ShieldCheck, Zap } from 'lucide-react'
 import React from 'react'
 
 import type { AboutCompanyBlock as AboutCompanyBlockProps } from '@/payload-types'
@@ -6,12 +6,12 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
-const iconMap: Record<string, React.ReactNode> = {
-  shield: <ShieldCheck className="text-blue-600 w-6 h-6" />,
-  factory: <Factory className="text-blue-600 w-6 h-6" />,
-  check: <CheckCircle className="text-blue-600 w-6 h-6" />,
-  award: <Award className="text-blue-600 w-6 h-6" />,
-  zap: <Zap className="text-blue-600 w-6 h-6" />,
+const iconMap: Record<string, LucideIcon> = {
+  shield: ShieldCheck,
+  factory: Factory,
+  check: CheckCircle,
+  award: Award,
+  zap: Zap,
 }
 
 type Props = {
@@ -88,7 +88,9 @@ export const AboutCompanyBlock: React.FC<Props> = ({
                     className="flex items-start space-x-4 p-4 bg-white rounded-2xl shadow-sm"
                   >
                     <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                      {iconMap[feature.icon] ?? iconMap.shield}
+                      {React.createElement(iconMap[feature.icon] ?? iconMap.shield, {
+                        className: 'text-blue-600 w-6 h-6',
+                      })}
                     </div>
                     <div>
                       <h4 className="font-bold text-slate-900 font-sans">{feature.title}</h4>

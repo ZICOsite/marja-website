@@ -23,7 +23,8 @@
   "search": {
     "title": "Іздеу",
     "placeholder": "Іздеу...",
-    "noResults": "Ештеңе табылмады."
+    "noResults": "Ештеңе табылмады.",
+    "postsTitle": "Мақалалар"
   },
   "errors": {
     "notFound": "Бет табылмады",
@@ -32,5 +33,33 @@
   },
   "cta": {
     "abovetitle": "Өзбекстанда жасалған"
+  },
+  "solutions": {
+    "viewSystem": "Жүйені қарау"
+  },
+  "products": {
+    "catalog": "Өнімдер каталогы",
+    "catalogDescription": "Біздің өнімдерімізбен танысыңыз",
+    "noCategories": "Санаттар табылмады",
+    "noProducts": "Өнімдер табылмады",
+    "inStock": "Қоймада бар",
+    "outOfStock": "Қоймада жоқ",
+    "sku": "Артикул",
+    "specifications": "Техникалық сипаттамалар",
+    "description": "Сипаттама",
+    "relatedProducts": "Ұқсас өнімдер",
+    "documents": "Құжаттар",
+    "downloadDocument": "Құжатты жүктеу",
+    "subcategories": "Ішкі санаттар",
+    "viewProduct": "Толығырақ",
+    "categories": "Санаттар",
+    "allCategories": "Барлық санаттар",
+    "foundProducts": "{count} өнім табылды",
+    "sortBy": "Сұрыптау",
+    "sort": {
+      "default": "Әдепкі",
+      "new": "Жаңалар",
+      "title": "Атауы бойынша"
+    }
   }
 }

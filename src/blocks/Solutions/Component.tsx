@@ -3,6 +3,7 @@ import { Factory, ShieldCheck, ArrowRight, LucideIcon } from 'lucide-react'
 import type { SolutionsBlock as SolutionsBlockProps } from '@/payload-types'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 const iconMap: Record<string, LucideIcon> = {
   foundation: ShieldCheck,
@@ -14,6 +15,7 @@ type Props = {
 } & SolutionsBlockProps
 
 export const SolutionsBlock: React.FC<Props> = ({ tagline, title, description, cards }) => {
+  const t = useTranslations('solutions')
   return (
     <section className="py-24 overflow-hidden">
       <div className="container mx-auto px-4">
@@ -70,7 +72,7 @@ export const SolutionsBlock: React.FC<Props> = ({ tagline, title, description, c
                   <p className="text-white/70 mb-4 line-clamp-2 font-sans">{card.description}</p>
 
                   <button className="flex items-center text-[var(--primary)] font-sans font-bold group-hover:underline">
-                    Смотреть систему <ArrowRight className="ml-2 w-4 h-4" />
+                    {t('viewSystem')} <ArrowRight className="ml-2 w-4 h-4" />
                   </button>
                 </div>
               </Link>

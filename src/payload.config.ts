@@ -6,10 +6,15 @@ import { fileURLToPath } from 'url'
 import { ru } from '@payloadcms/translations/languages/ru'
 import { en } from '@payloadcms/translations/languages/en'
 
+import { AttributeGroups } from './collections/AttributeGroups'
+import { Attributes } from './collections/Attributes'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { ProductCategories } from './collections/ProductCategories'
+import { Products } from './collections/Products'
+import { Reviews } from './collections/Reviews'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -79,7 +84,18 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [
+    Pages,
+    Posts,
+    Products,
+    ProductCategories,
+    AttributeGroups,
+    Attributes,
+    Reviews,
+    Media,
+    Categories,
+    Users,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,

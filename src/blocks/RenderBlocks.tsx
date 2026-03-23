@@ -12,6 +12,7 @@ import { StatsBlock } from '@/blocks/Statistics/Component'
 import { SolutionsBlock } from '@/blocks/Solutions/Component'
 import { AboutCompanyBlock } from '@/blocks/AboutCompany/Component'
 import { ClientsBlock } from '@/blocks/Clients/Component'
+import { PopularProductsBlock } from '@/blocks/PopularProducts/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -24,6 +25,7 @@ const blockComponents = {
   solutions: SolutionsBlock,
   aboutCompany: AboutCompanyBlock,
   clients: ClientsBlock,
+  popularProducts: PopularProductsBlock,
 }
 
 export const RenderBlocks: React.FC<{

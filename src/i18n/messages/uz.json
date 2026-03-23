@@ -23,7 +23,8 @@
   "search": {
     "title": "Qidirish",
     "placeholder": "Qidirish...",
-    "noResults": "Hech narsa topilmadi."
+    "noResults": "Hech narsa topilmadi.",
+    "postsTitle": "Maqolalar"
   },
   "errors": {
     "notFound": "Sahifa topilmadi",
@@ -31,6 +32,34 @@
     "goHome": "Bosh sahifaga o'tish"
   },
   "cta": {
-    "abovetitle": "O‘zbekistonda ishlab chiqarilgan"
+    "abovetitle": "O’zbekistonda ishlab chiqarilgan"
+  },
+  "solutions": {
+    "viewSystem": "Tizimni ko’rish"
+  },
+  "products": {
+    "catalog": "Mahsulotlar katalogi",
+    "catalogDescription": "Bizning mahsulotlarimiz bilan tanishing",
+    "noCategories": "Kategoriyalar topilmadi",
+    "noProducts": "Mahsulotlar topilmadi",
+    "inStock": "Mavjud",
+    "outOfStock": "Mavjud emas",
+    "sku": "Artikul",
+    "specifications": "Texnik xususiyatlar",
+    "description": "Tavsif",
+    "relatedProducts": "O’xshash mahsulotlar",
+    "documents": "Hujjatlar",
+    "downloadDocument": "Hujjatni yuklab olish",
+    "subcategories": "Qurilmalar",
+    "viewProduct": "Batafsil",
+    "categories": "Kategoriyalar",
+    "allCategories": "Barcha kategoriyalar",
+    "foundProducts": "{count} ta mahsulot topildi",
+    "sortBy": "Saralash",
+    "sort": {
+      "default": "Standart",
+      "new": "Yangiliklar",
+      "title": "Nom bo'yicha"
+    }
   }
 }

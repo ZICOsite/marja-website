@@ -23,7 +23,8 @@
   "search": {
     "title": "Search",
     "placeholder": "Search...",
-    "noResults": "No results found."
+    "noResults": "No results found.",
+    "postsTitle": "Articles"
   },
   "errors": {
     "notFound": "Page not found",
@@ -32,5 +33,33 @@
   },
   "cta": {
     "abovetitle": "Made in Uzbekistan"
+  },
+  "solutions": {
+    "viewSystem": "View system"
+  },
+  "products": {
+    "catalog": "Product Catalog",
+    "catalogDescription": "Browse our products",
+    "noCategories": "No categories found",
+    "noProducts": "No products found",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "sku": "SKU",
+    "specifications": "Specifications",
+    "description": "Description",
+    "relatedProducts": "Related products",
+    "documents": "Documents",
+    "downloadDocument": "Download document",
+    "subcategories": "Subcategories",
+    "viewProduct": "Learn more",
+    "categories": "Categories",
+    "allCategories": "All categories",
+    "foundProducts": "{count} products found",
+    "sortBy": "Sort",
+    "sort": {
+      "default": "Default",
+      "new": "Newest",
+      "title": "By name"
+    }
   }
 }

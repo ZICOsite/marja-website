@@ -23,7 +23,8 @@
   "search": {
     "title": "Поиск",
     "placeholder": "Искать...",
-    "noResults": "Ничего не найдено."
+    "noResults": "Ничего не найдено.",
+    "postsTitle": "Статьи"
   },
   "errors": {
     "notFound": "Страница не найдена",
@@ -32,5 +33,33 @@
   },
   "cta": {
     "abovetitle": "Сделано в Узбекистане"
+  },
+  "solutions": {
+    "viewSystem": "Смотреть систему"
+  },
+  "products": {
+    "catalog": "Каталог товаров",
+    "catalogDescription": "Ознакомьтесь с нашей продукцией",
+    "noCategories": "Категории не найдены",
+    "noProducts": "Товары не найдены",
+    "inStock": "В наличии",
+    "outOfStock": "Нет в наличии",
+    "sku": "Артикул",
+    "specifications": "Технические характеристики",
+    "description": "Описание",
+    "relatedProducts": "Похожие товары",
+    "documents": "Документы",
+    "downloadDocument": "Скачать документ",
+    "subcategories": "Подкатегории",
+    "viewProduct": "Подробнее",
+    "categories": "Категории",
+    "allCategories": "Все категории",
+    "foundProducts": "Найдено товаров: {count}",
+    "sortBy": "Сортировка",
+    "sort": {
+      "default": "По умолчанию",
+      "new": "Новинки",
+      "title": "По названию"
+    }
   }
 }

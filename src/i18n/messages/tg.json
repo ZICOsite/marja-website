@@ -23,7 +23,8 @@
   "search": {
     "title": "Ҷустуҷӯ",
     "placeholder": "Ҷустуҷӯ кунед...",
-    "noResults": "Ҳеҷ чиз ёфт нашуд."
+    "noResults": "Ҳеҷ чиз ёфт нашуд.",
+    "postsTitle": "Мақолаҳо"
   },
   "errors": {
     "notFound": "Саҳифа ёфт нашуд",
@@ -32,5 +33,33 @@
   },
   "cta": {
     "abovetitle": "Дар Ӯзбекистон истеҳсол шудааст"
+  },
+  "solutions": {
+    "viewSystem": "Системаро бинед"
+  },
+  "products": {
+    "catalog": "Каталоги молҳо",
+    "catalogDescription": "Бо маҳсулоти мо шинос шавед",
+    "noCategories": "Категорияҳо ёфт нашуданд",
+    "noProducts": "Молҳо ёфт нашуданд",
+    "inStock": "Мавҷуд аст",
+    "outOfStock": "Мавҷуд нест",
+    "sku": "Артикул",
+    "specifications": "Хусусиятҳои техникӣ",
+    "description": "Тавсиф",
+    "relatedProducts": "Молҳои монанд",
+    "documents": "Ҳуҷҷатҳо",
+    "downloadDocument": "Ҳуҷҷатро зеркашӣ кунед",
+    "subcategories": "Зергурӯҳҳо",
+    "viewProduct": "Муфассал",
+    "categories": "Категорияҳо",
+    "allCategories": "Ҳамаи категорияҳо",
+    "foundProducts": "{count} маҳсул ёфт шуд",
+    "sortBy": "Тартиб",
+    "sort": {
+      "default": "Пешфарз",
+      "new": "Навҳо",
+      "title": "Аз рӯи ном"
+    }
   }
 }

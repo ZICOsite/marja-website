@@ -69,6 +69,11 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    products: Product;
+    'product-categories': ProductCategory;
+    'attribute-groups': AttributeGroup;
+    attributes: Attribute;
+    reviews: Review;
     media: Media;
     categories: Category;
     users: User;
@@ -91,6 +96,11 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
+    'attribute-groups': AttributeGroupsSelect<false> | AttributeGroupsSelect<true>;
+    attributes: AttributesSelect<false> | AttributesSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -222,6 +232,7 @@ export interface Page {
     | SolutionsBlock
     | AboutCompanyBlock
     | ClientsBlock
+    | PopularProductsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -936,6 +947,234 @@ export interface ClientsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PopularProductsBlock".
+ */
+export interface PopularProductsBlock {
+  tagline?: string | null;
+  title: string;
+  description?: string | null;
+  /**
+   * Выберите от 1 до 8 товаров для отображения в блоке
+   */
+  products: (number | Product)[];
+  /**
+   * Если не заполнено — используется перевод из файлов локализации
+   */
+  viewAllLabel?: string | null;
+  /**
+   * Относительный путь, например /products. Если пусто — кнопка не показывается
+   */
+  viewAllLink?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'popularProducts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  title: string;
+  heroImage: number | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Краткое описание для карточки в каталоге (1-2 предложения)
+   */
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  documents?:
+    | {
+        file: number | Media;
+        /**
+         * Название (напр. "Технический паспорт")
+         */
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Характеристики товара. Для select-атрибутов в поле "Значение" введите value из опций атрибута.
+   */
+  specifications?:
+    | {
+        attribute: number | Attribute;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Заполняется автоматически из характеристик с пометкой "filterable"
+   */
+  filterValues?:
+    | {
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Похожие и сопутствующие товары, отображаются внизу страницы
+   */
+  relatedProducts?: (number | Product)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  /**
+   * Категории, в которых отображается товар
+   */
+  categories: (number | ProductCategory)[];
+  /**
+   * Артикул товара (уникальный)
+   */
+  sku?: string | null;
+  inStock?: boolean | null;
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "attributes".
+ */
+export interface Attribute {
+  id: number;
+  name: string;
+  /**
+   * Ключ фильтра. Только латинские буквы, цифры и дефисы (напр. "thickness", "color")
+   */
+  slug: string;
+  type: 'text' | 'number' | 'select' | 'boolean';
+  /**
+   * Единица измерения (мм, кг, м², °C и т.д.). Оставьте пустым если не нужно.
+   */
+  unit?: string | null;
+  /**
+   * Группа для отображения на странице товара
+   */
+  group?: (number | null) | AttributeGroup;
+  /**
+   * Варианты значений (только для типа "Выбор")
+   */
+  options?:
+    | {
+        label: string;
+        /**
+         * Служебный ключ: только латинские буквы, цифры и дефисы
+         */
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Показывать в боковых фильтрах каталога
+   */
+  filterable?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "attribute-groups".
+ */
+export interface AttributeGroup {
+  id: number;
+  name: string;
+  /**
+   * Порядок отображения групп в карточке товара
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-categories".
+ */
+export interface ProductCategory {
+  id: number;
+  title: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  parent?: (number | null) | ProductCategory;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | ProductCategory;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  product: number | Product;
+  author: string;
+  /**
+   * Компания или организация (необязательно)
+   */
+  company?: string | null;
+  rating: number;
+  text: string;
+  /**
+   * Опубликовать отзыв на сайте
+   */
+  approved?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1133,6 +1372,26 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'product-categories';
+        value: number | ProductCategory;
+      } | null)
+    | ({
+        relationTo: 'attribute-groups';
+        value: number | AttributeGroup;
+      } | null)
+    | ({
+        relationTo: 'attributes';
+        value: number | Attribute;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -1247,6 +1506,7 @@ export interface PagesSelect<T extends boolean = true> {
         solutions?: T | SolutionsBlockSelect<T>;
         aboutCompany?: T | AboutCompanyBlockSelect<T>;
         clients?: T | ClientsBlockSelect<T>;
+        popularProducts?: T | PopularProductsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1450,6 +1710,20 @@ export interface ClientsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PopularProductsBlock_select".
+ */
+export interface PopularProductsBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  title?: T;
+  description?: T;
+  products?: T;
+  viewAllLabel?: T;
+  viewAllLink?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1478,6 +1752,135 @@ export interface PostsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  title?: T;
+  heroImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  shortDescription?: T;
+  description?: T;
+  documents?:
+    | T
+    | {
+        file?: T;
+        label?: T;
+        id?: T;
+      };
+  specifications?:
+    | T
+    | {
+        attribute?: T;
+        value?: T;
+        id?: T;
+      };
+  filterValues?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  relatedProducts?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  categories?: T;
+  sku?: T;
+  inStock?: T;
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-categories_select".
+ */
+export interface ProductCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  parent?: T;
+  breadcrumbs?:
+    | T
+    | {
+        doc?: T;
+        url?: T;
+        label?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "attribute-groups_select".
+ */
+export interface AttributeGroupsSelect<T extends boolean = true> {
+  name?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "attributes_select".
+ */
+export interface AttributesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  type?: T;
+  unit?: T;
+  group?: T;
+  options?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  filterable?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  product?: T;
+  author?: T;
+  company?: T;
+  rating?: T;
+  text?: T;
+  approved?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2021,6 +2424,14 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'products';
+          value: number | Product;
+        } | null)
+      | ({
+          relationTo: 'product-categories';
+          value: number | ProductCategory;
         } | null);
     global?: string | null;
     user?: (number | null) | User;
