@@ -1051,6 +1051,15 @@ export interface Product {
    * Артикул товара (уникальный)
    */
   sku?: string | null;
+  /**
+   * Цена товара
+   */
+  price?: number | null;
+  currency?: ('UZS' | 'USD' | 'EUR' | 'RUB') | null;
+  /**
+   * Скрыть цену и показать "Цена по запросу"
+   */
+  priceOnRequest?: boolean | null;
   inStock?: boolean | null;
   publishedAt?: string | null;
   /**
@@ -1798,6 +1807,9 @@ export interface ProductsSelect<T extends boolean = true> {
       };
   categories?: T;
   sku?: T;
+  price?: T;
+  currency?: T;
+  priceOnRequest?: T;
   inStock?: T;
   publishedAt?: T;
   generateSlug?: T;

@@ -60,6 +60,8 @@
       "default": "Standart",
       "new": "Yangiliklar",
       "title": "Nom bo'yicha"
-    }
+    },
+    "price": "Narxi",
+    "priceOnRequest": "Narx so'rovga ko'ra"
   }
 }

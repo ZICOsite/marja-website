@@ -60,6 +60,8 @@
       "default": "Default",
       "new": "Newest",
       "title": "By name"
-    }
+    },
+    "price": "Price",
+    "priceOnRequest": "Price on request"
   }
 }

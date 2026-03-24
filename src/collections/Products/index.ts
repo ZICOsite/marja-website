@@ -51,6 +51,9 @@ export const Products: CollectionConfig<'products'> = {
     categories: true,
     inStock: true,
     sku: true,
+    price: true,
+    currency: true,
+    priceOnRequest: true,
   },
   fields: [
     {
@@ -211,6 +214,38 @@ export const Products: CollectionConfig<'products'> = {
       admin: {
         position: 'sidebar',
         description: 'Артикул товара (уникальный)',
+      },
+    },
+    {
+      name: 'price',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        description: 'Цена товара',
+      },
+    },
+    {
+      name: 'currency',
+      type: 'select',
+      defaultValue: 'UZS',
+      options: [
+        { label: 'UZS (сум)', value: 'UZS' },
+        { label: 'USD ($)', value: 'USD' },
+        { label: 'EUR (€)', value: 'EUR' },
+        { label: 'RUB (₽)', value: 'RUB' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'priceOnRequest',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Цена по запросу',
+      admin: {
+        position: 'sidebar',
+        description: 'Скрыть цену и показать "Цена по запросу"',
       },
     },
     {

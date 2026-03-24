@@ -148,6 +148,16 @@ async function ProductDetailPage({
               {product.inStock ? t('inStock') : t('outOfStock')}
             </span>
 
+            {(product.priceOnRequest || product.price != null) && (
+              <div className="mb-6">
+                <p className="text-3xl font-bold text-primary">
+                  {product.priceOnRequest
+                    ? t('priceOnRequest')
+                    : `${(product.price as number).toLocaleString()} ${product.currency ?? 'UZS'}`}
+                </p>
+              </div>
+            )}
+
             {product.shortDescription && (
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                 {product.shortDescription}
@@ -289,8 +299,8 @@ async function CategoryPage({
   const t = await getTranslations({ locale, namespace: 'products' })
 
   const [subcategories, products, allCategories] = await Promise.all([
-    querySubcategories({ parentId: category.id, locale }),
-    queryProductsByCategory({ categoryId: category.id, locale, sort }),
+    querySubcategories({ parentId: String(category.id), locale }),
+    queryProductsByCategory({ categoryId: String(category.id), locale, sort }),
     queryAllCategories({ locale }),
   ])
 
@@ -410,12 +420,19 @@ async function CategoryPage({
                             {product.sku}
                           </p>
                         )}
-                        <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2 flex-1">
+                        <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2 flex-1 font-sans">
                           {product.title}
                         </h3>
                         {product.shortDescription && (
                           <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
                             {product.shortDescription}
+                          </p>
+                        )}
+                        {(product.priceOnRequest || product.price != null) && (
+                          <p className="mt-3 text-base font-bold text-primary">
+                            {product.priceOnRequest
+                              ? t('priceOnRequest')
+                              : `${(product.price as number).toLocaleString()} ${product.currency ?? 'UZS'}`}
                           </p>
                         )}
                       </div>
@@ -598,10 +615,10 @@ const queryAllCategories = cache(async ({ locale }: { locale: string }) => {
 // ---------------------------------------------------------------------------
 
 type FlatCat = {
-  id: string
+  id: string | number
   title: string
   slug?: string | null
-  parent?: string | { id: string } | null
+  parent?: string | number | { id: string | number } | null
   breadcrumbs?: Array<{ url?: string | null }> | null
 }
 
@@ -612,8 +629,8 @@ function buildCategoryTree(cats: FlatCat[]): CatNode[] {
     const lastCrumb = Array.isArray(cat.breadcrumbs) && cat.breadcrumbs.length > 0
       ? cat.breadcrumbs[cat.breadcrumbs.length - 1]
       : null
-    byId.set(cat.id, {
-      id: cat.id,
+    byId.set(String(cat.id), {
+      id: String(cat.id),
       title: cat.title,
       slug: cat.slug ?? '',
       breadcrumbUrl: lastCrumb?.url ?? `/${cat.slug}`,
@@ -624,11 +641,11 @@ function buildCategoryTree(cats: FlatCat[]): CatNode[] {
   const roots: CatNode[] = []
 
   for (const cat of cats) {
-    const node = byId.get(cat.id)!
+    const node = byId.get(String(cat.id))!
     const parentId = typeof cat.parent === 'object' && cat.parent !== null
-      ? cat.parent.id
-      : typeof cat.parent === 'string'
-        ? cat.parent
+      ? String(cat.parent.id)
+      : typeof cat.parent === 'string' || typeof cat.parent === 'number'
+        ? String(cat.parent)
         : null
 
     if (!parentId || !byId.has(parentId)) {

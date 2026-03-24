@@ -11,6 +11,9 @@ type ProductItem = {
   sku?: string | null
   inStock?: boolean | null
   shortDescription?: string | null
+  price?: number | null
+  currency?: string | null
+  priceOnRequest?: boolean | null
   heroImage?: {
     url?: string | null
     alt?: string | null
@@ -62,7 +65,7 @@ export const PopularProductsBlock: React.FC<Props> = ({
           {viewAllLink && (
             <Link
               href={viewAllLink}
-              className="inline-flex items-center gap-2 font-semibold text-[var(--primary)] hover:underline shrink-0 group"
+              className="font-sans inline-flex items-center gap-2 font-semibold text-[var(--primary)] hover:underline shrink-0 group"
             >
               {viewAllLabel || t('catalog')}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -128,7 +131,7 @@ export const PopularProductsBlock: React.FC<Props> = ({
                   {product.sku && (
                     <p className="text-xs text-muted-foreground font-mono mb-1">{product.sku}</p>
                   )}
-                  <h3 className="font-semibold text-base leading-snug group-hover:text-[var(--primary)] transition-colors line-clamp-2 mb-2">
+                  <h3 className="font-sans font-semibold text-base leading-snug group-hover:text-[var(--primary)] transition-colors line-clamp-2 mb-2">
                     {product.title}
                   </h3>
                   {product.shortDescription && (
@@ -136,9 +139,18 @@ export const PopularProductsBlock: React.FC<Props> = ({
                       {product.shortDescription}
                     </p>
                   )}
-                  <div className="mt-4 flex items-center gap-1 text-sm font-semibold text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span>{t('viewProduct')}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                  <div className="mt-4 flex items-center justify-between gap-2">
+                    <span className="text-base font-bold text-[var(--primary)]">
+                      {product.priceOnRequest
+                        ? t('priceOnRequest')
+                        : product.price != null
+                          ? `${product.price.toLocaleString()} ${product.currency ?? 'UZS'}`
+                          : null}
+                    </span>
+                    <span className="flex items-center gap-1 text-sm font-semibold text-[var(--primary)]">
+                      {t('viewProduct')}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
                   </div>
                 </div>
               </Link>
