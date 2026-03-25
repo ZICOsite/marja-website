@@ -11,6 +11,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import RichText from '@/components/RichText'
+import { ProductGallery } from '@/components/ProductGallery'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
 import { SortBar } from './SortBar'
 
@@ -68,10 +69,20 @@ async function ProductDetailPage({
   if (!product) return notFound()
   const t = await getTranslations({ locale, namespace: 'products' })
 
-  const heroUrl =
-    typeof product.heroImage === 'object' && product.heroImage?.url ? product.heroImage.url : null
-  const heroAlt =
-    typeof product.heroImage === 'object' && product.heroImage?.alt ? product.heroImage.alt : ''
+  const heroImage =
+    typeof product.heroImage === 'object' && product.heroImage?.url
+      ? { url: product.heroImage.url, alt: product.heroImage.alt ?? '' }
+      : null
+
+  const galleryImages: { url: string; alt?: string | null }[] = [
+    ...(heroImage ? [heroImage] : []),
+    ...(Array.isArray(product.gallery)
+      ? product.gallery.flatMap((item) => {
+          const img = typeof item.image === 'object' ? item.image : null
+          return img?.url ? [{ url: img.url, alt: img.alt }] : []
+        })
+      : []),
+  ]
 
   const groupedSpecs = groupSpecifications(product.specifications ?? [])
 
@@ -109,27 +120,8 @@ async function ProductDetailPage({
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Изображение */}
-          <div>
-            <div className="relative rounded-2xl overflow-hidden aspect-square bg-sidebar-accent">
-              {heroUrl && (
-                <Image src={heroUrl} alt={heroAlt} fill className="object-cover" priority />
-              )}
-            </div>
-
-            {Array.isArray(product.gallery) && product.gallery.length > 0 && (
-              <div className="grid grid-cols-4 gap-3 mt-4">
-                {product.gallery.map((item, i) => {
-                  const img = typeof item.image === 'object' ? item.image : null
-                  return img?.url ? (
-                    <div key={i} className="relative rounded-xl overflow-hidden aspect-square">
-                      <Image src={img.url} alt={img.alt ?? ''} fill className="object-cover" />
-                    </div>
-                  ) : null
-                })}
-              </div>
-            )}
-          </div>
+          {/* Галерея */}
+          <ProductGallery images={galleryImages} />
 
           {/* Информация */}
           <div>
@@ -260,7 +252,7 @@ async function ProductDetailPage({
                       <div className="h-40 bg-sidebar-accent" />
                     )}
                     <div className="p-4">
-                      <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                      <h3 className="font-sans font-semibold group-hover:text-primary transition-colors line-clamp-2">
                         {related.title}
                       </h3>
                       {related.sku && (
@@ -568,7 +560,15 @@ const queryProductsByCategory = cache(
     const payload = await getPayload({ config: configPromise })
 
     const payloadSort =
-      sort === 'new' ? '-publishedAt' : sort === 'title' ? 'title' : '-createdAt'
+      sort === 'new'
+        ? '-publishedAt'
+        : sort === 'title'
+          ? 'title'
+          : sort === 'price_asc'
+            ? 'price'
+            : sort === 'price_desc'
+              ? '-price'
+              : '-createdAt'
 
     const result = await payload.find({
       collection: 'products',

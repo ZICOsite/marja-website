@@ -59,9 +59,16 @@
     "sort": {
       "default": "Standart",
       "new": "Yangiliklar",
-      "title": "Nom bo'yicha"
+      "title": "Nom bo'yicha",
+      "price_asc": "Narx: o'sish tartibida",
+      "price_desc": "Narx: kamayish tartibida"
     },
     "price": "Narxi",
-    "priceOnRequest": "Narx so'rovga ko'ra"
+    "priceOnRequest": "Narx so'rovga ko'ra",
+    "gallery": {
+      "prev": "Oldingi rasm",
+      "next": "Keyingi rasm",
+      "photo": "{index}-rasm"
+    }
   }
 }

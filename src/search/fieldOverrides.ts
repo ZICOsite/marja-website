@@ -58,4 +58,42 @@ export const searchFields: Field[] = [
       },
     ],
   },
+  {
+    name: 'sku',
+    type: 'text',
+    index: true,
+    admin: { readOnly: true },
+  },
+  {
+    name: 'shortDescription',
+    type: 'text',
+    admin: { readOnly: true },
+  },
+  {
+    name: 'heroImage',
+    label: 'Hero Image',
+    type: 'upload',
+    relationTo: 'media',
+    admin: { readOnly: true },
+  },
+  {
+    name: 'inStock',
+    type: 'checkbox',
+    admin: { readOnly: true },
+  },
+  {
+    name: 'price',
+    type: 'number',
+    admin: { readOnly: true },
+  },
+  {
+    name: 'currency',
+    type: 'text',
+    admin: { readOnly: true },
+  },
+  {
+    name: 'priceOnRequest',
+    type: 'checkbox',
+    admin: { readOnly: true },
+  },
 ]

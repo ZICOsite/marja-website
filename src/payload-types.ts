@@ -1235,10 +1235,15 @@ export interface Search {
   id: number;
   title?: string | null;
   priority?: number | null;
-  doc: {
-    relationTo: 'posts';
-    value: number | Post;
-  };
+  doc:
+    | {
+        relationTo: 'posts';
+        value: number | Post;
+      }
+    | {
+        relationTo: 'products';
+        value: number | Product;
+      };
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -1253,6 +1258,13 @@ export interface Search {
         id?: string | null;
       }[]
     | null;
+  sku?: string | null;
+  shortDescription?: string | null;
+  heroImage?: (number | null) | Media;
+  inStock?: boolean | null;
+  price?: number | null;
+  currency?: string | null;
+  priceOnRequest?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2220,6 +2232,13 @@ export interface SearchSelect<T extends boolean = true> {
         title?: T;
         id?: T;
       };
+  sku?: T;
+  shortDescription?: T;
+  heroImage?: T;
+  inStock?: T;
+  price?: T;
+  currency?: T;
+  priceOnRequest?: T;
   updatedAt?: T;
   createdAt?: T;
 }

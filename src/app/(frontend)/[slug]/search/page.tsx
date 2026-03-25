@@ -36,36 +36,41 @@ export default async function Page({ params, searchParams: searchParamsPromise }
     locale: locale as any,
     select: { title: true, slug: true, categories: true, meta: true },
     pagination: false,
-    ...(query
-      ? {
-          where: {
-            or: [
-              { title: { like: query } },
-              { 'meta.description': { like: query } },
-              { 'meta.title': { like: query } },
-              { slug: { like: query } },
-            ],
-          },
-        }
-      : {}),
+    where: {
+      and: [
+        { 'doc.relationTo': { equals: 'posts' } },
+        ...(query
+          ? [
+              {
+                or: [
+                  { title: { like: query } },
+                  { 'meta.description': { like: query } },
+                  { 'meta.title': { like: query } },
+                  { slug: { like: query } },
+                ],
+              },
+            ]
+          : []),
+      ],
+    },
   })
 
-  // --- Поиск по товарам ---
+  // --- Поиск по товарам (через searchPlugin) ---
   const products = query
     ? await payload.find({
-        collection: 'products',
+        collection: 'search',
         depth: 1,
         limit: 12,
         locale: locale as any,
         pagination: false,
         where: {
           and: [
-            { _status: { equals: 'published' } },
+            { 'doc.relationTo': { equals: 'products' } },
             {
               or: [
                 { title: { like: query } },
-                { shortDescription: { like: query } },
                 { sku: { like: query } },
+                { shortDescription: { like: query } },
               ],
             },
           ],

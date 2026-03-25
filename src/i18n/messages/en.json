@@ -59,9 +59,16 @@
     "sort": {
       "default": "Default",
       "new": "Newest",
-      "title": "By name"
+      "title": "By name",
+      "price_asc": "Price: low to high",
+      "price_desc": "Price: high to low"
     },
     "price": "Price",
-    "priceOnRequest": "Price on request"
+    "priceOnRequest": "Price on request",
+    "gallery": {
+      "prev": "Previous photo",
+      "next": "Next photo",
+      "photo": "Photo {index}"
+    }
   }
 }
