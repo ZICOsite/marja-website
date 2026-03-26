@@ -233,6 +233,7 @@ export interface Page {
     | AboutCompanyBlock
     | ClientsBlock
     | PopularProductsBlock
+    | TimelineBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1163,6 +1164,24 @@ export interface ProductCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TimelineBlock".
+ */
+export interface TimelineBlock {
+  heading?: string | null;
+  items?:
+    | {
+        year: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'timeline';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1528,6 +1547,7 @@ export interface PagesSelect<T extends boolean = true> {
         aboutCompany?: T | AboutCompanyBlockSelect<T>;
         clients?: T | ClientsBlockSelect<T>;
         popularProducts?: T | PopularProductsBlockSelect<T>;
+        timeline?: T | TimelineBlockSelect<T>;
       };
   meta?:
     | T
@@ -1740,6 +1760,23 @@ export interface PopularProductsBlockSelect<T extends boolean = true> {
   products?: T;
   viewAllLabel?: T;
   viewAllLink?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TimelineBlock_select".
+ */
+export interface TimelineBlockSelect<T extends boolean = true> {
+  heading?: T;
+  items?:
+    | T
+    | {
+        year?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
