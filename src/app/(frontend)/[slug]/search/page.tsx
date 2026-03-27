@@ -70,7 +70,6 @@ export default async function Page({ params, searchParams: searchParamsPromise }
               or: [
                 { title: { like: query } },
                 { sku: { like: query } },
-                { shortDescription: { like: query } },
               ],
             },
           ],

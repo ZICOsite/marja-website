@@ -27,6 +27,7 @@ import { Solutions } from '@/blocks/Solutions/config'
 import { ClientsBlock } from '@/blocks/Clients/config'
 import { PopularProducts } from '@/blocks/PopularProducts/config'
 import { TimelineBlock } from '@/blocks/Timeline/config'
+import { TeamBlock } from '@/blocks/Team/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -82,7 +83,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock],
               required: true,
               localized: true,
               admin: {

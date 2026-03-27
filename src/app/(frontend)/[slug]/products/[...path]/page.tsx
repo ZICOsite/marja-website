@@ -14,6 +14,7 @@ import RichText from '@/components/RichText'
 import { ProductGallery } from '@/components/ProductGallery'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
 import { SortBar } from './SortBar'
+import { Download } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -170,7 +171,9 @@ async function ProductDetailPage({
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 text-primary hover:underline text-sm"
                       >
-                        <span>↓</span>
+                        <span>
+                          <Download size={14} />
+                        </span>
                         <span>{doc.label ?? file.filename ?? t('downloadDocument')}</span>
                       </a>
                     ) : null
@@ -308,8 +311,12 @@ async function CategoryPage({
       : [{ label: category.title, url: null }]),
   ]
 
-  const imgUrl = typeof category.image === 'object' && category.image?.url ? category.image.url : null
-  const imgAlt = typeof category.image === 'object' ? (category.image as {alt?: string}).alt ?? category.title : category.title
+  const imgUrl =
+    typeof category.image === 'object' && category.image?.url ? category.image.url : null
+  const imgAlt =
+    typeof category.image === 'object'
+      ? ((category.image as { alt?: string }).alt ?? category.title)
+      : category.title
 
   return (
     <div className="py-10">
@@ -487,10 +494,7 @@ const queryProductBySlug = cache(async ({ slug, locale }: { slug: string; locale
     overrideAccess: draft,
     locale: locale as PayloadLocale,
     where: {
-      and: [
-        { slug: { equals: slug } },
-        ...(draft ? [] : [{ _status: { equals: 'published' } }]),
-      ],
+      and: [{ slug: { equals: slug } }, ...(draft ? [] : [{ _status: { equals: 'published' } }])],
     },
     depth: 3,
   })
@@ -510,10 +514,7 @@ const queryCategoryBySlug = cache(async ({ slug, locale }: { slug: string; local
     overrideAccess: draft,
     locale: locale as PayloadLocale,
     where: {
-      and: [
-        { slug: { equals: slug } },
-        ...(draft ? [] : [{ _status: { equals: 'published' } }]),
-      ],
+      and: [{ slug: { equals: slug } }, ...(draft ? [] : [{ _status: { equals: 'published' } }])],
     },
     depth: 1,
   })
@@ -547,15 +548,7 @@ const querySubcategories = cache(
 )
 
 const queryProductsByCategory = cache(
-  async ({
-    categoryId,
-    locale,
-    sort,
-  }: {
-    categoryId: string
-    locale: string
-    sort: string
-  }) => {
+  async ({ categoryId, locale, sort }: { categoryId: string; locale: string; sort: string }) => {
     const { isEnabled: draft } = await draftMode()
     const payload = await getPayload({ config: configPromise })
 
@@ -626,9 +619,10 @@ function buildCategoryTree(cats: FlatCat[]): CatNode[] {
   const byId = new Map<string, CatNode>()
 
   for (const cat of cats) {
-    const lastCrumb = Array.isArray(cat.breadcrumbs) && cat.breadcrumbs.length > 0
-      ? cat.breadcrumbs[cat.breadcrumbs.length - 1]
-      : null
+    const lastCrumb =
+      Array.isArray(cat.breadcrumbs) && cat.breadcrumbs.length > 0
+        ? cat.breadcrumbs[cat.breadcrumbs.length - 1]
+        : null
     byId.set(String(cat.id), {
       id: String(cat.id),
       title: cat.title,
@@ -642,11 +636,12 @@ function buildCategoryTree(cats: FlatCat[]): CatNode[] {
 
   for (const cat of cats) {
     const node = byId.get(String(cat.id))!
-    const parentId = typeof cat.parent === 'object' && cat.parent !== null
-      ? String(cat.parent.id)
-      : typeof cat.parent === 'string' || typeof cat.parent === 'number'
-        ? String(cat.parent)
-        : null
+    const parentId =
+      typeof cat.parent === 'object' && cat.parent !== null
+        ? String(cat.parent.id)
+        : typeof cat.parent === 'string' || typeof cat.parent === 'number'
+          ? String(cat.parent)
+          : null
 
     if (!parentId || !byId.has(parentId)) {
       roots.push(node)

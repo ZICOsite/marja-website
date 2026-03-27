@@ -234,6 +234,7 @@ export interface Page {
     | ClientsBlock
     | PopularProductsBlock
     | TimelineBlock
+    | TeamBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1182,6 +1183,25 @@ export interface TimelineBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamBlock".
+ */
+export interface TeamBlock {
+  heading?: string | null;
+  text?: string | null;
+  members?:
+    | {
+        photo?: (number | null) | Media;
+        name: string;
+        position: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'team';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1548,6 +1568,7 @@ export interface PagesSelect<T extends boolean = true> {
         clients?: T | ClientsBlockSelect<T>;
         popularProducts?: T | PopularProductsBlockSelect<T>;
         timeline?: T | TimelineBlockSelect<T>;
+        team?: T | TeamBlockSelect<T>;
       };
   meta?:
     | T
@@ -1775,6 +1796,24 @@ export interface TimelineBlockSelect<T extends boolean = true> {
         year?: T;
         title?: T;
         description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamBlock_select".
+ */
+export interface TeamBlockSelect<T extends boolean = true> {
+  heading?: T;
+  text?: T;
+  members?:
+    | T
+    | {
+        photo?: T;
+        name?: T;
+        position?: T;
         id?: T;
       };
   id?: T;

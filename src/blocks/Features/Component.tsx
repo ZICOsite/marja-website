@@ -26,7 +26,7 @@ export const FeaturesBlock: React.FC<Props> = ({ items }) => {
             return (
               <div
                 key={i}
-                className="group p-8 rounded-md border border-sidebar-accent bg-sidebar-accent hover:bg-[var(--primary)] transition-all duration-300"
+                className="group p-8 rounded-md border border-sidebar-accent bg-sidebar-accent dark:bg-transparent hover:bg-[var(--primary)] dark:hover:bg-[var(--primary)] transition-all duration-300"
               >
                 <div className="w-16 h-16 bg-white rounded-md shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <IconComponent className="w-8 h-8 text-[var(--primary)]" />

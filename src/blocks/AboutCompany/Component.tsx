@@ -33,25 +33,25 @@ export const AboutCompanyBlock: React.FC<Props> = ({
     <section className="py-24 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-start lg:flex-row gap-16">
-          <div className="lg:w-1/2 relative">
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-100/50 rounded-full -z-10"></div>
-            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-blue-100/70 rounded-full -z-10"></div>
+          <div className="w-full lg:w-1/2 relative">
+            <div className="hidden lg:block absolute -top-10 -left-10 w-40 h-40 bg-blue-100/50 rounded-full -z-10"></div>
+            <div className="hidden lg:block absolute -bottom-10 -right-10 w-64 h-64 bg-blue-100/70 rounded-full -z-10"></div>
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               {image && (
                 <Media
                   resource={image}
                   className="w-full h-auto object-cover transform hover:scale-[1.02] transition duration-500"
-                  imgClassName="w-full h-auto object-cover"
+                  imgClassName="w-full h-auto object-cover max-h-[400px] lg:max-h-none"
                 />
               )}
               {(statValue || statLabel) && (
-                <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-slate-900/90 to-transparent text-white">
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 bg-gradient-to-t from-slate-900/90 to-transparent text-white">
                   <div className="flex items-center space-x-4">
                     {statValue && (
-                      <div className="text-4xl font-bold font-heading">{statValue}</div>
+                      <div className="text-2xl md:text-4xl font-bold font-heading">{statValue}</div>
                     )}
                     {statLabel && (
-                      <div className="text-sm leading-tight opacity-80 uppercase tracking-wider font-bold">
+                      <div className="text-xs md:text-sm leading-tight opacity-80 uppercase tracking-wider font-bold">
                         {statLabel}
                       </div>
                     )}
@@ -76,7 +76,7 @@ export const AboutCompanyBlock: React.FC<Props> = ({
               <RichText
                 data={description}
                 enableGutter={false}
-                className="text-slate-600 text-lg leading-relaxed mb-6"
+                className="text-slate-600 dark:text-white text-lg leading-relaxed mb-6"
               />
             )}
 

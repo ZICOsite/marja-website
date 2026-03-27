@@ -23,7 +23,6 @@
     font-family: var(--font-mono);
   }
   p {
-    
   }
 }
 
@@ -270,6 +269,14 @@ html[data-theme='light'] {
   opacity: initial;
 }
 
+.logo {
+  color: #1a557e;
+}
+
+html[data-theme='dark'] .logo {
+  color: white;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -278,7 +285,7 @@ body {
 }
 
 body::before {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
@@ -291,23 +298,19 @@ body::before {
   background-size: 18px 28px;
   animation: gridMove 8s linear infinite;
 
-  -webkit-mask-image: radial-gradient(
-    ellipse 80% 50% at 50% 0%,
-    #000 65%,
-    transparent 115%
-  );
-  mask-image: radial-gradient(
-    ellipse 80% 50% at 50% 0%,
-    #000 65%,
-    transparent 115%
-  );
+  -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 65%, transparent 115%);
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 65%, transparent 115%);
 }
 
 @keyframes gridMove {
   from {
-    background-position: 0 0, 0 0;
+    background-position:
+      0 0,
+      0 0;
   }
   to {
-    background-position: 18px 28px, 18px 28px;
+    background-position:
+      18px 28px,
+      18px 28px;
   }
 }
