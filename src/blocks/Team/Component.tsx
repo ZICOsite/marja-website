@@ -12,7 +12,7 @@ export const TeamBlockComponent: React.FC<Props> = ({ heading, text, members }) 
     <section className="py-24 overflow-hidden">
       <div className="container mx-auto px-4">
         {(heading || text) && (
-          <div className="max-w-2xl mb-14">
+          <div className="max-w-4xl mb-14 mx-auto text-center">
             {heading && (
               <h2 className="text-4xl md:text-5xl font-bold font-heading mb-6 leading-tight">
                 {heading}

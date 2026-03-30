@@ -1,5 +1,6 @@
 import React from 'react'
 import type { TimelineBlock as TimelineBlockProps } from '@/payload-types'
+import { Star } from 'lucide-react'
 
 type Props = TimelineBlockProps
 
@@ -57,13 +58,13 @@ export const TimelineBlockComponent: React.FC<Props> = ({ heading, items }) => {
 
                   {/* Center dot */}
                   <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 z-10 w-10 h-10 rounded-full bg-primary items-center justify-center shadow-lg shadow-primary/30">
-                    <span className="text-primary-foreground text-xs font-bold">{item.year.slice(-2)}</span>
+                    <Star className="w-5 h-5 text-primary-foreground" />
                   </div>
 
                   {/* Mobile year label */}
                   <div className="md:hidden flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/30">
-                      <span className="text-primary-foreground text-xs font-bold">{item.year.slice(-2)}</span>
+                      <Star className="w-4 h-4 text-primary-foreground" />
                     </div>
                     <span className="text-primary font-bold text-sm uppercase tracking-widest">{item.year}</span>
                   </div>
