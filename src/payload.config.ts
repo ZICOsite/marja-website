@@ -18,6 +18,7 @@ import { Reviews } from './collections/Reviews'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { ContactInfo } from './ContactInfo/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -97,7 +98,7 @@ export default buildConfig({
     Users,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, ContactInfo],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
