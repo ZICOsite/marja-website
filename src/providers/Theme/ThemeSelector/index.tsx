@@ -5,18 +5,24 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from '@/components/ui/select'
 import React, { useState } from 'react'
+import { Sun, Moon, Monitor } from 'lucide-react'
 
 import type { Theme } from './types'
 
 import { useTheme } from '..'
 import { themeLocalStorageKey } from './types'
 
+const icons: Record<string, React.ReactNode> = {
+  auto: <Monitor className="w-4 h-4" />,
+  light: <Sun className="w-4 h-4" />,
+  dark: <Moon className="w-4 h-4" />,
+}
+
 export const ThemeSelector: React.FC = () => {
   const { setTheme } = useTheme()
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('auto')
 
   const onThemeChange = (themeToSet: Theme & 'auto') => {
     if (themeToSet === 'auto') {
@@ -37,14 +43,20 @@ export const ThemeSelector: React.FC = () => {
     <Select onValueChange={onThemeChange} value={value}>
       <SelectTrigger
         aria-label="Select a theme"
-        className="w-auto bg-transparent gap-2 pl-0 md:pl-3 border-none"
+        className="w-auto bg-transparent border-none focus:ring-0 [&>svg:last-child]:hidden"
       >
-        <SelectValue placeholder="Theme" />
+        {icons[value] ?? <Monitor className="w-4 h-4" />}
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="auto">Auto</SelectItem>
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
+        <SelectItem value="auto">
+          <span className="flex items-center gap-2"><Monitor className="w-4 h-4" /> Auto</span>
+        </SelectItem>
+        <SelectItem value="light">
+          <span className="flex items-center gap-2"><Sun className="w-4 h-4" /> Light</span>
+        </SelectItem>
+        <SelectItem value="dark">
+          <span className="flex items-center gap-2"><Moon className="w-4 h-4" /> Dark</span>
+        </SelectItem>
       </SelectContent>
     </Select>
   )

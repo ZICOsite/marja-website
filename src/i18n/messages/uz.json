@@ -37,6 +37,14 @@
   "solutions": {
     "viewSystem": "Tizimni ko’rish"
   },
+  "footer": {
+    "company": "Kompaniya",
+    "products": "Mahsulotlar",
+    "contacts": "Aloqa ma'lumotlari",
+    "copyright": "© {year} MARJA. Barcha huquqlar himoyalangan.",
+    "privacyPolicy": "Maxfiylik siyosati",
+    "termsOfUse": "Foydalanish shartlari"
+  },
   "products": {
     "catalog": "Mahsulotlar katalogi",
     "catalogDescription": "Bizning mahsulotlarimiz bilan tanishing",

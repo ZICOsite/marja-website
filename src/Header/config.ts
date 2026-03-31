@@ -16,6 +16,25 @@ export const Header: GlobalConfig = {
         link({
           appearances: false,
         }),
+        {
+          name: 'subLinks',
+          type: 'array',
+          label: 'Dropdown links',
+          maxRows: 8,
+          fields: [
+            link({
+              appearances: false,
+            }),
+            {
+              name: 'description',
+              type: 'text',
+              label: 'Description',
+            },
+          ],
+          admin: {
+            initCollapsed: true,
+          },
+        },
       ],
       localized: true,
       maxRows: 6,

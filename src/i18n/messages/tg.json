@@ -37,6 +37,14 @@
   "solutions": {
     "viewSystem": "Системаро бинед"
   },
+  "footer": {
+    "company": "Ширкат",
+    "products": "Маҳсулот",
+    "contacts": "Маълумоти тамос",
+    "copyright": "© {year} MARJA. Ҳамаи ҳуқуқҳо ҳифз шудаанд.",
+    "privacyPolicy": "Сиёсати махфият",
+    "termsOfUse": "Шартҳои истифода"
+  },
   "products": {
     "catalog": "Каталоги молҳо",
     "catalogDescription": "Бо маҳсулоти мо шинос шавед",

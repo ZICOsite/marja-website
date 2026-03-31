@@ -290,27 +290,7 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-
-  background-image:
-    linear-gradient(to right, rgba(128, 128, 128, 0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(128, 128, 128, 0.15) 1px, transparent 1px);
-
-  background-size: 18px 28px;
-  animation: gridMove 8s linear infinite;
-
-  -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 65%, transparent 115%);
-  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 65%, transparent 115%);
-}
-
-@keyframes gridMove {
-  from {
-    background-position:
-      0 0,
-      0 0;
-  }
-  to {
-    background-position:
-      18px 28px,
-      18px 28px;
-  }
+  background-image: url(https://marja.uz/wp-content/uploads/2024/08/image-22-min.jpg?id=228.webp);
+  background-position: center;
+  background-repeat: repeat;
 }

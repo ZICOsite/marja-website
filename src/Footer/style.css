@@ -1,0 +1,26 @@
+.footer {
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .footer__col-title {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 700;
+    }
+
+    .footer__col-list {
+      display: grid;
+      gap: 12px;
+
+      a {
+        transition: 0.3s ease-out;
+        font-size: clamp(14px, 2vw, 16px);
+
+        &:hover {
+          color: var(--primary);
+        }
+      }
+    }
+  }
+}

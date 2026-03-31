@@ -37,6 +37,14 @@
   "solutions": {
     "viewSystem": "View system"
   },
+  "footer": {
+    "company": "Company",
+    "products": "Products",
+    "contacts": "Contact information",
+    "copyright": "© {year} MARJA. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
+  },
   "products": {
     "catalog": "Product Catalog",
     "catalogDescription": "Browse our products",

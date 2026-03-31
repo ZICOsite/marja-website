@@ -37,6 +37,14 @@
   "solutions": {
     "viewSystem": "Жүйені қарау"
   },
+  "footer": {
+    "company": "Компания",
+    "products": "Өнімдер",
+    "contacts": "Байланыс мәліметтері",
+    "copyright": "© {year} MARJA. Барлық құқықтар қорғалған.",
+    "privacyPolicy": "Құпиялылық саясаты",
+    "termsOfUse": "Пайдалану шарттары"
+  },
   "products": {
     "catalog": "Өнімдер каталогы",
     "catalogDescription": "Біздің өнімдерімізбен танысыңыз",

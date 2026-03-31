@@ -31,8 +31,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
+    <header className="sticky top-0 z-20 py-2 bg-[var(--background)] shadow-md" {...(theme ? { 'data-theme': theme } : {})}>
+      <div className="container flex justify-between">
         <Link href={`/${locale}`}>
           <Logo className="logo" />
         </Link>
