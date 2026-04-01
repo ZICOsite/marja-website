@@ -237,6 +237,7 @@ export interface Page {
     | PopularProductsBlock
     | TimelineBlock
     | TeamBlock
+    | LatestPostsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1204,6 +1205,20 @@ export interface TeamBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestPostsBlock".
+ */
+export interface LatestPostsBlock {
+  tagline?: string | null;
+  title: string;
+  description?: string | null;
+  viewAllLabel?: string | null;
+  viewAllLink?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestPosts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1571,6 +1586,7 @@ export interface PagesSelect<T extends boolean = true> {
         popularProducts?: T | PopularProductsBlockSelect<T>;
         timeline?: T | TimelineBlockSelect<T>;
         team?: T | TeamBlockSelect<T>;
+        latestPosts?: T | LatestPostsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1818,6 +1834,19 @@ export interface TeamBlockSelect<T extends boolean = true> {
         position?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestPostsBlock_select".
+ */
+export interface LatestPostsBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  title?: T;
+  description?: T;
+  viewAllLabel?: T;
+  viewAllLink?: T;
   id?: T;
   blockName?: T;
 }

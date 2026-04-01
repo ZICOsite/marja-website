@@ -6,13 +6,13 @@ import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { setRequestLocale } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import React from 'react'
 import PageClient from './page.client'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
 
-// slug = locale
 type Args = {
   params: Promise<{ slug: string }>
 }
@@ -21,6 +21,8 @@ export default async function Page({ params }: Args) {
   const { slug: locale } = await params
 
   setRequestLocale(locale)
+
+  const t = await getTranslations({ locale, namespace: 'posts' })
 
   const payload = await getPayload({ config: configPromise })
 
@@ -36,21 +38,19 @@ export default async function Page({ params }: Args) {
   return (
     <div className="pt-24 pb-24">
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
+      <div className="container mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold font-heading">{t('title')}</h1>
+        <div className="mt-4 text-muted-foreground">
+          <PageRange
+            collection="posts"
+            currentPage={posts.page}
+            limit={12}
+            totalDocs={posts.totalDocs}
+          />
         </div>
       </div>
-      <div className="container mb-8">
-        <PageRange
-          collection="posts"
-          currentPage={posts.page}
-          limit={12}
-          totalDocs={posts.totalDocs}
-        />
-      </div>
       <CollectionArchive posts={posts.docs} />
-      <div className="container">
+      <div className="container mt-12">
         {posts.totalPages > 1 && posts.page && (
           <Pagination page={posts.page} totalPages={posts.totalPages} />
         )}
@@ -59,6 +59,8 @@ export default async function Page({ params }: Args) {
   )
 }
 
-export function generateMetadata(): Metadata {
-  return { title: 'Posts' }
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
+  const { slug: locale } = await params
+  const t = await getTranslations({ locale, namespace: 'posts' })
+  return { title: t('title') }
 }

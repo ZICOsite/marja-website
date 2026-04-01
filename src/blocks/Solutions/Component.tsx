@@ -57,6 +57,7 @@ export const SolutionsBlock: React.FC<Props> = ({ tagline, title, description, c
                     src={imgUrl}
                     alt={imgAlt || 'System image'}
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover transition duration-700 group-hover:scale-110"
                   />
                 )}

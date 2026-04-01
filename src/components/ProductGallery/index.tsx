@@ -54,6 +54,7 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
                   src={img.url}
                   alt={img.alt ?? ''}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                   priority={i === 0}
                 />
@@ -115,7 +116,7 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
               )}
               aria-label={t('photo', { index: i + 1 })}
             >
-              <Image src={img.url} alt={img.alt ?? ''} fill className="object-cover" />
+              <Image src={img.url} alt={img.alt ?? ''} fill sizes="64px" className="object-cover" />
             </button>
           ))}
         </div>

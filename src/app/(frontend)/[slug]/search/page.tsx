@@ -135,6 +135,7 @@ export default async function Page({ params, searchParams: searchParamsPromise }
                         src={img.url as string}
                         alt={'alt' in img && img.alt ? (img.alt as string) : ''}
                         fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : null}

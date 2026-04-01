@@ -280,17 +280,8 @@ html[data-theme='dark'] .logo {
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--background);
-  position: relative;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: url(https://marja.uz/wp-content/uploads/2024/08/image-22-min.jpg?id=228.webp);
-  background-position: center;
-  background-repeat: repeat;
+  background-color: var(--background);
+  background-image: url('/pattern.png');
+  background-attachment: fixed;
+  background-size: cover;
 }

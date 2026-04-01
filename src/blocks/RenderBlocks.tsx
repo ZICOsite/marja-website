@@ -15,6 +15,7 @@ import { ClientsBlock } from '@/blocks/Clients/Component'
 import { PopularProductsBlock } from '@/blocks/PopularProducts/Component'
 import { TimelineBlockComponent } from '@/blocks/Timeline/Component'
 import { TeamBlockComponent } from '@/blocks/Team/Component'
+import { LatestPostsBlock } from '@/blocks/LatestPosts/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -30,6 +31,7 @@ const blockComponents = {
   popularProducts: PopularProductsBlock,
   timeline: TimelineBlockComponent,
   team: TeamBlockComponent,
+  latestPosts: LatestPostsBlock,
 }
 
 export const RenderBlocks: React.FC<{

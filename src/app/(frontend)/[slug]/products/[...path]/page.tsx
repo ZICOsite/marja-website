@@ -15,6 +15,7 @@ import { ProductGallery } from '@/components/ProductGallery'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
 import { SortBar } from './SortBar'
 import { Download } from 'lucide-react'
+import { RelatedProductsSlider } from './RelatedProductsSlider'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -232,42 +233,12 @@ async function ProductDetailPage({
         {Array.isArray(product.relatedProducts) && product.relatedProducts.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold font-heading mb-6">{t('relatedProducts')}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {product.relatedProducts.map((related) => {
-                if (typeof related !== 'object') return null
-                const img = typeof related.heroImage === 'object' ? related.heroImage : null
-                return (
-                  <Link
-                    key={related.id}
-                    href={`/${locale}/products/${related.slug}`}
-                    className="group rounded-xl overflow-hidden border border-border hover:border-primary transition-colors"
-                  >
-                    {img?.url ? (
-                      <div className="relative h-40 overflow-hidden">
-                        <Image
-                          src={img.url}
-                          alt={img.alt ?? ''}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    ) : (
-                      <div className="h-40 bg-sidebar-accent" />
-                    )}
-                    <div className="p-4">
-                      <h3 className="font-sans font-semibold group-hover:text-primary transition-colors line-clamp-2">
-                        {related.title}
-                      </h3>
-                      {related.sku && (
-                        <p className="text-xs text-muted-foreground mt-1 font-mono">
-                          {related.sku}
-                        </p>
-                      )}
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
+            <RelatedProductsSlider
+              products={product.relatedProducts.filter(
+                (r): r is Extract<typeof r, object> => typeof r === 'object',
+              )}
+              locale={locale}
+            />
           </div>
         )}
       </div>
@@ -340,7 +311,7 @@ async function CategoryPage({
         {/* Баннер категории */}
         {imgUrl && (
           <div className="relative rounded-2xl overflow-hidden h-44 mb-8">
-            <Image src={imgUrl} alt={imgAlt} fill className="object-cover" />
+            <Image src={imgUrl} alt={imgAlt} fill sizes="100vw" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
             <div className="absolute bottom-6 left-8">
               <h1 className="text-4xl font-bold font-heading text-white">{category.title}</h1>
@@ -400,6 +371,7 @@ async function CategoryPage({
                             src={img.url}
                             alt={img.alt ?? ''}
                             fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         ) : null}
