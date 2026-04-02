@@ -14,6 +14,9 @@
   "post": {
     "publishedAt": "Published on {date}",
     "by": "By",
+    "datePublished": "Date Published",
+    "copyLink": "Copy link",
+    "linkCopied": "Copied!",
     "relatedPosts": "Related posts"
   },
   "posts": {

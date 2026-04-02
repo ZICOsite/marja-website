@@ -85,6 +85,21 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'media',
             },
             {
+              name: 'gallery',
+              type: 'upload',
+              relationTo: 'media',
+              hasMany: true,
+              label: 'Gallery Images',
+            },
+            {
+              name: 'videoUrl',
+              type: 'text',
+              label: 'Video URL',
+              admin: {
+                description: 'YouTube or Vimeo URL for embedding',
+              },
+            },
+            {
               name: 'content',
               type: 'richText',
               localized: true,

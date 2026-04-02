@@ -14,6 +14,9 @@
   "post": {
     "publishedAt": "Опубликовано {date}",
     "by": "Автор",
+    "datePublished": "Дата публикации",
+    "copyLink": "Скопировать ссылку",
+    "linkCopied": "Скопировано!",
     "relatedPosts": "Похожие статьи"
   },
   "posts": {

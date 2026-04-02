@@ -265,6 +265,11 @@ export interface Post {
   id: number;
   title: string;
   heroImage?: (number | null) | Media;
+  gallery?: (number | Media)[] | null;
+  /**
+   * YouTube or Vimeo URL for embedding
+   */
+  videoUrl?: string | null;
   content: {
     root: {
       type: string;
@@ -1857,6 +1862,8 @@ export interface LatestPostsBlockSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   heroImage?: T;
+  gallery?: T;
+  videoUrl?: T;
   content?: T;
   relatedPosts?: T;
   categories?: T;

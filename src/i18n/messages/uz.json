@@ -14,6 +14,9 @@
   "post": {
     "publishedAt": "{date} da e'lon qilindi",
     "by": "Muallif",
+    "datePublished": "E'lon qilingan sana",
+    "copyLink": "Havolani nusxalash",
+    "linkCopied": "Nusxalandi!",
     "relatedPosts": "O'xshash maqolalar"
   },
   "posts": {

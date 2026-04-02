@@ -34,32 +34,35 @@ export async function LatestPostsBlock({
     overrideAccess: false,
     locale: locale as Parameters<typeof payload.find>[0]['locale'],
     sort: '-publishedAt',
-    select: { title: true, slug: true, categories: true, meta: true, publishedAt: true },
+    select: { title: true, slug: true, categories: true, meta: true, publishedAt: true, heroImage: true },
   })
 
   if (!result.docs.length) return null
 
-  const posts = result.docs.map((doc) => ({
-    id: doc.id,
-    slug: doc.slug,
-    title: doc.title,
-    publishedAt: doc.publishedAt ?? null,
-    categories: (doc.categories ?? []).map((c) =>
-      typeof c === 'object' && c !== null ? { id: c.id, title: (c as any).title ?? null } : c,
-    ),
-    meta: doc.meta
-      ? {
-          description: doc.meta.description ?? null,
-          image:
-            doc.meta.image && typeof doc.meta.image === 'object'
-              ? {
-                  url: (doc.meta.image as any).url ?? null,
-                  alt: (doc.meta.image as any).alt ?? null,
-                }
-              : null,
-        }
-      : null,
-  }))
+  const posts = result.docs.map((doc) => {
+    const heroImg =
+      doc.heroImage && typeof doc.heroImage === 'object'
+        ? { url: (doc.heroImage as any).url ?? null, alt: (doc.heroImage as any).alt ?? null }
+        : null
+    const metaImg =
+      doc.meta?.image && typeof doc.meta.image === 'object'
+        ? { url: (doc.meta.image as any).url ?? null, alt: (doc.meta.image as any).alt ?? null }
+        : null
+
+    return {
+      id: doc.id,
+      slug: doc.slug,
+      title: doc.title,
+      publishedAt: doc.publishedAt ?? null,
+      categories: (doc.categories ?? []).map((c) =>
+        typeof c === 'object' && c !== null ? { id: c.id, title: (c as any).title ?? null } : c,
+      ),
+      meta: {
+        description: doc.meta?.description ?? null,
+        image: heroImg ?? metaImg,
+      },
+    }
+  })
 
   return (
     <section className="py-24">

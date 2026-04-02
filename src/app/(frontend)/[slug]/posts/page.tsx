@@ -32,7 +32,7 @@ export default async function Page({ params }: Args) {
     limit: 12,
     overrideAccess: false,
     locale: locale as any,
-    select: { title: true, slug: true, categories: true, meta: true },
+    select: { title: true, slug: true, categories: true, meta: true, heroImage: true },
   })
 
   return (

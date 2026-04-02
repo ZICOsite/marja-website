@@ -14,6 +14,9 @@
   "post": {
     "publishedAt": "Нашр шуд {date}",
     "by": "Муаллиф",
+    "datePublished": "Санаи нашр",
+    "copyLink": "Нусхабардорӣ кардани пайванд",
+    "linkCopied": "Нусхабардорӣ шуд!",
     "relatedPosts": "Мақолаҳои монанд"
   },
   "posts": {

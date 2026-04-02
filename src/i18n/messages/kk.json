@@ -14,6 +14,9 @@
   "post": {
     "publishedAt": "{date} жарияланды",
     "by": "Автор",
+    "datePublished": "Жарияланған күн",
+    "copyLink": "Сілтемені көшіру",
+    "linkCopied": "Көшірілді!",
     "relatedPosts": "Ұқсас мақалалар"
   },
   "posts": {
