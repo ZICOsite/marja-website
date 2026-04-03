@@ -34,7 +34,7 @@ export default async function Page({ params, searchParams: searchParamsPromise }
     depth: 1,
     limit: 6,
     locale: locale as any,
-    select: { title: true, slug: true, categories: true, meta: true },
+    select: { title: true, slug: true, categories: true, meta: true, heroImage: true },
     pagination: false,
     where: {
       and: [

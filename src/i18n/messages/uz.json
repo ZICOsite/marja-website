@@ -23,6 +23,10 @@
     "title": "Maqolalar",
     "page": "Sahifa {number}"
   },
+  "pageRange": {
+    "showing": "Ko'rsatilmoqda: {start}–{end} / {total}",
+    "noResults": "Natijalar topilmadi."
+  },
   "search": {
     "title": "Qidirish",
     "placeholder": "Qidirish...",

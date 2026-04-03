@@ -42,7 +42,6 @@ export default async function Page({ params }: Args) {
         <h1 className="text-4xl md:text-5xl font-bold font-heading">{t('title')}</h1>
         <div className="mt-4 text-muted-foreground">
           <PageRange
-            collection="posts"
             currentPage={posts.page}
             limit={12}
             totalDocs={posts.totalDocs}

@@ -23,6 +23,10 @@
     "title": "Мақолаҳо",
     "page": "Саҳифа {number}"
   },
+  "pageRange": {
+    "showing": "Нишон дода шудааст: {start}–{end} аз {total}",
+    "noResults": "Натиҷаҳо ёфт нашуданд."
+  },
   "search": {
     "title": "Ҷустуҷӯ",
     "placeholder": "Ҷустуҷӯ кунед...",

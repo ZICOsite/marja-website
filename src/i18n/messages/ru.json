@@ -20,14 +20,18 @@
     "relatedPosts": "Похожие статьи"
   },
   "posts": {
-    "title": "Статьи",
+    "title": "Блог",
     "page": "Страница {number}"
+  },
+  "pageRange": {
+    "showing": "Показано {start}–{end} из {total}",
+    "noResults": "Результатов нет."
   },
   "search": {
     "title": "Поиск",
     "placeholder": "Искать...",
     "noResults": "Ничего не найдено.",
-    "postsTitle": "Статьи"
+    "postsTitle": "Блог"
   },
   "errors": {
     "notFound": "Страница не найдена",

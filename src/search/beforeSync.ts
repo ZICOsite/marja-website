@@ -87,7 +87,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
   }
 
   // --- Posts (and other collections) ---
-  const { categories } = originalDoc
+  const { categories, heroImage } = originalDoc
 
   const modifiedDoc: DocToSync = {
     ...searchDoc,
@@ -100,6 +100,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
       description: meta?.description,
     },
     categories: [],
+    heroImage: typeof heroImage === 'object' && heroImage !== null ? heroImage.id : heroImage ?? null,
   }
 
   if (categories && Array.isArray(categories) && categories.length > 0) {

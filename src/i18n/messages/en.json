@@ -23,6 +23,10 @@
     "title": "Posts",
     "page": "Page {number}"
   },
+  "pageRange": {
+    "showing": "Showing {start}–{end} of {total}",
+    "noResults": "No results found."
+  },
   "search": {
     "title": "Search",
     "placeholder": "Search...",

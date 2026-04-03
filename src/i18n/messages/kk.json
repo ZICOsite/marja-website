@@ -23,6 +23,10 @@
     "title": "Мақалалар",
     "page": "Бет {number}"
   },
+  "pageRange": {
+    "showing": "Көрсетілуде: {start}–{end} / {total}",
+    "noResults": "Нәтижелер табылмады."
+  },
   "search": {
     "title": "Іздеу",
     "placeholder": "Іздеу...",
