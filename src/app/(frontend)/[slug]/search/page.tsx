@@ -4,10 +4,10 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
+import { ProductCard } from '@/components/ProductCard'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
@@ -117,47 +117,17 @@ export default async function Page({ params, searchParams: searchParamsPromise }
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {products!.docs.map((product) => {
-              const img =
-                typeof product.heroImage === 'object' && product.heroImage !== null
-                  ? product.heroImage
-                  : null
-
-              return (
-                <Link
-                  key={product.id}
-                  href={`/${locale}/products/${product.slug}`}
-                  className="group rounded-2xl overflow-hidden border border-border hover:border-primary transition-colors bg-background flex flex-col"
-                >
-                  <div className="relative h-44 overflow-hidden bg-sidebar-accent shrink-0">
-                    {img && 'url' in img && img.url ? (
-                      <Image
-                        src={img.url as string}
-                        alt={'alt' in img && img.alt ? (img.alt as string) : ''}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : null}
-                    <span
-                      className={`absolute top-2 left-2 text-xs font-semibold px-2 py-0.5 rounded-full ${
-                        product.inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                      }`}
-                    >
-                      {product.inStock ? tProducts('inStock') : tProducts('outOfStock')}
-                    </span>
-                  </div>
-                  <div className="p-4 flex flex-col flex-1">
-                    {product.sku && (
-                      <p className="text-xs text-muted-foreground font-mono mb-1">{product.sku}</p>
-                    )}
-                    <h3 className="font-semibold text-sm group-hover:text-primary transition-colors line-clamp-2">
-                      {product.title}
-                    </h3>
-                  </div>
-                </Link>
-              )
-            })}
+            {products!.docs.map((product) => (
+              <ProductCard
+                key={product.id}
+                href={`/${locale}/products/${product.slug}`}
+                title={product.title ?? ''}
+                sku={product.sku}
+                inStock={product.inStock}
+                heroImage={product.heroImage}
+                locale={locale}
+              />
+            ))}
           </div>
         </div>
       )}
@@ -178,6 +148,8 @@ export default async function Page({ params, searchParams: searchParamsPromise }
   )
 }
 
-export function generateMetadata(): Metadata {
-  return { title: 'Search' }
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
+  const { slug: locale } = await params
+  const t = await getTranslations({ locale, namespace: 'search' })
+  return { title: t('title') }
 }

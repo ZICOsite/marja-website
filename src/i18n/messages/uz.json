@@ -23,6 +23,10 @@
     "title": "Maqolalar",
     "page": "Sahifa {number}"
   },
+  "pagination": {
+    "previous": "Oldingi sahifa",
+    "next": "Keyingi sahifa"
+  },
   "pageRange": {
     "showing": "Ko'rsatilmoqda: {start}–{end} / {total}",
     "noResults": "Natijalar topilmadi."

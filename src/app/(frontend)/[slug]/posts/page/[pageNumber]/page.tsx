@@ -5,7 +5,7 @@ import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { setRequestLocale } from 'next-intl/server'
+import { setRequestLocale, getTranslations } from 'next-intl/server'
 import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
@@ -23,6 +23,8 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   setRequestLocale(locale)
 
+  const t = await getTranslations({ locale, namespace: 'posts' })
+
   const payload = await getPayload({ config: configPromise })
   const sanitizedPageNumber = Number(pageNumber)
 
@@ -35,6 +37,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     page: sanitizedPageNumber,
     overrideAccess: false,
     locale: locale as any,
+    select: { title: true, slug: true, categories: true, meta: true, heroImage: true },
   })
 
   return (
@@ -42,7 +45,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
+          <h1>{t('title')}</h1>
         </div>
       </div>
       <div className="container mb-8">
@@ -63,8 +66,9 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { pageNumber } = await paramsPromise
-  return { title: `Posts Page ${pageNumber || ''}` }
+  const { slug: locale, pageNumber } = await paramsPromise
+  const t = await getTranslations({ locale, namespace: 'posts' })
+  return { title: `${t('title')} — ${t('page', { number: pageNumber })}` }
 }
 
 export async function generateStaticParams() {

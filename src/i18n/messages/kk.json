@@ -23,6 +23,10 @@
     "title": "Мақалалар",
     "page": "Бет {number}"
   },
+  "pagination": {
+    "previous": "Алдыңғы бет",
+    "next": "Келесі бет"
+  },
   "pageRange": {
     "showing": "Көрсетілуде: {start}–{end} / {total}",
     "noResults": "Нәтижелер табылмады."

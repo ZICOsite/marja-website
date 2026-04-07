@@ -23,6 +23,10 @@
     "title": "Блог",
     "page": "Страница {number}"
   },
+  "pagination": {
+    "previous": "Предыдущая страница",
+    "next": "Следующая страница"
+  },
   "pageRange": {
     "showing": "Показано {start}–{end} из {total}",
     "noResults": "Результатов нет."

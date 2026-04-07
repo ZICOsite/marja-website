@@ -54,7 +54,6 @@ const PaginationPrevious = ({
     {...props}
   >
     <ChevronLeft className="h-4 w-4" />
-    <span>Previous</span>
   </PaginationLink>
 )
 
@@ -65,7 +64,6 @@ const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof Pag
     size="default"
     {...props}
   >
-    <span>Next</span>
     <ChevronRight className="h-4 w-4" />
   </PaginationLink>
 )

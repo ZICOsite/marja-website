@@ -23,6 +23,10 @@
     "title": "Мақолаҳо",
     "page": "Саҳифа {number}"
   },
+  "pagination": {
+    "previous": "Саҳифаи қаблӣ",
+    "next": "Саҳифаи навбатӣ"
+  },
   "pageRange": {
     "showing": "Нишон дода шудааст: {start}–{end} аз {total}",
     "noResults": "Натиҷаҳо ёфт нашуданд."

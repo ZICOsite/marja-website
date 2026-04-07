@@ -23,6 +23,10 @@
     "title": "Posts",
     "page": "Page {number}"
   },
+  "pagination": {
+    "previous": "Go to previous page",
+    "next": "Go to next page"
+  },
   "pageRange": {
     "showing": "Showing {start}–{end} of {total}",
     "noResults": "No results found."

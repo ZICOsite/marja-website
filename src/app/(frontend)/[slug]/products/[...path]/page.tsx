@@ -12,6 +12,8 @@ import Link from 'next/link'
 
 import RichText from '@/components/RichText'
 import { ProductGallery } from '@/components/ProductGallery'
+import { ProductCard } from '@/components/ProductCard'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
 import { SortBar } from './SortBar'
 import { Download } from 'lucide-react'
@@ -106,20 +108,7 @@ async function ProductDetailPage({
     <div className="py-12">
       <div className="container mx-auto px-4">
         {/* Breadcrumbs */}
-        <nav className="flex flex-wrap gap-1 items-center text-sm text-muted-foreground mb-8">
-          {breadcrumbs.map((crumb, i) => (
-            <span key={i} className="flex items-center gap-1">
-              {i > 0 && <span className="select-none">/</span>}
-              {crumb.url ? (
-                <Link href={crumb.url} className="hover:text-primary transition-colors">
-                  {crumb.label}
-                </Link>
-              ) : (
-                <span className="text-foreground font-medium">{crumb.label}</span>
-              )}
-            </span>
-          ))}
-        </nav>
+        <Breadcrumbs items={breadcrumbs} className="mb-8" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Галерея */}
@@ -293,20 +282,7 @@ async function CategoryPage({
     <div className="py-10">
       <div className="container mx-auto px-4">
         {/* Breadcrumbs */}
-        <nav className="flex flex-wrap gap-1 items-center text-sm text-muted-foreground mb-6">
-          {crumbs.map((crumb, i) => (
-            <span key={i} className="flex items-center gap-1">
-              {i > 0 && <span className="select-none">/</span>}
-              {crumb.url ? (
-                <Link href={crumb.url} className="hover:text-primary transition-colors">
-                  {crumb.label}
-                </Link>
-              ) : (
-                <span className="text-foreground font-medium">{crumb.label}</span>
-              )}
-            </span>
-          ))}
-        </nav>
+        <Breadcrumbs items={crumbs} className="mb-6" />
 
         {/* Баннер категории */}
         {imgUrl && (
@@ -357,59 +333,21 @@ async function CategoryPage({
               <div className="py-16 text-center text-muted-foreground">{t('noProducts')}</div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                {products.map((product) => {
-                  const img = typeof product.heroImage === 'object' ? product.heroImage : null
-                  return (
-                    <Link
-                      key={product.id}
-                      href={`/${locale}/products/${path.join('/')}/${product.slug}`}
-                      className="group rounded-2xl overflow-hidden border border-border hover:border-primary transition-colors bg-background flex flex-col"
-                    >
-                      <div className="relative h-52 overflow-hidden bg-sidebar-accent shrink-0">
-                        {img?.url ? (
-                          <Image
-                            src={img.url}
-                            alt={img.alt ?? ''}
-                            fill
-                            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                        ) : null}
-                        <span
-                          className={`absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full ${
-                            product.inStock
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-red-100 text-red-700'
-                          }`}
-                        >
-                          {product.inStock ? t('inStock') : t('outOfStock')}
-                        </span>
-                      </div>
-                      <div className="p-5 flex flex-col flex-1">
-                        {product.sku && (
-                          <p className="text-xs text-muted-foreground font-mono mb-1">
-                            {product.sku}
-                          </p>
-                        )}
-                        <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2 flex-1 font-sans">
-                          {product.title}
-                        </h3>
-                        {product.shortDescription && (
-                          <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
-                            {product.shortDescription}
-                          </p>
-                        )}
-                        {(product.priceOnRequest || product.price != null) && (
-                          <p className="mt-3 text-base font-bold text-primary">
-                            {product.priceOnRequest
-                              ? t('priceOnRequest')
-                              : `${(product.price as number).toLocaleString()} ${product.currency ?? 'UZS'}`}
-                          </p>
-                        )}
-                      </div>
-                    </Link>
-                  )
-                })}
+                {products.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    href={`/${locale}/products/${path.join('/')}/${product.slug}`}
+                    title={product.title}
+                    sku={product.sku}
+                    inStock={product.inStock}
+                    heroImage={product.heroImage}
+                    shortDescription={product.shortDescription}
+                    price={product.price as number | null}
+                    priceOnRequest={product.priceOnRequest}
+                    currency={product.currency}
+                    locale={locale}
+                  />
+                ))}
               </div>
             )}
           </div>
