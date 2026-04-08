@@ -14,9 +14,9 @@ import RichText from '@/components/RichText'
 import { ProductGallery } from '@/components/ProductGallery'
 import { ProductCard } from '@/components/ProductCard'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { ProductTabs } from '@/components/ProductTabs'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
 import { SortBar } from './SortBar'
-import { Download } from 'lucide-react'
 import { RelatedProductsSlider } from './RelatedProductsSlider'
 
 // ---------------------------------------------------------------------------
@@ -146,77 +146,36 @@ async function ProductDetailPage({
                 {product.shortDescription}
               </p>
             )}
-
-            {Array.isArray(product.documents) && product.documents.length > 0 && (
-              <div className="mt-4">
-                <h3 className="font-semibold mb-3">{t('documents')}</h3>
-                <div className="flex flex-col gap-2">
-                  {product.documents.map((doc, i) => {
-                    const file = typeof doc.file === 'object' ? doc.file : null
-                    return file?.url ? (
-                      <a
-                        key={i}
-                        href={file.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-primary hover:underline text-sm"
-                      >
-                        <span>
-                          <Download size={14} />
-                        </span>
-                        <span>{doc.label ?? file.filename ?? t('downloadDocument')}</span>
-                      </a>
-                    ) : null
-                  })}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Описание */}
-        {product.description && (
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold font-heading mb-6">{t('description')}</h2>
-            <RichText data={product.description} enableGutter={false} />
-          </div>
-        )}
-
-        {/* Характеристики */}
-        {groupedSpecs.length > 0 && (
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold font-heading mb-6">{t('specifications')}</h2>
-            <div className="space-y-8">
-              {groupedSpecs.map((group, gi) => (
-                <div key={gi}>
-                  {group.groupName && (
-                    <h3 className="text-sm font-semibold mb-3 text-muted-foreground uppercase tracking-wider">
-                      {group.groupName}
-                    </h3>
-                  )}
-                  <div className="rounded-xl border border-border overflow-hidden">
-                    {group.items.map((spec, si) => (
-                      <div
-                        key={si}
-                        className={`flex items-center px-5 py-3 ${
-                          si % 2 === 0 ? 'bg-background' : 'bg-sidebar-accent/40'
-                        }`}
-                      >
-                        <span className="text-muted-foreground flex-1">{spec.attrName}</span>
-                        <span className="font-medium">
-                          {spec.value}
-                          {spec.unit && (
-                            <span className="text-muted-foreground ml-1">{spec.unit}</span>
-                          )}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Табы: Описание / Характеристики / Документация */}
+        <div className="mb-16">
+          <ProductTabs
+            hasDescription={!!product.description}
+            description={
+              product.description ? (
+                <RichText data={product.description} enableGutter={false} />
+              ) : undefined
+            }
+            specGroups={groupedSpecs}
+            documents={(product.documents ?? []).map((doc) => {
+              const file = typeof doc.file === 'object' ? doc.file : null
+              return {
+                label: doc.label,
+                fileUrl: file?.url ?? null,
+                filename: file?.filename ?? null,
+              }
+            })}
+            labels={{
+              description: t('description'),
+              specifications: t('specifications'),
+              documents: t('documents'),
+              noDocuments: t('noDocuments'),
+              downloadDocument: t('downloadDocument'),
+            }}
+          />
+        </div>
 
         {/* Похожие товары */}
         {Array.isArray(product.relatedProducts) && product.relatedProducts.length > 0 && (
