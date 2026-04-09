@@ -12,6 +12,7 @@ import * as migration_20260330_130000_rename_top_bar_to_contact_info from './202
 import * as migration_20260330_141217 from './20260330_141217';
 import * as migration_20260331_131649 from './20260331_131649';
 import * as migration_20260402_132823 from './20260402_132823';
+import * as migration_20260409_070535 from './20260409_070535';
 
 export const migrations = [
   {
@@ -82,6 +83,11 @@ export const migrations = [
   {
     up: migration_20260402_132823.up,
     down: migration_20260402_132823.down,
-    name: '20260402_132823'
+    name: '20260402_132823',
+  },
+  {
+    up: migration_20260409_070535.up,
+    down: migration_20260409_070535.down,
+    name: '20260409_070535'
   },
 ];

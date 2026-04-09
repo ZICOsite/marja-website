@@ -159,20 +159,30 @@ async function ProductDetailPage({
               ) : undefined
             }
             specGroups={groupedSpecs}
-            documents={(product.documents ?? []).map((doc) => {
-              const file = typeof doc.file === 'object' ? doc.file : null
-              return {
-                label: doc.label,
-                fileUrl: file?.url ?? null,
-                filename: file?.filename ?? null,
-              }
-            })}
+            productTitle={product.title}
+            standardLabel={product.standardLabel}
+            qualityNote={product.qualityNote}
+            warrantyNote={product.warrantyNote}
+            documents={(product.documents ?? []).map((doc) => ({
+              category: doc.category,
+              files: (doc.files ?? []).map((f) => {
+                const file = typeof f.file === 'object' ? f.file : null
+                return {
+                  label: f.label,
+                  fileUrl: file?.url ?? null,
+                  filename: file?.filename ?? null,
+                }
+              }),
+            }))}
             labels={{
               description: t('description'),
               specifications: t('specifications'),
               documents: t('documents'),
               noDocuments: t('noDocuments'),
               downloadDocument: t('downloadDocument'),
+              specIndicator: t('specIndicator'),
+              specIndicatorValue: t('specIndicatorValue'),
+              specActualValues: t('specActualValues'),
             }}
           />
         </div>
@@ -522,10 +532,10 @@ function buildCategoryTree(cats: FlatCat[]): CatNode[] {
   return roots
 }
 
-type SpecItem = { attribute: unknown; value?: string | null }
+type SpecItem = { attribute: unknown; value?: string | null; standardValue?: string | null }
 type GroupedSpec = {
   groupName: string | null
-  items: { attrName: string; value: string; unit: string | null }[]
+  items: { attrName: string; value: string; unit: string | null; standardValue: string | null }[]
 }
 
 function groupSpecifications(specifications: SpecItem[]): GroupedSpec[] {
@@ -542,12 +552,13 @@ function groupSpecifications(specifications: SpecItem[]): GroupedSpec[] {
 
     const attrName = attr.name ?? ''
     const unit = attr.unit ?? null
+    const standardValue = spec.standardValue ?? null
     const groupName =
       typeof attr.group === 'object' && attr.group !== null ? (attr.group.name ?? null) : null
     const groupKey = groupName ?? '__none__'
 
     if (!groups.has(groupKey)) groups.set(groupKey, { groupName, items: [] })
-    groups.get(groupKey)!.items.push({ attrName, value: spec.value ?? '', unit })
+    groups.get(groupKey)!.items.push({ attrName, value: spec.value ?? '', unit, standardValue })
   }
 
   return Array.from(groups.values())

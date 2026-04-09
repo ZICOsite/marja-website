@@ -106,16 +106,30 @@ export const Products: CollectionConfig<'products'> = {
               admin: { initCollapsed: true },
               fields: [
                 {
-                  name: 'file',
-                  type: 'upload',
-                  relationTo: 'media',
-                  required: true,
-                },
-                {
-                  name: 'label',
+                  name: 'category',
                   type: 'text',
                   localized: true,
-                  admin: { description: 'Название (напр. "Технический паспорт")' },
+                  label: 'Категория',
+                  admin: { description: 'Название группы (напр. "Технические паспорта")' },
+                },
+                {
+                  name: 'files',
+                  type: 'array',
+                  label: 'Файлы',
+                  fields: [
+                    {
+                      name: 'file',
+                      type: 'upload',
+                      relationTo: 'media',
+                      required: true,
+                    },
+                    {
+                      name: 'label',
+                      type: 'text',
+                      localized: true,
+                      admin: { description: 'Название файла (напр. "Паспорт v2")' },
+                    },
+                  ],
                 },
               ],
             },
@@ -124,6 +138,16 @@ export const Products: CollectionConfig<'products'> = {
         {
           label: 'Характеристики',
           fields: [
+            {
+              name: 'standardLabel',
+              type: 'text',
+              localized: true,
+              label: 'Заголовок колонки норм',
+              admin: {
+                description:
+                  'Название нормативного документа для шапки таблицы (напр. "Нормы по ГОСТ 30693-2000"). Оставьте пустым если не нужно.',
+              },
+            },
             {
               name: 'specifications',
               type: 'array',
@@ -143,8 +167,37 @@ export const Products: CollectionConfig<'products'> = {
                   name: 'value',
                   type: 'text',
                   required: true,
+                  label: 'Значение фактическое',
+                },
+                {
+                  name: 'standardValue',
+                  type: 'text',
+                  label: 'Норма (ГОСТ/ТУ)',
+                  admin: {
+                    description:
+                      'Нормативное значение (напр. "45%", "Указание по ТУ производителя"). Если пусто — не отображается.',
+                  },
                 },
               ],
+            },
+            {
+              name: 'qualityNote',
+              type: 'textarea',
+              localized: true,
+              label: 'Примечание о качестве',
+              admin: {
+                description:
+                  'Текст под таблицей характеристик (напр. "Качество ГОСТ 30693-2000 ...")',
+              },
+            },
+            {
+              name: 'warrantyNote',
+              type: 'textarea',
+              localized: true,
+              label: 'Гарантийное примечание',
+              admin: {
+                description: 'Гарантийный текст под таблицей характеристик (курсив)',
+              },
             },
             {
               name: 'filterValues',

@@ -1014,14 +1014,27 @@ export interface Product {
   } | null;
   documents?:
     | {
-        file: number | Media;
         /**
-         * Название (напр. "Технический паспорт")
+         * Название группы (напр. "Технические паспорта")
          */
-        label?: string | null;
+        category?: string | null;
+        files?:
+          | {
+              file: number | Media;
+              /**
+               * Название файла (напр. "Паспорт v2")
+               */
+              label?: string | null;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Название нормативного документа для шапки таблицы (напр. "Нормы по ГОСТ 30693-2000"). Оставьте пустым если не нужно.
+   */
+  standardLabel?: string | null;
   /**
    * Характеристики товара. Для select-атрибутов в поле "Значение" введите value из опций атрибута.
    */
@@ -1029,9 +1042,21 @@ export interface Product {
     | {
         attribute: number | Attribute;
         value: string;
+        /**
+         * Нормативное значение (напр. "45%", "Указание по ТУ производителя"). Если пусто — не отображается.
+         */
+        standardValue?: string | null;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Текст под таблицей характеристик (напр. "Качество ГОСТ 30693-2000 ...")
+   */
+  qualityNote?: string | null;
+  /**
+   * Гарантийный текст под таблицей характеристик (курсив)
+   */
+  warrantyNote?: string | null;
   /**
    * Заполняется автоматически из характеристик с пометкой "filterable"
    */
@@ -1906,17 +1931,27 @@ export interface ProductsSelect<T extends boolean = true> {
   documents?:
     | T
     | {
-        file?: T;
-        label?: T;
+        category?: T;
+        files?:
+          | T
+          | {
+              file?: T;
+              label?: T;
+              id?: T;
+            };
         id?: T;
       };
+  standardLabel?: T;
   specifications?:
     | T
     | {
         attribute?: T;
         value?: T;
+        standardValue?: T;
         id?: T;
       };
+  qualityNote?: T;
+  warrantyNote?: T;
   filterValues?:
     | T
     | {
