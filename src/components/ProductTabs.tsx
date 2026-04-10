@@ -61,30 +61,33 @@ export function ProductTabs({
 
   return (
     <Tabs defaultValue={defaultTab} className="w-full">
-      <TabsList className="h-auto w-full justify-start rounded-none border-b bg-transparent p-0 gap-0">
-        {hasDescription && (
+      <div className="relative overflow-hidden">
+        <TabsList className="h-auto w-full justify-start rounded-none border-b bg-transparent p-0 gap-0 overflow-x-auto">
+          {hasDescription && (
+            <TabsTrigger
+              value="description"
+              className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap"
+            >
+              {labels.description}
+            </TabsTrigger>
+          )}
+          {specGroups.length > 0 && (
+            <TabsTrigger
+              value="specs"
+              className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap"
+            >
+              {labels.specifications}
+            </TabsTrigger>
+          )}
           <TabsTrigger
-            value="description"
-            className="rounded-none border-b-2 border-transparent px-6 py-3 text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
+            value="docs"
+            className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap"
           >
-            {labels.description}
+            {labels.documents}
           </TabsTrigger>
-        )}
-        {specGroups.length > 0 && (
-          <TabsTrigger
-            value="specs"
-            className="rounded-none border-b-2 border-transparent px-6 py-3 text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
-          >
-            {labels.specifications}
-          </TabsTrigger>
-        )}
-        <TabsTrigger
-          value="docs"
-          className="rounded-none border-b-2 border-transparent px-6 py-3 text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none"
-        >
-          {labels.documents}
-        </TabsTrigger>
-      </TabsList>
+        </TabsList>
+        <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-background pointer-events-none" />
+      </div>
 
       {/* Описание */}
       {hasDescription && (
@@ -119,9 +122,7 @@ export function ProductTabs({
                           className="border border-border px-4 py-3 text-center font-semibold bg-muted/50"
                         >
                           {labels.specIndicatorValue}
-                          {productTitle && (
-                            <span className="font-bold"> {productTitle}</span>
-                          )}
+                          {productTitle && <span className="font-bold"> {productTitle}</span>}
                         </th>
                       </tr>
                       <tr>
@@ -158,9 +159,7 @@ export function ProductTabs({
 
             {/* Текстовые блоки под таблицей */}
             {qualityNote && (
-              <div className="border border-border rounded px-5 py-4 text-sm">
-                {qualityNote}
-              </div>
+              <div className="border border-border rounded px-5 py-4 text-sm">{qualityNote}</div>
             )}
             {warrantyNote && (
               <div className="border border-border rounded px-5 py-4 text-sm italic">
@@ -190,7 +189,7 @@ export function ProductTabs({
                         {group.files.map((f, fi) => {
                           const fileName = f.label ?? f.filename ?? labels.downloadDocument
                           return (
-                            <li key={fi} className='w-full max-w-32'>
+                            <li key={fi} className="w-full max-w-32">
                               {f.fileUrl ? (
                                 <a
                                   href={f.fileUrl}
