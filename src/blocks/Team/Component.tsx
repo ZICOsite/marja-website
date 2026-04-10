@@ -9,7 +9,7 @@ type Props = {
 
 export const TeamBlockComponent: React.FC<Props> = ({ heading, text, members }) => {
   return (
-    <section className="py-24 overflow-hidden">
+    <section className="overflow-hidden">
       <div className="container mx-auto px-4">
         {(heading || text) && (
           <div className="max-w-4xl mb-14 mx-auto text-center">
