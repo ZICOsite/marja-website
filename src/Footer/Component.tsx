@@ -65,47 +65,49 @@ export async function Footer({ locale }: Props) {
             </ul>
           </div>
         )}
-        <div className="footer__col">
-          <h3 className="footer__col-title">{t('contacts')}</h3>
-          <ul className="footer__col-list">
-            {contactData?.addresses?.map((item, i) => (
-              <li key={i} className="footer__col-item">
-                {item.url ? (
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex gap-1.5 text-balance"
-                  >
-                    <MapPin className="shrink-0 mt-1" size={16} />
-                    {item.label}
+        {(contactData?.addresses?.length || contactData?.phones?.length || contactData?.email) && (
+          <div className="footer__col">
+            <h3 className="footer__col-title">{t('contacts')}</h3>
+            <ul className="footer__col-list">
+              {contactData?.addresses?.map((item, i) => (
+                <li key={i} className="footer__col-item">
+                  {item.url ? (
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex gap-1.5 text-balance"
+                    >
+                      <MapPin className="shrink-0 mt-1" size={16} />
+                      {item.label}
+                    </a>
+                  ) : (
+                    <span className="flex gap-1.5 text-balance">
+                      <MapPin className="shrink-0 mt-1" size={16} />
+                      {item.label}
+                    </span>
+                  )}
+                </li>
+              ))}
+              {contactData?.phones?.map((item, i) => (
+                <li key={i} className="footer__col-item">
+                  <a href={`tel:${item.number}`} className="flex gap-1.5 text-balance">
+                    <Phone className="shrink-0 mt-1" size={16} />
+                    {item.number}
                   </a>
-                ) : (
-                  <span className="flex gap-1.5 text-balance">
-                    <MapPin className="shrink-0 mt-1" size={16} />
-                    {item.label}
-                  </span>
-                )}
-              </li>
-            ))}
-            {contactData?.phones?.map((item, i) => (
-              <li key={i} className="footer__col-item">
-                <a href={`tel:${item.number}`} className="flex gap-1.5 text-balance">
-                  <Phone className="shrink-0 mt-1" size={16} />
-                  {item.number}
-                </a>
-              </li>
-            ))}
-            {contactData?.email && (
-              <li className="footer__col-item">
-                <a href={`mailto:${contactData.email}`} className="flex gap-1.5 text-balance">
-                  <Mail className="shrink-0 mt-1" size={16} />
-                  {contactData.email}
-                </a>
-              </li>
-            )}
-          </ul>
-        </div>
+                </li>
+              ))}
+              {contactData?.email && (
+                <li className="footer__col-item">
+                  <a href={`mailto:${contactData.email}`} className="flex gap-1.5 text-balance">
+                    <Mail className="shrink-0 mt-1" size={16} />
+                    {contactData.email}
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="footer__bottom py-8">
         <div className="container flex flex-col md:flex-row justify-between items-center">

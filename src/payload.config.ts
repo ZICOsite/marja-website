@@ -14,6 +14,7 @@ import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { ProductCategories } from './collections/ProductCategories'
 import { Products } from './collections/Products'
+import { Projects } from './collections/Projects'
 import { Reviews } from './collections/Reviews'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
@@ -93,6 +94,7 @@ export default buildConfig({
     AttributeGroups,
     Attributes,
     Reviews,
+    Projects,
     Media,
     Categories,
     Users,

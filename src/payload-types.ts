@@ -74,6 +74,7 @@ export interface Config {
     'attribute-groups': AttributeGroup;
     attributes: Attribute;
     reviews: Review;
+    projects: Project;
     media: Media;
     categories: Category;
     users: User;
@@ -101,6 +102,7 @@ export interface Config {
     'attribute-groups': AttributeGroupsSelect<false> | AttributeGroupsSelect<true>;
     attributes: AttributesSelect<false> | AttributesSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -238,6 +240,8 @@ export interface Page {
     | TimelineBlock
     | TeamBlock
     | LatestPostsBlock
+    | ContactsBlock
+    | CompletedProjectsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1249,6 +1253,81 @@ export interface LatestPostsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactsBlock".
+ */
+export interface ContactsBlock {
+  officesTitle?: string | null;
+  offices?:
+    | {
+        name: string;
+        address: string;
+        hours?: string | null;
+        /**
+         * Ссылка для открытия в Яндекс Картах или Google Maps
+         */
+        mapUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  contactsTitle?: string | null;
+  phones?:
+    | {
+        number: string;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  email?: string | null;
+  emailLabel?: string | null;
+  /**
+   * Ссылка для embed Яндекс Карт (https://yandex.ru/map-widget/...)
+   */
+  mapEmbedUrl?: string | null;
+  description?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contacts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CompletedProjectsBlock".
+ */
+export interface CompletedProjectsBlock {
+  tagline?: string | null;
+  title: string;
+  description?: string | null;
+  /**
+   * Выберите до 4 объектов для отображения на главной странице
+   */
+  projects: (number | Project)[];
+  viewAllLabel?: string | null;
+  /**
+   * Относительный путь, например /projects
+   */
+  viewAllLink?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'completedProjects';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  description?: string | null;
+  /**
+   * Первое фото будет обложкой
+   */
+  gallery?: (number | Media)[] | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1499,6 +1578,10 @@ export interface PayloadLockedDocument {
         value: number | Review;
       } | null)
     | ({
+        relationTo: 'projects';
+        value: number | Project;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -1617,6 +1700,8 @@ export interface PagesSelect<T extends boolean = true> {
         timeline?: T | TimelineBlockSelect<T>;
         team?: T | TeamBlockSelect<T>;
         latestPosts?: T | LatestPostsBlockSelect<T>;
+        contacts?: T | ContactsBlockSelect<T>;
+        completedProjects?: T | CompletedProjectsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1882,6 +1967,50 @@ export interface LatestPostsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactsBlock_select".
+ */
+export interface ContactsBlockSelect<T extends boolean = true> {
+  officesTitle?: T;
+  offices?:
+    | T
+    | {
+        name?: T;
+        address?: T;
+        hours?: T;
+        mapUrl?: T;
+        id?: T;
+      };
+  contactsTitle?: T;
+  phones?:
+    | T
+    | {
+        number?: T;
+        label?: T;
+        id?: T;
+      };
+  email?: T;
+  emailLabel?: T;
+  mapEmbedUrl?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CompletedProjectsBlock_select".
+ */
+export interface CompletedProjectsBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  title?: T;
+  description?: T;
+  projects?: T;
+  viewAllLabel?: T;
+  viewAllLink?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -2054,6 +2183,19 @@ export interface ReviewsSelect<T extends boolean = true> {
   approved?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  gallery?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

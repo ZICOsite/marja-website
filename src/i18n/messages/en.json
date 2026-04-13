@@ -56,6 +56,11 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfUse": "Terms of Use"
   },
+  "projects": {
+    "title": "Completed Projects",
+    "viewAll": "View all",
+    "noProjects": "No projects found"
+  },
   "products": {
     "catalog": "Product Catalog",
     "catalogDescription": "Browse our products",

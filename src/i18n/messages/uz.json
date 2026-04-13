@@ -56,6 +56,11 @@
     "privacyPolicy": "Maxfiylik siyosati",
     "termsOfUse": "Foydalanish shartlari"
   },
+  "projects": {
+    "title": "Bajarilgan ob'ektlar",
+    "viewAll": "Barchasini ko'rish",
+    "noProjects": "Ob'ektlar topilmadi"
+  },
   "products": {
     "catalog": "Mahsulotlar katalogi",
     "catalogDescription": "Bizning mahsulotlarimiz bilan tanishing",

@@ -56,6 +56,11 @@
     "privacyPolicy": "Сиёсати махфият",
     "termsOfUse": "Шартҳои истифода"
   },
+  "projects": {
+    "title": "Объектҳои иҷрошуда",
+    "viewAll": "Ҳамаро дидан",
+    "noProjects": "Объектҳо ёфт нашуданд"
+  },
   "products": {
     "catalog": "Каталоги молҳо",
     "catalogDescription": "Бо маҳсулоти мо шинос шавед",
