@@ -56,6 +56,11 @@
     "privacyPolicy": "Сиёсати махфият",
     "termsOfUse": "Шартҳои истифода"
   },
+  "downloads": {
+    "name": "Номгӯй",
+    "size": "Андоза",
+    "download": "Боргирӣ"
+  },
   "projects": {
     "title": "Объектҳои иҷрошуда",
     "viewAll": "Ҳамаро дидан",

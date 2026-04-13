@@ -1,4 +1,3 @@
-import React from 'react'
 import { Mail, MapPin, Phone } from 'lucide-react'
 
 type Office = {
@@ -26,7 +25,7 @@ type Props = {
   description?: string | null
 }
 
-export const ContactsBlockComponent: React.FC<Props> = ({
+export const ContactsBlockComponent = ({
   officesTitle,
   offices,
   contactsTitle,
@@ -35,7 +34,7 @@ export const ContactsBlockComponent: React.FC<Props> = ({
   emailLabel,
   mapEmbedUrl,
   description,
-}) => {
+}: Props) => {
   const hasOffices = offices && offices.length > 0
   const hasPhones = phones && phones.length > 0
 
@@ -43,9 +42,7 @@ export const ContactsBlockComponent: React.FC<Props> = ({
     <section className="py-16 bg-background">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Left column */}
           <div className="flex flex-col gap-10">
-            {/* Offices */}
             {hasOffices && (
               <div>
                 {officesTitle && (
@@ -79,13 +76,11 @@ export const ContactsBlockComponent: React.FC<Props> = ({
               </div>
             )}
             <hr className="border-[var(--primary)]" />
-            {/* Contact data */}
             {(hasPhones || email) && (
               <div>
                 {contactsTitle && (
                   <h2 className="text-2xl font-bold mb-6">{contactsTitle}</h2>
                 )}
-
                 {hasPhones && (
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                     {phones.map((phone, i) => (
@@ -106,7 +101,6 @@ export const ContactsBlockComponent: React.FC<Props> = ({
                     ))}
                   </ul>
                 )}
-
                 {email && (
                   <div className="flex gap-3">
                     <Mail className="shrink-0 mt-1 text-primary" size={18} />
@@ -127,7 +121,6 @@ export const ContactsBlockComponent: React.FC<Props> = ({
             )}
           </div>
 
-          {/* Right column — map */}
           {mapEmbedUrl && (
             <div className="w-full h-[400px] lg:h-auto min-h-[300px] rounded-lg overflow-hidden border border-border">
               <iframe
@@ -141,7 +134,6 @@ export const ContactsBlockComponent: React.FC<Props> = ({
           )}
         </div>
 
-        {/* Bottom description */}
         {description && (
           <p className="mt-10 text-sm md:text-lg text-muted-foreground">{description}</p>
         )}

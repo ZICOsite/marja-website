@@ -2,16 +2,11 @@ import type { Post, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
 import RichText from '@/components/RichText'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 
-export const ArchiveBlock: React.FC<
-  ArchiveBlockProps & {
-    id?: string
-  }
-> = async (props) => {
+export const ArchiveBlock = async (props: ArchiveBlockProps & { id?: string }) => {
   const { id, categories, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
 
   const limit = limitFromProps || 3

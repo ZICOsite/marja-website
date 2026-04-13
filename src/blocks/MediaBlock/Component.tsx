@@ -1,7 +1,6 @@
 import type { StaticImageData } from 'next/image'
 
 import { cn } from '@/utilities/ui'
-import React from 'react'
 import RichText from '@/components/RichText'
 
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
@@ -18,7 +17,7 @@ type Props = MediaBlockProps & {
   disableInnerContainer?: boolean
 }
 
-export const MediaBlock: React.FC<Props> = (props) => {
+export const MediaBlock = (props: Props) => {
   const {
     captionClassName,
     className,
@@ -34,13 +33,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
 
   return (
     <div
-      className={cn(
-        '',
-        {
-          container: enableGutter,
-        },
-        className,
-      )}
+      className={cn({ container: enableGutter }, className)}
     >
       {(media || staticImage) && (
         <Media

@@ -61,6 +61,11 @@
     "viewAll": "Смотреть все",
     "noProjects": "Объекты не найдены"
   },
+  "downloads": {
+    "name": "Наименование",
+    "size": "Размер",
+    "download": "Скачать"
+  },
   "products": {
     "catalog": "Каталог товаров",
     "catalogDescription": "Ознакомьтесь с нашей продукцией",

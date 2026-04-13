@@ -1,5 +1,3 @@
-import React from 'react'
-
 import './style.css'
 import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
 import { DynamicTitle } from '@/components/DynamicTitle'
@@ -8,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
 
-export const CallToActionBlock: React.FC<CTABlockProps> = ({ title, titleTag = 'h2', links, richText }) => {
+export const CallToActionBlock = ({ title, titleTag = 'h2', links, richText }: CTABlockProps) => {
   const t = useTranslations()
   
   return (

@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -38,14 +37,14 @@ type Props = {
   viewAllLink?: string | null
 }
 
-export const PopularProductsBlock: React.FC<Props> = ({
+export const PopularProductsBlock = ({
   tagline,
   title,
   description,
   products,
   viewAllLabel,
   viewAllLink,
-}) => {
+}: Props) => {
   const t = useTranslations('products')
 
   const populated = (products ?? []).filter(
@@ -57,7 +56,6 @@ export const PopularProductsBlock: React.FC<Props> = ({
   return (
     <section className="py-24">
       <div className="container mx-auto px-4">
-        {/* Шапка секции */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
             {tagline && (
@@ -82,7 +80,6 @@ export const PopularProductsBlock: React.FC<Props> = ({
           )}
         </div>
 
-        {/* Слайдер товаров */}
         <Carousel
           opts={{ align: 'start', loop: false }}
           className="w-full"
@@ -103,7 +100,6 @@ export const PopularProductsBlock: React.FC<Props> = ({
                     href={`/products/${product.slug ?? ''}`}
                     className="group rounded-2xl overflow-hidden border border-border hover:border-[var(--primary)] transition-colors bg-background flex flex-col h-full"
                   >
-                    {/* Изображение */}
                     <div className="relative h-52 overflow-hidden bg-sidebar-accent shrink-0">
                       {img?.url ? (
                         <Image
@@ -131,7 +127,6 @@ export const PopularProductsBlock: React.FC<Props> = ({
                         </div>
                       )}
 
-                      {/* Бейдж наличия */}
                       <span
                         className={`absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full ${
                           product.inStock
@@ -143,7 +138,6 @@ export const PopularProductsBlock: React.FC<Props> = ({
                       </span>
                     </div>
 
-                    {/* Контент */}
                     <div className="p-5 flex flex-col flex-1">
                       {product.sku && (
                         <p className="text-xs text-muted-foreground font-mono mb-1">{product.sku}</p>

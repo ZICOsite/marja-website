@@ -1,10 +1,9 @@
-import React from 'react'
 import type { TimelineBlock as TimelineBlockProps } from '@/payload-types'
 import { Star } from 'lucide-react'
 
 type Props = TimelineBlockProps
 
-export const TimelineBlockComponent: React.FC<Props> = ({ heading, items }) => {
+export const TimelineBlockComponent = ({ heading, items }: Props) => {
   if (!items?.length) return null
 
   return (
@@ -17,7 +16,6 @@ export const TimelineBlockComponent: React.FC<Props> = ({ heading, items }) => {
         )}
 
         <div className="relative">
-          {/* Vertical line */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2 hidden md:block" />
 
           <div className="flex flex-col gap-12 md:gap-0">
@@ -31,10 +29,8 @@ export const TimelineBlockComponent: React.FC<Props> = ({ heading, items }) => {
                     isEven ? 'md:flex-row' : 'md:flex-row-reverse'
                   }`}
                 >
-                  {/* Content card */}
                   <div className={`md:w-[calc(50%-2.5rem)] ${isEven ? 'md:pr-10 md:text-right' : 'md:pl-10 md:text-left'}`}>
                     <div className="group relative bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-primary/40 transition-all duration-300">
-                      {/* Year badge */}
                       <span className="inline-block bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3">
                         {item.year}
                       </span>
@@ -44,8 +40,6 @@ export const TimelineBlockComponent: React.FC<Props> = ({ heading, items }) => {
                       <p className="text-muted-foreground text-sm leading-relaxed">
                         {item.description}
                       </p>
-
-                      {/* Connector arrow */}
                       <div
                         className={`hidden md:block absolute top-1/2 -translate-y-1/2 w-0 h-0 border-y-8 border-y-transparent ${
                           isEven
@@ -56,12 +50,10 @@ export const TimelineBlockComponent: React.FC<Props> = ({ heading, items }) => {
                     </div>
                   </div>
 
-                  {/* Center dot */}
                   <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 z-10 w-10 h-10 rounded-full bg-primary items-center justify-center shadow-lg shadow-primary/30">
                     <Star className="w-5 h-5 text-primary-foreground" />
                   </div>
 
-                  {/* Mobile year label */}
                   <div className="md:hidden flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/30">
                       <Star className="w-4 h-4 text-primary-foreground" />
@@ -69,7 +61,6 @@ export const TimelineBlockComponent: React.FC<Props> = ({ heading, items }) => {
                     <span className="text-primary font-bold text-sm uppercase tracking-widest">{item.year}</span>
                   </div>
 
-                  {/* Empty opposite side */}
                   <div className="hidden md:block md:w-[calc(50%-2.5rem)]" />
                 </div>
               )

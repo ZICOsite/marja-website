@@ -1,4 +1,3 @@
-import React from 'react'
 import { Factory, ShieldCheck, ArrowRight, LucideIcon } from 'lucide-react'
 import type { SolutionsBlock as SolutionsBlockProps } from '@/payload-types'
 import Link from 'next/link'
@@ -14,7 +13,7 @@ type Props = {
   className?: string
 } & SolutionsBlockProps
 
-export const SolutionsBlock: React.FC<Props> = ({ tagline, title, description, cards }) => {
+export const SolutionsBlock = ({ tagline, title, description, cards }: Props) => {
   const t = useTranslations('solutions')
   return (
     <section className="py-24 overflow-hidden">
@@ -35,13 +34,9 @@ export const SolutionsBlock: React.FC<Props> = ({ tagline, title, description, c
           {description && <p className="max-w-lg mt-4 md:mt-0">{description}</p>}
         </div>
 
-        {/* Сетка карточек */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {cards?.map((card, index) => {
-            // Определяем иконку по типу (default = ShieldCheck, чтобы не упало)
             const IconComponent = card.type ? iconMap[card.type] : ShieldCheck
-
-            // Обработка картинки (Payload возвращает объект или ID)
             const imgUrl = typeof card.image === 'object' && card.image?.url ? card.image.url : ''
             const imgAlt =
               typeof card.image === 'object' && card.image?.alt ? card.image.alt : card.title

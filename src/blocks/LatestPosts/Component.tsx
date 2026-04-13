@@ -1,4 +1,3 @@
-import React from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { getLocale, getTranslations } from 'next-intl/server'
@@ -67,7 +66,6 @@ export async function LatestPostsBlock({
   return (
     <section className="py-24">
       <div className="container mx-auto px-4">
-        {/* Шапка */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
             {tagline && (

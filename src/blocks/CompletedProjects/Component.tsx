@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -28,24 +27,17 @@ type Props = {
   viewAllLink?: string | null
 }
 
-// Span-классы для разных количеств карточек
 const SPAN_CLASSES: Record<number, Record<number, string>> = {
-  // 1 карточка — полная ширина
-  1: { 0: '' },
-  // 2 карточки — равные столбцы
-  2: { 0: '', 1: '' },
-  // 3 карточки — первая 2/3, две правее по 1/3
   3: {
     0: 'lg:col-span-2 lg:row-span-2',
     1: 'lg:col-start-3 lg:row-start-1',
     2: 'lg:col-start-3 lg:row-start-2',
   },
-  // 4 карточки — bento
   4: {
-    0: 'lg:col-span-2 lg:row-span-2',
-    1: 'lg:col-start-3 lg:row-start-1',
-    2: 'lg:col-start-3 lg:row-start-2',
-    3: 'lg:col-span-3',
+    0: 'lg:col-start-1 lg:row-span-2',
+    1: 'lg:col-start-2 lg:row-start-1',
+    2: 'lg:col-start-2 lg:row-start-2',
+    3: 'lg:col-start-3 lg:row-span-2',
   },
 }
 
@@ -53,17 +45,23 @@ const GRID_CLASSES: Record<number, string> = {
   1: 'grid-cols-1 lg:grid-rows-[480px]',
   2: 'grid-cols-1 sm:grid-cols-2 lg:grid-rows-[400px]',
   3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[280px_280px]',
-  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[300px_300px_220px]',
+  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[320px_320px]',
 }
 
-export const CompletedProjectsBlock: React.FC<Props> = ({
+function isLargeCard(count: number, index: number): boolean {
+  if (count === 4) return index === 0 || index === 3
+  if (count === 3) return index === 0
+  return false
+}
+
+export const CompletedProjectsBlock = ({
   tagline,
   title,
   description,
   projects,
   viewAllLabel,
   viewAllLink,
-}) => {
+}: Props) => {
   const t = useTranslations('projects')
 
   const populated = (projects ?? []).filter(
@@ -77,8 +75,6 @@ export const CompletedProjectsBlock: React.FC<Props> = ({
   return (
     <section className="py-24">
       <div className="container mx-auto px-4">
-
-        {/* Шапка */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
             {tagline && (
@@ -91,7 +87,6 @@ export const CompletedProjectsBlock: React.FC<Props> = ({
               <p className="text-muted-foreground mt-3 max-w-lg text-lg">{description}</p>
             )}
           </div>
-
           {viewAllLink && (
             <Link
               href={viewAllLink}
@@ -103,14 +98,12 @@ export const CompletedProjectsBlock: React.FC<Props> = ({
           )}
         </div>
 
-        {/* Grid */}
         <div className={cn('grid gap-4', GRID_CLASSES[count])}>
-          {populated.slice(0, 4).map((project, index) => {
-            const firstImg = (project.gallery ?? [])
-              .map((g) => (typeof g === 'object' && g !== null ? g : null))
-              .find((g) => g?.url)
-
-            const isWideBottom = count === 4 && index === 3
+          {populated.map((project, index) => {
+            const firstImg = (project.gallery ?? []).find(
+              (g): g is GalleryImage => typeof g === 'object' && g !== null && !!g.url,
+            )
+            const large = isLargeCard(count, index)
 
             return (
               <div
@@ -118,10 +111,9 @@ export const CompletedProjectsBlock: React.FC<Props> = ({
                 className={cn(
                   'group relative overflow-hidden rounded-2xl bg-muted',
                   SPAN_CLASSES[count]?.[index] ?? '',
-                  isWideBottom ? 'h-52 lg:h-full' : 'h-64 lg:h-full',
+                  large ? 'h-80 lg:h-full' : 'h-64 lg:h-full',
                 )}
               >
-                {/* Изображение */}
                 {firstImg?.url ? (
                   <Image
                     src={firstImg.url}
@@ -138,15 +130,11 @@ export const CompletedProjectsBlock: React.FC<Props> = ({
                     </svg>
                   </div>
                 )}
-
-                {/* Постоянный тёмный градиент снизу */}
                 <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-
-                {/* Текст — виден всегда внизу, при наведении поднимается */}
                 <div className="absolute inset-x-0 bottom-0 p-5 z-10 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className={cn(
                     'font-sans font-bold text-white leading-snug',
-                    index === 0 && count >= 3 ? 'text-xl' : 'text-base',
+                    large ? 'text-xl' : 'text-base',
                   )}>
                     {project.title}
                   </h3>
@@ -160,7 +148,6 @@ export const CompletedProjectsBlock: React.FC<Props> = ({
             )
           })}
         </div>
-
       </div>
     </section>
   )

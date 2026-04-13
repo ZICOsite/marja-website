@@ -242,6 +242,8 @@ export interface Page {
     | LatestPostsBlock
     | ContactsBlock
     | CompletedProjectsBlock
+    | DownloadsBlock
+    | DocumentationBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1328,6 +1330,46 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DownloadsBlock".
+ */
+export interface DownloadsBlock {
+  heading?: string | null;
+  files?:
+    | {
+        name: string;
+        file: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'downloads';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DocumentationBlock".
+ */
+export interface DocumentationBlock {
+  heading?: string | null;
+  categories?:
+    | {
+        label: string;
+        files?:
+          | {
+              name: string;
+              file: number | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'documentation';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1702,6 +1744,8 @@ export interface PagesSelect<T extends boolean = true> {
         latestPosts?: T | LatestPostsBlockSelect<T>;
         contacts?: T | ContactsBlockSelect<T>;
         completedProjects?: T | CompletedProjectsBlockSelect<T>;
+        downloads?: T | DownloadsBlockSelect<T>;
+        documentation?: T | DocumentationBlockSelect<T>;
       };
   meta?:
     | T
@@ -2006,6 +2050,44 @@ export interface CompletedProjectsBlockSelect<T extends boolean = true> {
   projects?: T;
   viewAllLabel?: T;
   viewAllLink?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DownloadsBlock_select".
+ */
+export interface DownloadsBlockSelect<T extends boolean = true> {
+  heading?: T;
+  files?:
+    | T
+    | {
+        name?: T;
+        file?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DocumentationBlock_select".
+ */
+export interface DocumentationBlockSelect<T extends boolean = true> {
+  heading?: T;
+  categories?:
+    | T
+    | {
+        label?: T;
+        files?:
+          | T
+          | {
+              name?: T;
+              file?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

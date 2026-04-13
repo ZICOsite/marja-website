@@ -1,4 +1,4 @@
-import React from 'react'
+import { cn } from '@/utilities/ui'
 
 import { Code } from './Component.client'
 
@@ -12,9 +12,9 @@ type Props = CodeBlockProps & {
   className?: string
 }
 
-export const CodeBlock: React.FC<Props> = ({ className, code, language }) => {
+export const CodeBlock = ({ className, code, language }: Props) => {
   return (
-    <div className={[className, 'not-prose'].filter(Boolean).join(' ')}>
+    <div className={cn(className, 'not-prose')}>
       <Code code={code} language={language} />
     </div>
   )

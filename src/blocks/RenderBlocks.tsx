@@ -18,6 +18,8 @@ import { TeamBlockComponent } from '@/blocks/Team/Component'
 import { LatestPostsBlock } from '@/blocks/LatestPosts/Component'
 import { ContactsBlockComponent } from '@/blocks/Contacts/Component'
 import { CompletedProjectsBlock } from '@/blocks/CompletedProjects/Component'
+import { DownloadsBlockComponent } from '@/blocks/Downloads/Component'
+import { DocumentationBlockComponent } from '@/blocks/Documentation/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -36,6 +38,8 @@ const blockComponents = {
   latestPosts: LatestPostsBlock,
   contacts: ContactsBlockComponent,
   completedProjects: CompletedProjectsBlock,
+  downloads: DownloadsBlockComponent,
+  documentation: DocumentationBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{

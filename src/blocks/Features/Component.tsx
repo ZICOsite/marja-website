@@ -1,8 +1,6 @@
-import React from 'react'
 import type { FeaturesBlock as FeaturesBlockProps } from '@/payload-types'
 import { BadgePercent, Factory, Infinity, ShieldCheck, LucideIcon } from 'lucide-react'
 
-// 1. Создаем карту иконок: "Строка из БД" -> "Компонент Lucide"
 const iconMap: Record<string, LucideIcon> = {
   infinity: Infinity,
   badgePercent: BadgePercent,
@@ -14,13 +12,12 @@ type Props = {
   className?: string
 } & FeaturesBlockProps
 
-export const FeaturesBlock: React.FC<Props> = ({ items }) => {
+export const FeaturesBlock = ({ items }: Props) => {
   return (
     <section className="py-24 bg-background">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {items?.map((item, i) => {
-            // Получаем иконку по ключу. Если ключ не найден, ставим ShieldCheck как запасной
             const IconComponent = item.icon ? iconMap[item.icon] : ShieldCheck
 
             return (

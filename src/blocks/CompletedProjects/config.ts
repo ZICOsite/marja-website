@@ -33,7 +33,7 @@ export const CompletedProjects: Block = {
       relationTo: 'projects',
       hasMany: true,
       required: true,
-      minRows: 1,
+      minRows: 4,
       maxRows: 4,
       label: 'Объекты',
       admin: {

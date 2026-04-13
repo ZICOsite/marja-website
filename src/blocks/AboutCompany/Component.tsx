@@ -1,5 +1,4 @@
 import { ArrowRight, Award, CheckCircle, Factory, LucideIcon, ShieldCheck, Zap } from 'lucide-react'
-import React from 'react'
 
 import type { AboutCompanyBlock as AboutCompanyBlockProps } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
@@ -18,7 +17,7 @@ type Props = {
   className?: string
 } & AboutCompanyBlockProps
 
-export const AboutCompanyBlock: React.FC<Props> = ({
+export const AboutCompanyBlock = ({
   label,
   title,
   titleHighlight,
@@ -28,7 +27,7 @@ export const AboutCompanyBlock: React.FC<Props> = ({
   statLabel,
   features,
   button,
-}) => {
+}: Props) => {
   return (
     <section className="py-24 overflow-hidden">
       <div className="container mx-auto px-4">
@@ -82,24 +81,25 @@ export const AboutCompanyBlock: React.FC<Props> = ({
 
             {features && features.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12">
-                {features.map((feature, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start space-x-4 p-4 bg-white rounded-2xl shadow-sm"
-                  >
-                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                      {React.createElement(iconMap[feature.icon] ?? iconMap.shield, {
-                        className: 'text-blue-600 w-6 h-6',
-                      })}
+                {features.map((feature, i) => {
+                  const Icon = iconMap[feature.icon] ?? iconMap.shield
+                  return (
+                    <div
+                      key={i}
+                      className="flex items-start space-x-4 p-4 bg-white rounded-2xl shadow-sm"
+                    >
+                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Icon className="text-blue-600 w-6 h-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-900 font-sans">{feature.title}</h4>
+                        {feature.description && (
+                          <p className="text-sm text-slate-500">{feature.description}</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 font-sans">{feature.title}</h4>
-                      {feature.description && (
-                        <p className="text-sm text-slate-500">{feature.description}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
 

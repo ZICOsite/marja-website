@@ -1,11 +1,10 @@
-import React from 'react'
 import type { StatsBlock as StatsBlockProps } from '@/payload-types'
 
 type Props = {
   className?: string
 } & StatsBlockProps
 
-export const StatsBlock: React.FC<Props> = ({ items }) => {
+export const StatsBlock = ({ items }: Props) => {
   return (
     <section className="py-20 bg-primary dark:bg-blue-900 relative overflow-hidden">
       <div

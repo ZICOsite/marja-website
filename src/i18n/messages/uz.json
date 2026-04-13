@@ -56,6 +56,11 @@
     "privacyPolicy": "Maxfiylik siyosati",
     "termsOfUse": "Foydalanish shartlari"
   },
+  "downloads": {
+    "name": "Nomi",
+    "size": "Hajmi",
+    "download": "Yuklab olish"
+  },
   "projects": {
     "title": "Bajarilgan ob'ektlar",
     "viewAll": "Barchasini ko'rish",

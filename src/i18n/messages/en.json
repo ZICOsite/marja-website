@@ -56,6 +56,11 @@
     "privacyPolicy": "Privacy Policy",
     "termsOfUse": "Terms of Use"
   },
+  "downloads": {
+    "name": "Name",
+    "size": "Size",
+    "download": "Download"
+  },
   "projects": {
     "title": "Completed Projects",
     "viewAll": "View all",

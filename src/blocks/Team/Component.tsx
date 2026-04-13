@@ -1,4 +1,3 @@
-import React from 'react'
 import { User } from 'lucide-react'
 import type { TeamBlock as TeamBlockProps } from '@/payload-types'
 import { Media } from '@/components/Media'
@@ -7,7 +6,7 @@ type Props = {
   className?: string
 } & TeamBlockProps
 
-export const TeamBlockComponent: React.FC<Props> = ({ heading, text, members }) => {
+export const TeamBlockComponent = ({ heading, text, members }: Props) => {
   return (
     <section className="overflow-hidden">
       <div className="container mx-auto px-4">

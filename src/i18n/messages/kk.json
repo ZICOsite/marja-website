@@ -56,6 +56,11 @@
     "privacyPolicy": "Құпиялылық саясаты",
     "termsOfUse": "Пайдалану шарттары"
   },
+  "downloads": {
+    "name": "Атауы",
+    "size": "Өлшемі",
+    "download": "Жүктеу"
+  },
   "projects": {
     "title": "Орындалған объектілер",
     "viewAll": "Барлығын көру",
