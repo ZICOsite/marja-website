@@ -84,6 +84,8 @@
     "categories": "Категорияҳо",
     "allCategories": "Ҳамаи категорияҳо",
     "foundProducts": "{count} маҳсул ёфт шуд",
+    "filters": "Филтрҳо",
+    "resetFilters": "Тозакунӣ",
     "sortBy": "Тартиб",
     "sort": {
       "default": "Пешфарз",

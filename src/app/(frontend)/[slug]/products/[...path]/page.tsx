@@ -18,6 +18,8 @@ import { ProductTabs } from '@/components/ProductTabs'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
 import { SortBar } from './SortBar'
 import { RelatedProductsSlider } from './RelatedProductsSlider'
+import { AttributeFilters, type FilterAttr } from './AttributeFilters'
+import { getServerSideURL } from '@/utilities/getURL'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -25,7 +27,7 @@ import { RelatedProductsSlider } from './RelatedProductsSlider'
 
 type Args = {
   params: Promise<{ slug: string; path: string[] }>
-  searchParams: Promise<{ sort?: string }>
+  searchParams: Promise<{ sort?: string; f?: string | string[] }>
 }
 
 type BreadcrumbItem = { label?: string | null; url?: string | null }
@@ -41,7 +43,7 @@ export default async function ProductsPathPage({
   searchParams: searchParamsPromise,
 }: Args) {
   const { slug: locale, path } = await paramsPromise
-  const { sort = '' } = await searchParamsPromise
+  const { sort = '', f } = await searchParamsPromise
   setRequestLocale(locale)
 
   const lastSegment = path[path.length - 1]!
@@ -54,7 +56,17 @@ export default async function ProductsPathPage({
   const category = await queryCategoryBySlug({ slug: lastSegment, locale })
   if (!category) return notFound()
 
-  return <CategoryPage category={category} locale={locale} path={path} sort={sort} />
+  const activeFilters: string[] = Array.isArray(f) ? f : f ? [f] : []
+
+  return (
+    <CategoryPage
+      category={category}
+      locale={locale}
+      path={path}
+      sort={sort}
+      activeFilters={activeFilters}
+    />
+  )
 }
 
 // ---------------------------------------------------------------------------
@@ -90,6 +102,32 @@ async function ProductDetailPage({
 
   const groupedSpecs = groupSpecifications(product.specifications ?? [])
 
+  // JSON-LD structured data for Google rich results
+  const productUrl = `${getServerSideURL()}/${locale}/products/${path.join('/')}`
+  const imageUrls = galleryImages.map((img) => img.url)
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    ...(imageUrls.length > 0 && { image: imageUrls }),
+    ...(product.shortDescription && { description: product.shortDescription }),
+    ...(product.sku && { sku: product.sku }),
+    url: productUrl,
+    offers: {
+      '@type': 'Offer',
+      url: productUrl,
+      availability: product.inStock
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition',
+      ...(!product.priceOnRequest &&
+        product.price != null && {
+          price: String(product.price),
+          priceCurrency: product.currency ?? 'UZS',
+        }),
+    },
+  }
+
   const primaryCategory =
     Array.isArray(product.categories) && product.categories.length > 0
       ? (product.categories[0] as { breadcrumbs?: BreadcrumbItem[]; title?: string; slug?: string })
@@ -105,7 +143,12 @@ async function ProductDetailPage({
   ]
 
   return (
-    <div className="py-12">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="py-12">
       <div className="container mx-auto px-4">
         {/* Breadcrumbs */}
         <Breadcrumbs items={breadcrumbs} className="mb-8" />
@@ -201,6 +244,7 @@ async function ProductDetailPage({
         )}
       </div>
     </div>
+    </>
   )
 }
 
@@ -213,20 +257,46 @@ async function CategoryPage({
   locale,
   path,
   sort,
+  activeFilters,
 }: {
   category: Awaited<ReturnType<typeof queryCategoryBySlug>>
   locale: string
   path: string[]
   sort: string
+  activeFilters: string[]
 }) {
   if (!category) return notFound()
   const t = await getTranslations({ locale, namespace: 'products' })
 
-  const [subcategories, products, allCategories] = await Promise.all([
+  const [subcategories, products, allCategories, filterAttrs] = await Promise.all([
     querySubcategories({ parentId: String(category.id), locale }),
     queryProductsByCategory({ categoryId: String(category.id), locale, sort }),
     queryAllCategories({ locale }),
+    queryFilterableAttrs({ categoryId: String(category.id), locale }),
   ])
+
+  // Apply attribute filters client-side (AND between attrs, OR within same attr)
+  const filteredProducts =
+    activeFilters.length === 0
+      ? products
+      : products.filter((p) => {
+          const productTokens = new Set(
+            ((p as { filterValues?: Array<{ value?: string | null }> }).filterValues ?? []).map(
+              (fv) => fv.value ?? '',
+            ),
+          )
+          const bySlug = new Map<string, string[]>()
+          for (const token of activeFilters) {
+            const colonIdx = token.indexOf(':')
+            if (colonIdx === -1) continue
+            const slug = token.slice(0, colonIdx)
+            if (!bySlug.has(slug)) bySlug.set(slug, [])
+            bySlug.get(slug)!.push(token)
+          }
+          return Array.from(bySlug.values()).every((tokens) =>
+            tokens.some((t) => productTokens.has(t)),
+          )
+        })
 
   const tree = buildCategoryTree(allCategories)
 
@@ -292,17 +362,24 @@ async function CategoryPage({
 
         {/* Layout: sidebar слева, товары справа */}
         <div className="flex flex-col lg:flex-row gap-8">
-          <CategorySidebar tree={tree} locale={locale} currentPath={path} />
+          <div className="w-full lg:w-64 shrink-0 space-y-4">
+            <CategorySidebar tree={tree} locale={locale} currentPath={path} />
+            <AttributeFilters
+              attrs={filterAttrs}
+              selected={activeFilters}
+              currentSort={sort}
+            />
+          </div>
 
           {/* Правая часть */}
           <div className="flex-1 min-w-0">
-            <SortBar current={sort} total={products.length} />
+            <SortBar current={sort} total={filteredProducts.length} />
 
-            {products.length === 0 ? (
+            {filteredProducts.length === 0 ? (
               <div className="py-16 text-center text-muted-foreground">{t('noProducts')}</div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                   <ProductCard
                     key={product.id}
                     href={`/${locale}/products/${path.join('/')}/${product.slug}`}
@@ -460,6 +537,73 @@ const queryProductsByCategory = cache(
     })
 
     return result.docs
+  },
+)
+
+const queryFilterableAttrs = cache(
+  async ({ categoryId, locale }: { categoryId: string; locale: string }): Promise<FilterAttr[]> => {
+    const { isEnabled: draft } = await draftMode()
+    const payload = await getPayload({ config: configPromise })
+
+    // Fetch all products in category — only filterValues field
+    const { docs: products } = await payload.find({
+      collection: 'products',
+      draft,
+      limit: 200,
+      pagination: false,
+      overrideAccess: draft,
+      locale: locale as PayloadLocale,
+      where: {
+        and: [
+          { categories: { in: [categoryId] } },
+          ...(draft ? [] : [{ _status: { equals: 'published' } }]),
+        ],
+      },
+      select: { filterValues: true },
+      depth: 0,
+    })
+
+    // Collect unique values per attribute slug
+    const valuesBySlug = new Map<string, Set<string>>()
+    for (const product of products) {
+      const fvs = (product as { filterValues?: Array<{ value?: string | null }> }).filterValues ?? []
+      for (const fv of fvs) {
+        if (!fv.value) continue
+        const colonIdx = fv.value.indexOf(':')
+        if (colonIdx === -1) continue
+        const slug = fv.value.slice(0, colonIdx)
+        const val = fv.value.slice(colonIdx + 1)
+        if (!valuesBySlug.has(slug)) valuesBySlug.set(slug, new Set())
+        valuesBySlug.get(slug)!.add(val)
+      }
+    }
+
+    if (valuesBySlug.size === 0) return []
+
+    // Fetch attribute metadata for found slugs
+    const { docs: attrs } = await payload.find({
+      collection: 'attributes',
+      limit: 50,
+      pagination: false,
+      overrideAccess: true,
+      locale: locale as PayloadLocale,
+      where: {
+        and: [
+          { filterable: { equals: true } },
+          { slug: { in: Array.from(valuesBySlug.keys()) } },
+        ],
+      },
+      depth: 0,
+    })
+
+    return attrs
+      .map((attr) => ({
+        slug: attr.slug,
+        name: typeof attr.name === 'string' ? attr.name : '',
+        unit: attr.unit ?? null,
+        values: Array.from(valuesBySlug.get(attr.slug) ?? []).sort(),
+      }))
+      .filter((a) => a.values.length > 0)
   },
 )
 

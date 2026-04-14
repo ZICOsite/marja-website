@@ -84,6 +84,8 @@
     "categories": "Категории",
     "allCategories": "Все категории",
     "foundProducts": "Найдено товаров: {count}",
+    "filters": "Фильтры",
+    "resetFilters": "Сбросить",
     "sortBy": "Сортировка",
     "sort": {
       "default": "По умолчанию",

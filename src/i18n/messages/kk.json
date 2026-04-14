@@ -84,6 +84,8 @@
     "categories": "Санаттар",
     "allCategories": "Барлық санаттар",
     "foundProducts": "{count} өнім табылды",
+    "filters": "Сүзгілер",
+    "resetFilters": "Тазалау",
     "sortBy": "Сұрыптау",
     "sort": {
       "default": "Әдепкі",

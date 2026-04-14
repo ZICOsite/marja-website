@@ -84,6 +84,8 @@
     "categories": "Categories",
     "allCategories": "All categories",
     "foundProducts": "{count} products found",
+    "filters": "Filters",
+    "resetFilters": "Reset",
     "sortBy": "Sort",
     "sort": {
       "default": "Default",

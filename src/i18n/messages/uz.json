@@ -84,6 +84,8 @@
     "categories": "Kategoriyalar",
     "allCategories": "Barcha kategoriyalar",
     "foundProducts": "{count} ta mahsulot topildi",
+    "filters": "Filtrlar",
+    "resetFilters": "Tozalash",
     "sortBy": "Saralash",
     "sort": {
       "default": "Standart",
