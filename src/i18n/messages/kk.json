@@ -8,16 +8,13 @@
     "loading": "Жүктелуде..."
   },
   "nav": {
-    "toggleMenu": "Мәзірді ашу",
     "search": "Іздеу"
   },
   "post": {
-    "publishedAt": "{date} жарияланды",
     "by": "Автор",
     "datePublished": "Жарияланған күн",
     "copyLink": "Сілтемені көшіру",
-    "linkCopied": "Көшірілді!",
-    "relatedPosts": "Ұқсас мақалалар"
+    "linkCopied": "Көшірілді!"
   },
   "posts": {
     "title": "Мақалалар",
@@ -49,7 +46,7 @@
     "viewSystem": "Жүйені қарау"
   },
   "footer": {
-    "company": "Компания",
+    "pages": "Беттер",
     "products": "Өнімдер",
     "contacts": "Байланыс мәліметтері",
     "copyright": "© {year} MARJA. Барлық құқықтар қорғалған.",
@@ -83,7 +80,6 @@
     "documents": "Құжаттар",
     "downloadDocument": "Құжатты жүктеу",
     "noDocuments": "Құжаттар қосылмаған",
-    "subcategories": "Ішкі санаттар",
     "viewProduct": "Толығырақ",
     "categories": "Санаттар",
     "allCategories": "Барлық санаттар",

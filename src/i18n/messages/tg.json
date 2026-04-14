@@ -8,16 +8,13 @@
     "loading": "Боргузорӣ..."
   },
   "nav": {
-    "toggleMenu": "Кушодани меню",
     "search": "Ҷустуҷӯ"
   },
   "post": {
-    "publishedAt": "Нашр шуд {date}",
     "by": "Муаллиф",
     "datePublished": "Санаи нашр",
     "copyLink": "Нусхабардорӣ кардани пайванд",
-    "linkCopied": "Нусхабардорӣ шуд!",
-    "relatedPosts": "Мақолаҳои монанд"
+    "linkCopied": "Нусхабардорӣ шуд!"
   },
   "posts": {
     "title": "Мақолаҳо",
@@ -49,7 +46,7 @@
     "viewSystem": "Системаро бинед"
   },
   "footer": {
-    "company": "Ширкат",
+    "pages": "Саҳифаҳо",
     "products": "Маҳсулот",
     "contacts": "Маълумоти тамос",
     "copyright": "© {year} MARJA. Ҳамаи ҳуқуқҳо ҳифз шудаанд.",
@@ -83,7 +80,6 @@
     "documents": "Ҳуҷҷатҳо",
     "downloadDocument": "Ҳуҷҷатро зеркашӣ кунед",
     "noDocuments": "Ҳуҷҷатҳо илова нашудаанд",
-    "subcategories": "Зергурӯҳҳо",
     "viewProduct": "Муфассал",
     "categories": "Категорияҳо",
     "allCategories": "Ҳамаи категорияҳо",

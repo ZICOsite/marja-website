@@ -33,40 +33,7 @@ export const Footer: GlobalConfig = {
         },
       },
     },
-    {
-      name: 'companyLinks',
-      label: 'Колонка "Компания"',
-      type: 'array',
-      fields: [
-        link({
-          appearances: false,
-        }),
-      ],
-      localized: true,
-      admin: {
-        initCollapsed: true,
-        components: {
-          RowLabel: '@/Footer/RowLabel#RowLabel',
-        },
-      },
-    },
-    {
-      name: 'productLinks',
-      label: 'Колонка "Продукция"',
-      type: 'array',
-      fields: [
-        link({
-          appearances: false,
-        }),
-      ],
-      localized: true,
-      admin: {
-        initCollapsed: true,
-        components: {
-          RowLabel: '@/Footer/RowLabel#RowLabel',
-        },
-      },
-    },
+
     {
       name: 'privacyPolicy',
       label: 'Политика конфиденциальности',

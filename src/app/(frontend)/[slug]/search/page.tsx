@@ -151,5 +151,5 @@ export default async function Page({ params, searchParams: searchParamsPromise }
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug: locale } = await params
   const t = await getTranslations({ locale, namespace: 'search' })
-  return { title: t('title') }
+  return { title: t('title'), robots: { index: false, follow: false } }
 }

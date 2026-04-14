@@ -8,16 +8,13 @@
     "loading": "Loading..."
   },
   "nav": {
-    "toggleMenu": "Open menu",
     "search": "Search"
   },
   "post": {
-    "publishedAt": "Published on {date}",
     "by": "By",
     "datePublished": "Date Published",
     "copyLink": "Copy link",
-    "linkCopied": "Copied!",
-    "relatedPosts": "Related posts"
+    "linkCopied": "Copied!"
   },
   "posts": {
     "title": "Posts",
@@ -49,7 +46,7 @@
     "viewSystem": "View system"
   },
   "footer": {
-    "company": "Company",
+    "pages": "Pages",
     "products": "Products",
     "contacts": "Contact information",
     "copyright": "© {year} MARJA. All rights reserved.",
@@ -83,7 +80,6 @@
     "documents": "Documents",
     "downloadDocument": "Download document",
     "noDocuments": "No documents added",
-    "subcategories": "Subcategories",
     "viewProduct": "Learn more",
     "categories": "Categories",
     "allCategories": "All categories",

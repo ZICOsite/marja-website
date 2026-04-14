@@ -4,8 +4,11 @@ import './style.css'
 
 import { Mail, MapPin, Phone } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import { unstable_cache } from 'next/cache'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 
-import type { ContactInfo, Footer } from '@/payload-types'
+import type { ContactInfo, Footer, ProductCategory } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
@@ -23,29 +26,53 @@ type Props = {
   locale: string
 }
 
+const getTopLevelCategories = (locale: string) =>
+  unstable_cache(
+    async (): Promise<ProductCategory[]> => {
+      const payload = await getPayload({ config: configPromise })
+      const result = await payload.find({
+        collection: 'product-categories',
+        limit: 8,
+        pagination: false,
+        overrideAccess: false,
+        locale: locale as any,
+        where: {
+          and: [{ parent: { exists: false } }, { _status: { equals: 'published' } }],
+        },
+        depth: 0,
+        select: { title: true, slug: true },
+      })
+      return result.docs as ProductCategory[]
+    },
+    [`footer-categories-${locale}`],
+    { tags: [`global_footer_${locale}`, 'product-categories'] },
+  )
+
 export async function Footer({ locale }: Props) {
   const footerData: Footer = await getCachedGlobal('footer', 1, locale)()
   const contactData = (await getCachedGlobal('contact-info', 0, locale)()) as ContactInfo
+  const categories = await getTopLevelCategories(locale)()
   const t = await getTranslations({ locale, namespace: 'footer' })
 
   const navItems = footerData?.navItems || []
-  const companyLinks = footerData?.companyLinks || []
-  const productLinks = footerData?.productLinks || []
 
   return (
     <footer className="footer mt-auto border-t border-border bg-accent text-accent-foreground dark:bg-card">
       <div className="container py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        {/* Logo + description */}
         <div className="footer__col">
           <Logo />
           {footerData?.description && (
             <p className="footer__col-txt text-balance">{footerData.description}</p>
           )}
         </div>
-        {companyLinks.length > 0 && (
+
+        {/* Site pages (navItems) */}
+        {navItems.length > 0 && (
           <div className="footer__col">
-            <h3 className="footer__col-title">{t('company')}</h3>
+            <h3 className="footer__col-title">{t('pages')}</h3>
             <ul className="footer__col-list">
-              {companyLinks.map(({ link }, i) => (
+              {navItems.map(({ link }, i) => (
                 <li key={i} className="footer__col-item">
                   <CMSLink {...link} locale={locale} />
                 </li>
@@ -53,18 +80,22 @@ export async function Footer({ locale }: Props) {
             </ul>
           </div>
         )}
-        {productLinks.length > 0 && (
+
+        {/* Product categories (dynamic) */}
+        {categories.length > 0 && (
           <div className="footer__col">
             <h3 className="footer__col-title">{t('products')}</h3>
             <ul className="footer__col-list">
-              {productLinks.map(({ link }, i) => (
-                <li key={i} className="footer__col-item">
-                  <CMSLink {...link} locale={locale} />
+              {categories.map((cat) => (
+                <li key={cat.id} className="footer__col-item">
+                  <a href={`/${locale}/products/${cat.slug}`}>{cat.title}</a>
                 </li>
               ))}
             </ul>
           </div>
         )}
+
+        {/* Contact info */}
         {(contactData?.addresses?.length || contactData?.phones?.length || contactData?.email) && (
           <div className="footer__col">
             <h3 className="footer__col-title">{t('contacts')}</h3>
@@ -109,6 +140,7 @@ export async function Footer({ locale }: Props) {
           </div>
         )}
       </div>
+
       <div className="footer__bottom py-8">
         <div className="container flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm">{t('copyright', { year: new Date().getFullYear() })}</p>

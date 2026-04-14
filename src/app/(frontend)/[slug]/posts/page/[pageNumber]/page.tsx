@@ -68,7 +68,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug: locale, pageNumber } = await paramsPromise
   const t = await getTranslations({ locale, namespace: 'posts' })
-  return { title: `${t('title')} — ${t('page', { number: pageNumber })}` }
+  return {
+    title: `${t('title')} — ${t('page', { number: pageNumber })}`,
+    robots: { index: false, follow: true },
+  }
 }
 
 export async function generateStaticParams() {

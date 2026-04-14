@@ -8,7 +8,7 @@ type Props = {
 
 export const TeamBlockComponent = ({ heading, text, members }: Props) => {
   return (
-    <section className="overflow-hidden">
+    <section>
       <div className="container mx-auto px-4">
         {(heading || text) && (
           <div className="max-w-4xl mb-14 mx-auto text-center">

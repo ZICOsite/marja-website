@@ -8,16 +8,13 @@
     "loading": "Загрузка..."
   },
   "nav": {
-    "toggleMenu": "Открыть меню",
     "search": "Поиск"
   },
   "post": {
-    "publishedAt": "Опубликовано {date}",
     "by": "Автор",
     "datePublished": "Дата публикации",
     "copyLink": "Скопировать ссылку",
-    "linkCopied": "Скопировано!",
-    "relatedPosts": "Похожие статьи"
+    "linkCopied": "Скопировано!"
   },
   "posts": {
     "title": "Блог",
@@ -49,7 +46,7 @@
     "viewSystem": "Смотреть систему"
   },
   "footer": {
-    "company": "Компания",
+    "pages": "Страницы",
     "products": "Продукция",
     "contacts": "Контактные данные",
     "copyright": "© {year} MARJA. Все права защищены.",
@@ -83,7 +80,6 @@
     "documents": "Документы",
     "downloadDocument": "Скачать документ",
     "noDocuments": "Документы не добавлены",
-    "subcategories": "Подкатегории",
     "viewProduct": "Подробнее",
     "categories": "Категории",
     "allCategories": "Все категории",

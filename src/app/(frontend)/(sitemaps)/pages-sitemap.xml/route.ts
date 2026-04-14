@@ -33,16 +33,10 @@ const getPagesSitemap = unstable_cache(
 
     const dateFallback = new Date().toISOString()
 
-    const staticPages = locales.flatMap((locale) => [
-      {
-        loc: `${SITE_URL}/${locale}/search`,
-        lastmod: dateFallback,
-      },
-      {
-        loc: `${SITE_URL}/${locale}/posts`,
-        lastmod: dateFallback,
-      },
-    ])
+    const staticPages = locales.map((locale) => ({
+      loc: `${SITE_URL}/${locale}/posts`,
+      lastmod: dateFallback,
+    }))
 
     const sitemap = results.docs
       ? results.docs

@@ -8,16 +8,13 @@
     "loading": "Yuklanmoqda..."
   },
   "nav": {
-    "toggleMenu": "Menyuni ochish",
     "search": "Qidirish"
   },
   "post": {
-    "publishedAt": "{date} da e'lon qilindi",
     "by": "Muallif",
     "datePublished": "E'lon qilingan sana",
     "copyLink": "Havolani nusxalash",
-    "linkCopied": "Nusxalandi!",
-    "relatedPosts": "O'xshash maqolalar"
+    "linkCopied": "Nusxalandi!"
   },
   "posts": {
     "title": "Maqolalar",
@@ -49,7 +46,7 @@
     "viewSystem": "Tizimni ko’rish"
   },
   "footer": {
-    "company": "Kompaniya",
+    "pages": "Sahifalar",
     "products": "Mahsulotlar",
     "contacts": "Aloqa ma'lumotlari",
     "copyright": "© {year} MARJA. Barcha huquqlar himoyalangan.",
@@ -83,7 +80,6 @@
     "documents": "Hujjatlar",
     "downloadDocument": "Hujjatni yuklab olish",
     "noDocuments": "Hujjatlar qo'shilmagan",
-    "subcategories": "Qurilmalar",
     "viewProduct": "Batafsil",
     "categories": "Kategoriyalar",
     "allCategories": "Barcha kategoriyalar",
