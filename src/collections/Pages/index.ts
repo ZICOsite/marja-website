@@ -33,6 +33,7 @@ import { ContactsBlock } from '@/blocks/Contacts/config'
 import { CompletedProjects } from '@/blocks/CompletedProjects/config'
 import { DownloadsBlock } from '@/blocks/Downloads/config'
 import { DocumentationBlock } from '@/blocks/Documentation/config'
+import { CareersBlock } from '@/blocks/Careers/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -88,7 +89,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock, LatestPosts, ContactsBlock, CompletedProjects, DownloadsBlock, DocumentationBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock, LatestPosts, ContactsBlock, CompletedProjects, DownloadsBlock, DocumentationBlock, CareersBlock],
               required: true,
               localized: true,
               admin: {

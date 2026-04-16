@@ -244,6 +244,7 @@ export interface Page {
     | CompletedProjectsBlock
     | DownloadsBlock
     | DocumentationBlock
+    | CareersBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1370,6 +1371,54 @@ export interface DocumentationBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CareersBlock".
+ */
+export interface CareersBlock {
+  heading: string;
+  photo?: (number | null) | Media;
+  sections?:
+    | {
+        title: string;
+        layout?: ('oneColumn' | 'twoColumns') | null;
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        contentRight?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'careers';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1746,6 +1795,7 @@ export interface PagesSelect<T extends boolean = true> {
         completedProjects?: T | CompletedProjectsBlockSelect<T>;
         downloads?: T | DownloadsBlockSelect<T>;
         documentation?: T | DocumentationBlockSelect<T>;
+        careers?: T | CareersBlockSelect<T>;
       };
   meta?:
     | T
@@ -2086,6 +2136,25 @@ export interface DocumentationBlockSelect<T extends boolean = true> {
               file?: T;
               id?: T;
             };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CareersBlock_select".
+ */
+export interface CareersBlockSelect<T extends boolean = true> {
+  heading?: T;
+  photo?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        layout?: T;
+        content?: T;
+        contentRight?: T;
         id?: T;
       };
   id?: T;
