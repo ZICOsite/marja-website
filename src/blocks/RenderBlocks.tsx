@@ -21,6 +21,7 @@ import { CompletedProjectsBlock } from '@/blocks/CompletedProjects/Component'
 import { DownloadsBlockComponent } from '@/blocks/Downloads/Component'
 import { DocumentationBlockComponent } from '@/blocks/Documentation/Component'
 import { CareersBlockComponent } from '@/blocks/Careers/Component'
+import { ReadySolutionsBlockComponent } from '@/blocks/ReadySolutions/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -42,6 +43,7 @@ const blockComponents = {
   downloads: DownloadsBlockComponent,
   documentation: DocumentationBlockComponent,
   careers: CareersBlockComponent,
+  readySolutions: ReadySolutionsBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{

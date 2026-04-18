@@ -59,12 +59,12 @@ export const ContactsBlockComponent = ({
                             href={office.mapUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-muted-foreground hover:text-primary transition-colors font-sans"
+                            className="text-muted-foreground text-balance hover:text-primary transition-colors font-sans"
                           >
                             {office.address}
                           </a>
                         ) : (
-                          <p className="text-muted-foreground">{office.address}</p>
+                          <p className="text-muted-foreground text-balance">{office.address}</p>
                         )}
                         {office.hours && (
                           <p className="text-muted-foreground">{office.hours}</p>

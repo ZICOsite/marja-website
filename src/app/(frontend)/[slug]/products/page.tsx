@@ -10,6 +10,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { CategorySidebar, type CatNode } from './[...path]/CategorySidebar'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 
 type Args = {
   params: Promise<{ slug: string }>
@@ -23,9 +25,10 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
 
   const t = await getTranslations({ locale, namespace: 'products' })
 
-  const [topCategories, allCategories] = await Promise.all([
+  const [topCategories, allCategories, notice] = await Promise.all([
     queryTopLevelCategories({ locale }),
     queryAllCategories({ locale }),
+    getCachedGlobal('products-notice', 0, locale)(),
   ])
 
   const tree = buildCategoryTree(allCategories)
@@ -34,7 +37,15 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
     <div className="py-10">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-8">
-          <CategorySidebar tree={tree} locale={locale} currentPath={[]} />
+          <div className="w-full lg:w-64 shrink-0 flex flex-col gap-4">
+            {notice?.enabled && notice.text && notice.position === 'above' && (
+              <ProductsNoticeCard text={notice.text} />
+            )}
+            <CategorySidebar tree={tree} locale={locale} currentPath={[]} />
+            {notice?.enabled && notice.text && notice.position === 'below' && (
+              <ProductsNoticeCard text={notice.text} />
+            )}
+          </div>
 
           <div className="flex-1 min-w-0">
             <div className="mb-8">

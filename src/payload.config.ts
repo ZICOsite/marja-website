@@ -20,6 +20,7 @@ import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { ContactInfo } from './ContactInfo/config'
+import { ProductsNotice } from './ProductsNotice/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -100,7 +101,7 @@ export default buildConfig({
     Users,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, ContactInfo],
+  globals: [Header, Footer, ContactInfo, ProductsNotice],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

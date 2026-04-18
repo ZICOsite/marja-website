@@ -130,11 +130,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     'contact-info': ContactInfo;
+    'products-notice': ProductsNotice;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
+    'products-notice': ProductsNoticeSelect<false> | ProductsNoticeSelect<true>;
   };
   locale: 'uz' | 'ru' | 'en' | 'tg' | 'kk';
   widgets: {
@@ -245,6 +247,7 @@ export interface Page {
     | DownloadsBlock
     | DocumentationBlock
     | CareersBlock
+    | ReadySolutionsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1419,6 +1422,31 @@ export interface CareersBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReadySolutionsBlock".
+ */
+export interface ReadySolutionsBlock {
+  title: string;
+  description?: string | null;
+  tabs?:
+    | {
+        label: string;
+        schemeImage?: (number | null) | Media;
+        sections?:
+          | {
+              title: string;
+              content?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'readySolutions';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1796,6 +1824,7 @@ export interface PagesSelect<T extends boolean = true> {
         downloads?: T | DownloadsBlockSelect<T>;
         documentation?: T | DocumentationBlockSelect<T>;
         careers?: T | CareersBlockSelect<T>;
+        readySolutions?: T | ReadySolutionsBlockSelect<T>;
       };
   meta?:
     | T
@@ -2155,6 +2184,30 @@ export interface CareersBlockSelect<T extends boolean = true> {
         layout?: T;
         content?: T;
         contentRight?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ReadySolutionsBlock_select".
+ */
+export interface ReadySolutionsBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  tabs?:
+    | T
+    | {
+        label?: T;
+        schemeImage?: T;
+        sections?:
+          | T
+          | {
+              title?: T;
+              content?: T;
+              id?: T;
+            };
         id?: T;
       };
   id?: T;
@@ -2905,6 +2958,21 @@ export interface ContactInfo {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products-notice".
+ */
+export interface ProductsNotice {
+  id: number;
+  enabled?: boolean | null;
+  position?: ('above' | 'below') | null;
+  /**
+   * Текст отображается в карточке-подсказке на странице каталога
+   */
+  text?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -2986,6 +3054,18 @@ export interface ContactInfoSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products-notice_select".
+ */
+export interface ProductsNoticeSelect<T extends boolean = true> {
+  enabled?: T;
+  position?: T;
+  text?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -38,7 +38,7 @@ export const CategorySidebar: React.FC<Props> = ({ tree, locale, currentPath }) 
       </button>
 
       <aside
-        className={`${mobileOpen ? 'block' : 'hidden'} lg:block w-full lg:w-64 shrink-0`}
+        className={`${mobileOpen ? 'block' : 'hidden'} lg:block w-full`}
       >
         <div className="rounded-2xl border border-border bg-background overflow-hidden sticky top-24">
           <div className="px-4 py-3 border-b border-border bg-sidebar-accent/40">
@@ -51,11 +51,10 @@ export const CategorySidebar: React.FC<Props> = ({ tree, locale, currentPath }) 
             {/* Ссылка на все товары */}
             <Link
               href={`/${locale}/products`}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
-                currentPath.length === 0
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${currentPath.length === 0
                   ? 'bg-primary/10 text-primary font-semibold'
                   : 'text-muted-foreground hover:bg-sidebar-accent hover:text-foreground'
-              }`}
+                }`}
             >
               {t('allCategories')}
             </Link>
@@ -97,11 +96,10 @@ function CategoryNode({
   return (
     <div>
       <div
-        className={`flex items-center gap-1 rounded-lg transition-colors ${
-          isActive
+        className={`flex items-center gap-1 rounded-lg transition-colors ${isActive
             ? 'bg-primary/10 text-primary'
             : 'hover:bg-sidebar-accent'
-        }`}
+          }`}
       >
         <Link
           href={`/${locale}/products${node.breadcrumbUrl}`}

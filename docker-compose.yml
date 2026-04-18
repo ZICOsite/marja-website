@@ -1,31 +1,39 @@
-version: '3'
-
 services:
-  payload:
-    image: node:18-alpine
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        PAYLOAD_SECRET: ${PAYLOAD_SECRET}
+        NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL}
+        CRON_SECRET: ${CRON_SECRET}
+        PREVIEW_SECRET: ${PREVIEW_SECRET}
     ports:
       - '3000:3000'
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
-    depends_on:
-      - mongo
     env_file:
       - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
 
-  mongo:
-    image: mongo:latest
+  postgres:
+    image: postgres:16-alpine
     ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: marja-website
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres} -d marja-website']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
 volumes:
-  data:
-  node_modules:
+  pgdata:
