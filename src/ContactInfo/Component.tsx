@@ -23,7 +23,7 @@ export const TopBar = async ({ locale }: Props) => {
               {data.email}
             </a>
           )}
-          {address &&
+          {address?.label &&
             (address.url ? (
               <a
                 href={address.url}
@@ -42,7 +42,7 @@ export const TopBar = async ({ locale }: Props) => {
             ))}
         </div>
         <div className="topBar__right flex items-center gap-3 text-[12px] md:text-sm flex-wrap">
-          {phone && (
+          {phone?.number && (
             <a href={`tel:${phone.number}`} className="flex items-center gap-1.5">
               <Phone className="shrink-0" size={16} />
               {phone.number}

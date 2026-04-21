@@ -36,13 +36,14 @@ const getTopLevelCategories = (locale: string) =>
         pagination: false,
         overrideAccess: false,
         locale: locale as any,
+        fallbackLocale: false,
         where: {
           and: [{ parent: { exists: false } }, { _status: { equals: 'published' } }],
         },
         depth: 0,
         select: { title: true, slug: true },
       })
-      return result.docs as ProductCategory[]
+      return (result.docs as ProductCategory[]).filter((cat) => cat.title)
     },
     [`footer-categories-${locale}`],
     { tags: [`global_footer_${locale}`, 'product-categories'] },
@@ -100,7 +101,7 @@ export async function Footer({ locale }: Props) {
           <div className="footer__col">
             <h3 className="footer__col-title">{t('contacts')}</h3>
             <ul className="footer__col-list">
-              {contactData?.addresses?.map((item, i) => (
+              {contactData?.addresses?.filter((item) => item.label).map((item, i) => (
                 <li key={i} className="footer__col-item">
                   {item.url ? (
                     <a
@@ -120,7 +121,7 @@ export async function Footer({ locale }: Props) {
                   )}
                 </li>
               ))}
-              {contactData?.phones?.map((item, i) => (
+              {contactData?.phones?.filter((item) => item.number).map((item, i) => (
                 <li key={i} className="footer__col-item">
                   <a href={`tel:${item.number}`} className="flex gap-1.5 text-balance">
                     <Phone className="shrink-0 mt-1" size={16} />

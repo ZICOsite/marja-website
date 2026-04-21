@@ -7,8 +7,7 @@ import React from 'react'
 import PageClient from './page.client'
 import { ProjectCard } from './ProjectCard'
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 type Args = {
   params: Promise<{ slug: string }>

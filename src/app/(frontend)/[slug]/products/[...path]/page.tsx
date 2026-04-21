@@ -198,7 +198,7 @@ async function ProductDetailPage({
             hasDescription={!!product.description}
             description={
               product.description ? (
-                <RichText data={product.description} enableGutter={false} />
+                <RichText data={product.description} enableGutter={false} locale={locale} />
               ) : undefined
             }
             specGroups={groupedSpecs}

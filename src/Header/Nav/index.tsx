@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import type { Header as HeaderType } from '@/payload-types'
+import type { Header as HeaderType, ProductCategory } from '@/payload-types'
 
 import Link from 'next/link'
 import { SearchIcon, Menu } from 'lucide-react'
@@ -102,11 +102,13 @@ const renderMenuItem = (item: MenuItem) => {
 
   return (
     <NavigationMenuItem key={item.title}>
-      <NavigationMenuLink
-        href={item.url}
-        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground font-sans"
-      >
-        {item.title}
+      <NavigationMenuLink asChild>
+        <Link
+          href={item.url}
+          className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground font-sans"
+        >
+          {item.title}
+        </Link>
       </NavigationMenuLink>
     </NavigationMenuItem>
   )
@@ -129,15 +131,15 @@ const renderMobileMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <a key={item.title} href={item.url} className="text-md font-semibold">
+    <Link key={item.title} href={item.url} className="text-md font-semibold">
       {item.title}
-    </a>
+    </Link>
   )
 }
 
 const SubMenuLink = ({ item }: { item: MenuItem }) => {
   return (
-    <a
+    <Link
       className="flex min-w-80 flex-row gap-4 rounded-md py-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground"
       href={item.url}
     >
@@ -148,7 +150,7 @@ const SubMenuLink = ({ item }: { item: MenuItem }) => {
           <p className="text-sm leading-snug text-muted-foreground">{item.description}</p>
         )}
       </div>
-    </a>
+    </Link>
   )
 }
 
@@ -167,24 +169,47 @@ function buildHref(link: NavLink | null | undefined, locale: string): string {
       link.reference.relationTo !== 'pages' ? `/${link.reference.relationTo}` : ''
     return `${prefix}${collectionPrefix}/${link.reference.value.slug}`
   }
-  return link?.url || '#'
+  const url = link?.url || '#'
+  if (url.startsWith('/') && !url.startsWith(`/${locale}/`) && url !== `/${locale}`) {
+    return `/${locale}${url}`
+  }
+  return url
 }
 
-export const HeaderNav: React.FC<{ data: HeaderType; locale: string }> = ({ data, locale }) => {
+export const HeaderNav: React.FC<{
+  data: HeaderType
+  locale: string
+  categories: ProductCategory[]
+}> = ({ data, locale, categories }) => {
   const navItems = data?.navItems || []
   const t = useTranslations('nav')
 
-  const menu: MenuItem[] = navItems.map((item) => ({
-    title: item.link?.label || '',
-    url: buildHref(item.link, locale),
-    items: item.subLinks?.length
-      ? item.subLinks.map((sub) => ({
-          title: sub.link?.label || '',
-          url: buildHref(sub.link, locale),
-          description: sub.description || undefined,
-        }))
-      : undefined,
-  }))
+  const catalogItem: MenuItem | null =
+    categories.length > 0
+      ? {
+          title: t('catalog'),
+          url: `/${locale}/products`,
+          items: categories.map((cat) => ({
+            title: cat.title || '',
+            url: `/${locale}/products/${cat.slug}`,
+          })),
+        }
+      : null
+
+  const menu: MenuItem[] = [
+    ...(catalogItem ? [catalogItem] : []),
+    ...navItems.map((item) => ({
+      title: item.link?.label || '',
+      url: buildHref(item.link, locale),
+      items: item.subLinks?.length
+        ? item.subLinks.map((sub) => ({
+            title: sub.link?.label || '',
+            url: buildHref(sub.link, locale),
+            description: sub.description || undefined,
+          }))
+        : undefined,
+    })),
+  ]
 
   return (
     <nav className="flex gap-3 items-center">

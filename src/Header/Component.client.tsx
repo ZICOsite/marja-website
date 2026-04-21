@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-import type { Header } from '@/payload-types'
+import type { Header, ProductCategory } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
@@ -12,9 +12,10 @@ import { HeaderNav } from './Nav'
 interface HeaderClientProps {
   data: Header
   locale: string
+  categories: ProductCategory[]
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale, categories }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -36,7 +37,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
         <Link href={`/${locale}`}>
           <Logo className="logo" />
         </Link>
-        <HeaderNav data={data} locale={locale} />
+        <HeaderNav data={data} locale={locale} categories={categories} />
       </div>
     </header>
   )

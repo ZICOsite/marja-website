@@ -1,9 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/navigation'
 import { ArrowRight } from 'lucide-react'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import {
   Carousel,
   CarouselContent,
@@ -46,6 +46,7 @@ export const PopularProductsBlock = ({
   viewAllLink,
 }: Props) => {
   const t = useTranslations('products')
+  const locale = useLocale()
 
   const populated = (products ?? []).filter(
     (p): p is ProductItem => typeof p === 'object' && p !== null,
@@ -97,7 +98,7 @@ export const PopularProductsBlock = ({
                   className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                 >
                   <Link
-                    href={`/products/${product.slug ?? ''}`}
+                    href={`/${locale}/products/${product.slug ?? ''}`}
                     className="group rounded-2xl overflow-hidden border border-border hover:border-[var(--primary)] transition-colors bg-background flex flex-col h-full"
                   >
                     <div className="relative h-52 overflow-hidden bg-sidebar-accent shrink-0">

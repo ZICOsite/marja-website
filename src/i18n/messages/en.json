@@ -8,7 +8,8 @@
     "loading": "Loading..."
   },
   "nav": {
-    "search": "Search"
+    "search": "Search",
+    "catalog": "Catalog"
   },
   "post": {
     "by": "By",
