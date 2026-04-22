@@ -35,6 +35,10 @@ import { DownloadsBlock } from '@/blocks/Downloads/config'
 import { DocumentationBlock } from '@/blocks/Documentation/config'
 import { CareersBlock } from '@/blocks/Careers/config'
 import { ReadySolutionsBlock } from '@/blocks/ReadySolutions/config'
+import { WarrantyIntroBlock } from '@/blocks/WarrantyIntro/config'
+import { MarketingAnalysisBlock } from '@/blocks/MarketingAnalysis/config'
+import { CompanyGrowthBlock } from '@/blocks/CompanyGrowth/config'
+import { WarrantyFeaturesBlock } from '@/blocks/WarrantyFeatures/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -90,7 +94,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock, LatestPosts, ContactsBlock, CompletedProjects, DownloadsBlock, DocumentationBlock, CareersBlock, ReadySolutionsBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock, LatestPosts, ContactsBlock, CompletedProjects, DownloadsBlock, DocumentationBlock, CareersBlock, ReadySolutionsBlock, WarrantyIntroBlock, MarketingAnalysisBlock, CompanyGrowthBlock, WarrantyFeaturesBlock],
               required: true,
               localized: true,
               admin: {

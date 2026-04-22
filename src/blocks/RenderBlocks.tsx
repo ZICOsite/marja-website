@@ -22,6 +22,10 @@ import { DownloadsBlockComponent } from '@/blocks/Downloads/Component'
 import { DocumentationBlockComponent } from '@/blocks/Documentation/Component'
 import { CareersBlockComponent } from '@/blocks/Careers/Component'
 import { ReadySolutionsBlockComponent } from '@/blocks/ReadySolutions/Component'
+import { WarrantyIntroBlockComponent } from '@/blocks/WarrantyIntro/Component'
+import { MarketingAnalysisBlockComponent } from '@/blocks/MarketingAnalysis/Component'
+import { CompanyGrowthBlockComponent } from '@/blocks/CompanyGrowth/Component'
+import { WarrantyFeaturesBlockComponent } from '@/blocks/WarrantyFeatures/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -44,6 +48,10 @@ const blockComponents = {
   documentation: DocumentationBlockComponent,
   careers: CareersBlockComponent,
   readySolutions: ReadySolutionsBlockComponent,
+  warrantyIntro: WarrantyIntroBlockComponent,
+  marketingAnalysis: MarketingAnalysisBlockComponent,
+  companyGrowth: CompanyGrowthBlockComponent,
+  warrantyFeatures: WarrantyFeaturesBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{

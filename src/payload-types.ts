@@ -248,6 +248,10 @@ export interface Page {
     | DocumentationBlock
     | CareersBlock
     | ReadySolutionsBlock
+    | WarrantyIntroBlock
+    | MarketingAnalysisBlock
+    | CompanyGrowthBlock
+    | WarrantyFeaturesBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1447,6 +1451,84 @@ export interface ReadySolutionsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WarrantyIntroBlock".
+ */
+export interface WarrantyIntroBlock {
+  heading: string;
+  text: string;
+  years?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'warrantyIntro';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MarketingAnalysisBlock".
+ */
+export interface MarketingAnalysisBlock {
+  heading?: string | null;
+  series1Label?: string | null;
+  series2Label?: string | null;
+  items?:
+    | {
+        year: string;
+        description?: string | null;
+        value1?: number | null;
+        value2?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'marketingAnalysis';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CompanyGrowthBlock".
+ */
+export interface CompanyGrowthBlock {
+  label?: string | null;
+  heading: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  achievements?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'companyGrowth';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WarrantyFeaturesBlock".
+ */
+export interface WarrantyFeaturesBlock {
+  heading: string;
+  description?: string | null;
+  backgroundImage?: (number | null) | Media;
+  items?:
+    | {
+        icon?: ('shieldCheck' | 'factory' | 'users' | 'star' | 'award' | 'badgeCheck') | null;
+        title: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'warrantyFeatures';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1825,6 +1907,10 @@ export interface PagesSelect<T extends boolean = true> {
         documentation?: T | DocumentationBlockSelect<T>;
         careers?: T | CareersBlockSelect<T>;
         readySolutions?: T | ReadySolutionsBlockSelect<T>;
+        warrantyIntro?: T | WarrantyIntroBlockSelect<T>;
+        marketingAnalysis?: T | MarketingAnalysisBlockSelect<T>;
+        companyGrowth?: T | CompanyGrowthBlockSelect<T>;
+        warrantyFeatures?: T | WarrantyFeaturesBlockSelect<T>;
       };
   meta?:
     | T
@@ -2208,6 +2294,80 @@ export interface ReadySolutionsBlockSelect<T extends boolean = true> {
               content?: T;
               id?: T;
             };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WarrantyIntroBlock_select".
+ */
+export interface WarrantyIntroBlockSelect<T extends boolean = true> {
+  heading?: T;
+  text?: T;
+  years?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MarketingAnalysisBlock_select".
+ */
+export interface MarketingAnalysisBlockSelect<T extends boolean = true> {
+  heading?: T;
+  series1Label?: T;
+  series2Label?: T;
+  items?:
+    | T
+    | {
+        year?: T;
+        description?: T;
+        value1?: T;
+        value2?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CompanyGrowthBlock_select".
+ */
+export interface CompanyGrowthBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  description?: T;
+  image?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  achievements?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WarrantyFeaturesBlock_select".
+ */
+export interface WarrantyFeaturesBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  backgroundImage?: T;
+  items?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
         id?: T;
       };
   id?: T;
