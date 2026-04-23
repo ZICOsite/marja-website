@@ -1,5 +1,6 @@
 import { ShieldCheck, Factory, Users, Star, Award, BadgeCheck, type LucideIcon } from 'lucide-react'
 import { Media } from '@/components/Media'
+import type { Media as MediaType } from '@/payload-types'
 
 const iconMap: Record<string, LucideIcon> = {
   shieldCheck: ShieldCheck,
@@ -8,13 +9,6 @@ const iconMap: Record<string, LucideIcon> = {
   star: Star,
   award: Award,
   badgeCheck: BadgeCheck,
-}
-
-type MediaType = {
-  url?: string | null
-  alt?: string | null
-  width?: number | null
-  height?: number | null
 }
 
 type Item = {
@@ -57,7 +51,7 @@ export function WarrantyFeaturesBlockComponent({
       <div className="relative z-10 container">
         <div className="max-w-2xl mx-auto text-center mb-16">
           {heading && (
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-white mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-white mb-4 text-balance">
               {heading}
             </h2>
           )}
@@ -78,7 +72,7 @@ export function WarrantyFeaturesBlockComponent({
                   <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mb-5">
                     <Icon className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-white font-semibold text-lg leading-snug">{item.title}</h3>
+                  <h3 className="text-white font-semibold text-lg leading-snug text-balance">{item.title}</h3>
                 </div>
               )
             })}

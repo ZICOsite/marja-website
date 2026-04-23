@@ -31,7 +31,7 @@ export const flattenSpecifications: CollectionBeforeChangeHook = async ({ data, 
     req,
   })
 
-  data.filterValues = (attrs as AttrDoc[]).flatMap((attr) => {
+  data.filterValues = (attrs as unknown as AttrDoc[]).flatMap((attr) => {
     const spec = (data.specifications as SpecItem[]).find((s) => s.attribute === attr.id)
     if (!spec?.value) return []
     return [{ value: `${attr.slug}:${spec.value}` }]

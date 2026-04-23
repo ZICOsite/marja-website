@@ -239,7 +239,6 @@ export const Products: CollectionConfig<'products'> = {
               filterOptions: ({ id }) => ({ id: { not_in: [id] } }),
               admin: {
                 description: 'Похожие и сопутствующие товары, отображаются внизу страницы',
-                initCollapsed: true,
               },
             },
           ],

@@ -1,12 +1,6 @@
 import { CheckCircle2 } from 'lucide-react'
 import { Media } from '@/components/Media'
-
-type MediaType = {
-  url?: string | null
-  alt?: string | null
-  width?: number | null
-  height?: number | null
-}
+import type { Media as MediaType } from '@/payload-types'
 
 type Stat = {
   id?: string | null

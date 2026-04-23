@@ -6,7 +6,8 @@ type HomeArgs = {
   metaImage: Media
 }
 
-export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const home: (args: HomeArgs) => any = ({
   heroImage,
   metaImage,
 }) => {

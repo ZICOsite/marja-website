@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { CategorySidebar, type CatNode } from './[...path]/CategorySidebar'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
+import type { ProductsNotice } from '@/payload-types'
 
 type Args = {
   params: Promise<{ slug: string }>
@@ -28,7 +29,7 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
   const [topCategories, allCategories, notice] = await Promise.all([
     queryTopLevelCategories({ locale }),
     queryAllCategories({ locale }),
-    getCachedGlobal('products-notice', 0, locale)(),
+    getCachedGlobal('products-notice', 0, locale)() as Promise<ProductsNotice>,
   ])
 
   const tree = buildCategoryTree(allCategories)

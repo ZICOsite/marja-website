@@ -1,7 +1,7 @@
 'use client'
 
 import { BarChart, Bar, XAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { useId } from 'react'
+import { useId, useEffect, useState } from 'react'
 
 type Item = {
   id?: string | null
@@ -56,6 +56,8 @@ const COLOR_2_BOT = '#3b82f6'
 
 export function MarketingAnalysisBlockComponent({ heading, series1Label, series2Label, items }: Props) {
   const uid = useId()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
   const grad1 = `grad1-${uid}`
   const grad2 = `grad2-${uid}`
 
@@ -95,9 +97,9 @@ export function MarketingAnalysisBlockComponent({ heading, series1Label, series2
             ))}
           </div>
 
-          <div className="w-full lg:w-3/5 rounded-3xl border border-border bg-card p-6 md:p-8">
+          <div className="w-full lg:w-3/5 rounded-3xl border border-border bg-card p-6 md:p-8 sticky top-30">
             <div className="h-72 lg:h-80">
-              <ResponsiveContainer width="100%" height="100%">
+              {mounted && <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} barCategoryGap="40%" barGap={0}>
                   <defs>
                     <linearGradient id={grad1} x1="0" y1="0" x2="0" y2="1">
@@ -126,7 +128,7 @@ export function MarketingAnalysisBlockComponent({ heading, series1Label, series2
                   <Bar dataKey={key1} stackId="a" fill={`url(#${grad1})`} radius={[0, 0, 6, 6]} maxBarSize={60} />
                   <Bar dataKey={key2} stackId="a" fill={`url(#${grad2})`} radius={[6, 6, 0, 0]} maxBarSize={60} />
                 </BarChart>
-              </ResponsiveContainer>
+              </ResponsiveContainer>}
             </div>
 
             <div className="flex items-center justify-center gap-6 mt-4">

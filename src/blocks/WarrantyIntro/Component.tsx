@@ -8,7 +8,7 @@ type Props = {
 
 export function WarrantyIntroBlockComponent({ heading, text, years }: Props) {
   return (
-    <section className="py-24 bg-background">
+    <section className="pb-24">
       <div className="container">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1 max-w-2xl">
