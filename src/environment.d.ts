@@ -7,6 +7,12 @@ declare global {
       VERCEL_PROJECT_PRODUCTION_URL: string
       CRON_SECRET: string
       PREVIEW_SECRET: string
+      // Telegram notifications
+      TELEGRAM_BOT_TOKEN?: string
+      TELEGRAM_CHAT_ID?: string
+      // CRM integration (set when credentials are available)
+      CRM_API_URL?: string
+      CRM_API_KEY?: string
     }
   }
 }

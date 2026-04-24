@@ -9,6 +9,8 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
+import { sendTelegramNotification } from '@/services/notifications/telegram'
+import { sendToCRM } from '@/services/notifications/crm'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -78,6 +80,21 @@ export const plugins: Plugin[] = [
           }
           return field
         })
+      },
+    },
+    formSubmissionOverrides: {
+      hooks: {
+        afterChange: [
+          async ({ doc, operation }) => {
+            if (operation !== 'create') return
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const submission = doc as any
+            Promise.all([
+              sendTelegramNotification(submission),
+              sendToCRM(submission),
+            ]).catch((err) => console.error('[FormSubmission] Notification error:', err))
+          },
+        ],
       },
     },
   }),
