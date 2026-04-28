@@ -39,6 +39,10 @@ import { WarrantyIntroBlock } from '@/blocks/WarrantyIntro/config'
 import { MarketingAnalysisBlock } from '@/blocks/MarketingAnalysis/config'
 import { CompanyGrowthBlock } from '@/blocks/CompanyGrowth/config'
 import { WarrantyFeaturesBlock } from '@/blocks/WarrantyFeatures/config'
+import { LeanIntroBlock } from '@/blocks/LeanIntro/config'
+import { LeanPrinciplesBlock } from '@/blocks/LeanPrinciples/config'
+import { LeanToolsBlock } from '@/blocks/LeanTools/config'
+import { LeanResultsBlock } from '@/blocks/LeanResults/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -94,7 +98,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock, LatestPosts, ContactsBlock, CompletedProjects, DownloadsBlock, DocumentationBlock, CareersBlock, ReadySolutionsBlock, WarrantyIntroBlock, MarketingAnalysisBlock, CompanyGrowthBlock, WarrantyFeaturesBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock, LatestPosts, ContactsBlock, CompletedProjects, DownloadsBlock, DocumentationBlock, CareersBlock, ReadySolutionsBlock, WarrantyIntroBlock, MarketingAnalysisBlock, CompanyGrowthBlock, WarrantyFeaturesBlock, LeanIntroBlock, LeanPrinciplesBlock, LeanToolsBlock, LeanResultsBlock],
               required: true,
               localized: true,
               admin: {

@@ -252,6 +252,10 @@ export interface Page {
     | MarketingAnalysisBlock
     | CompanyGrowthBlock
     | WarrantyFeaturesBlock
+    | LeanIntroBlock
+    | LeanPrinciplesBlock
+    | LeanToolsBlock
+    | LeanResultsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1529,6 +1533,102 @@ export interface WarrantyFeaturesBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeanIntroBlock".
+ */
+export interface LeanIntroBlock {
+  label?: string | null;
+  heading: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  points?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'leanIntro';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeanPrinciplesBlock".
+ */
+export interface LeanPrinciplesBlock {
+  heading: string;
+  description?: string | null;
+  principles?:
+    | {
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'leanPrinciples';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeanToolsBlock".
+ */
+export interface LeanToolsBlock {
+  heading: string;
+  description?: string | null;
+  tools?:
+    | {
+        icon?:
+          | (
+              | 'layers'
+              | 'trendingUp'
+              | 'layoutGrid'
+              | 'gauge'
+              | 'wrench'
+              | 'barChart'
+              | 'target'
+              | 'shuffle'
+              | 'activity'
+              | 'shieldCheck'
+            )
+          | null;
+        name: string;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'leanTools';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeanResultsBlock".
+ */
+export interface LeanResultsBlock {
+  heading: string;
+  description?: string | null;
+  stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  comparisons?:
+    | {
+        metric: string;
+        before: string;
+        after: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'leanResults';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1911,6 +2011,10 @@ export interface PagesSelect<T extends boolean = true> {
         marketingAnalysis?: T | MarketingAnalysisBlockSelect<T>;
         companyGrowth?: T | CompanyGrowthBlockSelect<T>;
         warrantyFeatures?: T | WarrantyFeaturesBlockSelect<T>;
+        leanIntro?: T | LeanIntroBlockSelect<T>;
+        leanPrinciples?: T | LeanPrinciplesBlockSelect<T>;
+        leanTools?: T | LeanToolsBlockSelect<T>;
+        leanResults?: T | LeanResultsBlockSelect<T>;
       };
   meta?:
     | T
@@ -2368,6 +2472,85 @@ export interface WarrantyFeaturesBlockSelect<T extends boolean = true> {
     | {
         icon?: T;
         title?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeanIntroBlock_select".
+ */
+export interface LeanIntroBlockSelect<T extends boolean = true> {
+  label?: T;
+  heading?: T;
+  description?: T;
+  image?: T;
+  points?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeanPrinciplesBlock_select".
+ */
+export interface LeanPrinciplesBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  principles?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeanToolsBlock_select".
+ */
+export interface LeanToolsBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  tools?:
+    | T
+    | {
+        icon?: T;
+        name?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeanResultsBlock_select".
+ */
+export interface LeanResultsBlockSelect<T extends boolean = true> {
+  heading?: T;
+  description?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  comparisons?:
+    | T
+    | {
+        metric?: T;
+        before?: T;
+        after?: T;
         id?: T;
       };
   id?: T;

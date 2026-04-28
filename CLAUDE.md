@@ -40,28 +40,45 @@ This is a **Payload CMS v3 + Next.js 15** full-stack application using the App R
     - `[contentSlug]/` — Dynamic CMS pages (e.g. `/uz/about`). `page.tsx` queries Payload by slug and locale.
     - `posts/` — Blog list and paginated routes (`posts/page/[pageNumber]/`).
     - `posts/[postSlug]/` — Individual blog post.
+    - `products/[...path]/` — Catchall that resolves to either a **product detail page** or a **category listing page** by checking if the last path segment matches a product slug first, then a category slug. Category pages include a sidebar tree, attribute filters, and sort controls.
+    - `projects/` — Completed projects gallery.
     - `search/` — Site search.
+  - `(sitemaps)/` — XML sitemaps for pages, posts, products, and product-categories.
 - `src/app/(payload)/` — Payload admin panel and REST/GraphQL API routes.
 
 ### Payload CMS Core
 
 - `src/payload.config.ts` — Central config: database, collections, globals, plugins, live preview breakpoints.
-- `src/collections/` — Schema definitions for Pages, Posts, Media, Categories, Users.
-- `src/globals/` (Header, Footer) — Site-wide singleton data via `src/Header/` and `src/Footer/`.
-- `src/blocks/` — Layout builder blocks (Hero, Content, Archive, CTA, Form, Banner, Code, MediaBlock, RelatedPosts) used in the Pages collection.
+- `src/collections/` — Schema definitions:
+  - **Pages**, **Posts** — CMS content with layout builder and drafts.
+  - **Products** — E-commerce products with specs, gallery, documents, pricing (`price`/`currency`/`priceOnRequest`), and `filterValues` (auto-computed from filterable specs via `flattenSpecifications` hook).
+  - **ProductCategories** — Nested categories (uses Nested Docs plugin); each category has breadcrumbs auto-generated.
+  - **AttributeGroups**, **Attributes** — Define product specification attributes; `filterable: true` on an attribute enables faceted filtering in the category listing.
+  - **Reviews** — Public can submit (`create: anyone`); only `approved: true` reviews are publicly visible.
+  - **Projects** — Completed project gallery with photo uploads.
+  - **Media**, **Categories**, **Users**.
+- `src/globals/` — Singletons:
+  - **Header**, **Footer** — Site-wide nav/footer data.
+  - **ContactInfo** — Email, phones, addresses (used in top bar and contact sections).
+  - **ProductsNotice** — Site-wide product notice banner.
+- `src/blocks/` — Layout builder blocks registered in the Pages collection. Current blocks: ArchiveBlock, Banner, Code, Content, Form, MediaBlock, Features, Statistics, Solutions, AboutCompany, Clients, PopularProducts, Timeline, Team, LatestPosts, CallToAction, Contacts, CompletedProjects, Downloads, Documentation, Careers, ReadySolutions, WarrantyIntro, MarketingAnalysis, CompanyGrowth, WarrantyFeatures.
 - `src/fields/` — Reusable custom field definitions (defaultLexical rich text, link, linkGroup).
 - `src/hooks/` — Payload lifecycle hooks: cache revalidation on save/delete, author auto-population.
-- `src/access/` — Access control functions (authenticated, published content checks, etc.).
+- `src/access/` — Access control functions (anyone, authenticated, authenticatedOrPublished).
 - `src/plugins/index.ts` — Plugin setup: SEO, Search, Redirects, Form Builder, Nested Docs.
 - `src/endpoints/` — Custom API endpoints (e.g., seed).
 - `src/search/` — Search plugin field synchronization customization.
 
 ### Frontend
 
-- `src/components/` — React UI: Admin Bar, Media, Forms, RichText renderer, shadcn/ui wrappers.
+- `src/components/` — React UI: Admin Bar, Media, Forms, RichText renderer, shadcn/ui wrappers, ProductCard, ProductGallery, ProductTabs, Breadcrumbs, etc.
 - `src/providers/` — React context providers (theme, etc.).
 - `src/utilities/` — URL generation (`generatePreviewPath`), metadata helpers, formatting.
 - `src/heros/` — Hero variations used by the layout builder.
+
+### Product Attribute/Filter System
+
+Products link to `Attributes` via a `specifications` array. Each attribute can be marked `filterable: true`. The `flattenSpecifications` hook (runs `beforeChange`) writes `filterValues` as `"attrSlug:value"` tokens used for faceted filtering on category pages. When adding filterable attributes, the `filterValues` field is read-only in admin (auto-computed).
 
 ### Database
 
@@ -88,9 +105,19 @@ PREVIEW_SECRET           # Validates draft preview tokens
 
 - **Type aliases**: `@/*` → `src/*`, `@payload-config` → `src/payload.config.ts`.
 - **Generated types**: After changing collections/fields, run `pnpm generate:types` to update `src/payload-types.ts`.
-- **Revalidation**: Frontend pages are revalidated via Next.js cache tags in hooks under `src/hooks/revalidate*`.
-- **Draft preview**: Posts and Pages support draft versioning; preview URL uses `PREVIEW_SECRET`.
+- **Revalidation**: Frontend pages are revalidated via Next.js cache tags in hooks under `src/hooks/revalidate*` and per-collection `hooks/revalidate*.ts` files.
+- **Draft preview**: Posts, Pages, and Products support draft versioning; preview URL uses `PREVIEW_SECRET`.
 - **Cursor rules**: Detailed Payload CMS reference docs are in `.cursor/rules/` (access control, hooks, fields, security, etc.) — consult these for Payload-specific patterns.
+
+## Single Test Commands
+
+```bash
+# Run one integration test file
+pnpm test:int tests/int/my-test.int.spec.ts
+
+# Run one e2e test file
+pnpm test:e2e tests/e2e/my-test.spec.ts
+```
 
 ## Critical Security Rules (from `.cursor/rules/security-critical.mdc`)
 
@@ -122,14 +149,4 @@ async ({ doc, req, context }) => {
   if (context.skipHooks) return
   await req.payload.update({ ..., context: { skipHooks: true }, req })
 }
-```
-
-## Single Test Commands
-
-```bash
-# Run one integration test file
-pnpm test:int tests/int/my-test.int.spec.ts
-
-# Run one e2e test file
-pnpm test:e2e tests/e2e/my-test.spec.ts
 ```

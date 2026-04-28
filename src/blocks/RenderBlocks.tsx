@@ -26,6 +26,10 @@ import { WarrantyIntroBlockComponent } from '@/blocks/WarrantyIntro/Component'
 import { MarketingAnalysisBlockComponent } from '@/blocks/MarketingAnalysis/Component'
 import { CompanyGrowthBlockComponent } from '@/blocks/CompanyGrowth/Component'
 import { WarrantyFeaturesBlockComponent } from '@/blocks/WarrantyFeatures/Component'
+import { LeanIntroBlockComponent } from '@/blocks/LeanIntro/Component'
+import { LeanPrinciplesBlockComponent } from '@/blocks/LeanPrinciples/Component'
+import { LeanToolsBlockComponent } from '@/blocks/LeanTools/Component'
+import { LeanResultsBlockComponent } from '@/blocks/LeanResults/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -52,6 +56,10 @@ const blockComponents = {
   marketingAnalysis: MarketingAnalysisBlockComponent,
   companyGrowth: CompanyGrowthBlockComponent,
   warrantyFeatures: WarrantyFeaturesBlockComponent,
+  leanIntro: LeanIntroBlockComponent,
+  leanPrinciples: LeanPrinciplesBlockComponent,
+  leanTools: LeanToolsBlockComponent,
+  leanResults: LeanResultsBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{
