@@ -8,10 +8,10 @@ import { CMSLink } from '@/components/Link'
 
 export const CallToActionBlock = ({ title, titleTag = 'h2', links, richText }: CTABlockProps) => {
   const t = useTranslations()
-  
+
   return (
-    <div className="container">
-      <div className="CallToAction">
+    <div className="CallToAction">
+      <div className="container">
         <div className="CallToAction__content max-w-3xl">
           <p className="bg-[var(--primary)] px-3 py-1 text-white text-xs font-bold uppercase tracking-widest rounded-full">
             {t('cta.abovetitle')}

@@ -107,7 +107,7 @@ PREVIEW_SECRET           # Validates draft preview tokens
 - **Generated types**: After changing collections/fields, run `pnpm generate:types` to update `src/payload-types.ts`.
 - **Revalidation**: Frontend pages are revalidated via Next.js cache tags in hooks under `src/hooks/revalidate*` and per-collection `hooks/revalidate*.ts` files.
 - **Draft preview**: Posts, Pages, and Products support draft versioning; preview URL uses `PREVIEW_SECRET`.
-- **Cursor rules**: Detailed Payload CMS reference docs are in `.cursor/rules/` (access control, hooks, fields, security, etc.) — consult these for Payload-specific patterns.
+- **Payload CMS reference docs**: Detailed docs are in `.claude/skills/payload/reference/` — FIELDS.md, HOOKS.md, QUERIES.md, ACCESS-CONTROL.md, ACCESS-CONTROL-ADVANCED.md, COLLECTIONS.md, ENDPOINTS.md, ADAPTERS.md, ADVANCED.md, PLUGIN-DEVELOPMENT.md. Consult these for Payload-specific patterns.
 
 ## Single Test Commands
 
@@ -119,7 +119,7 @@ pnpm test:int tests/int/my-test.int.spec.ts
 pnpm test:e2e tests/e2e/my-test.spec.ts
 ```
 
-## Critical Security Rules (from `.cursor/rules/security-critical.mdc`)
+## Critical Security Rules
 
 ### 1. Local API access control is bypassed by default
 

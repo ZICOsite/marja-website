@@ -48,7 +48,7 @@ export function LeanResultsBlockComponent({ heading, description, stats, compari
                   <div className="text-4xl md:text-5xl font-bold font-heading mb-2">
                     {stat.value}
                   </div>
-                  <div className="text-blue-100 text-sm font-medium uppercase tracking-widest">
+                  <div className="text-blue-100 text-[10px] md:text-[12px] xl:text-sm font-medium uppercase tracking-widest text-balance">
                     {stat.label}
                   </div>
                 </div>

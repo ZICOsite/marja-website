@@ -19,7 +19,7 @@ export function Marquee({
   return (
     <div
       className={cn(
-        'w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]',
+        'w-full overflow-hidden dark:bg-blue-100 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]',
         className,
       )}
       {...props}

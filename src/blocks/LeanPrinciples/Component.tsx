@@ -34,13 +34,13 @@ export function LeanPrinciplesBlockComponent({ heading, description, principles 
             {validPrinciples.map((principle, index) => (
               <div
                 key={index}
-                className="group relative bg-background dark:bg-card rounded-2xl p-7 border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300"
+                className="group relative bg-background dark:bg-card rounded-2xl p-6 border border-border hover:border-primary/40 hover:shadow-xl transition-all duration-300"
               >
-                <div className="text-7xl font-bold font-heading text-primary/8 dark:text-primary/10 leading-none mb-4 select-none">
+                <div className="text-7xl font-bold font-heading text-primary/8 dark:text-primary/50 leading-none mb-4 select-none">
                   {String(index + 1).padStart(2, '0')}
                 </div>
                 <div className="w-8 h-0.5 bg-[var(--primary)] mb-4 group-hover:w-12 transition-all duration-300" />
-                <h3 className="font-bold font-heading text-foreground mb-2 leading-snug">
+                <h3 className="font-bold font-heading text-foreground mb-2 leading-snug font-sans">
                   {principle.title}
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">

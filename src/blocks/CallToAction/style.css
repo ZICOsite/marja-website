@@ -1,4 +1,6 @@
 .CallToAction {
+  padding-bottom: 64px;
+
   .CallToAction__content {
     display: flex;
     flex-direction: column;
