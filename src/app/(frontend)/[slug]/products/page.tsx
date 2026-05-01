@@ -62,7 +62,7 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
                   const imgUrl =
                     typeof cat.image === 'object' && cat.image?.url ? cat.image.url : null
                   const imgAlt =
-                    typeof cat.image === 'object' && (cat.image as { alt?: string }).alt
+                    typeof cat.image === 'object' && cat.image !== null && (cat.image as { alt?: string }).alt
                       ? (cat.image as { alt?: string }).alt
                       : cat.title
 

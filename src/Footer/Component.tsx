@@ -131,7 +131,7 @@ export async function Footer({ locale }: Props) {
               ))}
               {contactData?.email && (
                 <li className="footer__col-item">
-                  <a href={`mailto:${contactData.email}`} className="flex gap-1.5 text-balance">
+                  <a href={`mailto:${contactData.email}`} className="flex gap-1.5 text-balance font-sans">
                     <Mail className="shrink-0 mt-1" size={16} />
                     {contactData.email}
                   </a>

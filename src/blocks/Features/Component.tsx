@@ -1,9 +1,9 @@
 import type { FeaturesBlock as FeaturesBlockProps } from '@/payload-types'
-import { BadgePercent, Factory, Infinity, ShieldCheck, LucideIcon } from 'lucide-react'
+import { HandCoins, Factory, Infinity, ShieldCheck, LucideIcon } from 'lucide-react'
 
 const iconMap: Record<string, LucideIcon> = {
   infinity: Infinity,
-  badgePercent: BadgePercent,
+  badgePercent: HandCoins,
   shieldCheck: ShieldCheck,
   factory: Factory,
 }

@@ -86,7 +86,6 @@ export function ProductTabs({
             {labels.documents}
           </TabsTrigger>
         </TabsList>
-        <div className="absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-background pointer-events-none" />
       </div>
 
       {/* Описание */}

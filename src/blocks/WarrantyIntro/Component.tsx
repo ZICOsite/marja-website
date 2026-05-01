@@ -16,7 +16,7 @@ export function WarrantyIntroBlockComponent({ heading, text, years }: Props) {
               <h2 className="text-4xl md:text-5xl font-bold font-heading mb-8">{heading}</h2>
             )}
             {text && (
-              <p className="text-muted-foreground text-lg leading-relaxed whitespace-pre-line">
+              <p className="text-muted-foreground text-lg leading-relaxed whitespace-pre-line text-justify">
                 {text}
               </p>
             )}

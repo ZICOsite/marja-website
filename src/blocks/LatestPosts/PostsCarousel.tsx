@@ -43,7 +43,7 @@ export function PostsCarousel({ posts, locale }: Props) {
               : null
 
           const categoryTitles = (post.categories ?? [])
-            .filter((c): c is { title?: string | null } => typeof c === 'object')
+            .filter((c): c is { title?: string | null } => typeof c === 'object' && c !== null)
             .map((c) => c.title)
             .filter(Boolean)
             .join(', ')

@@ -17,7 +17,7 @@ export const ArchiveBlock = async (props: ArchiveBlockProps & { id?: string }) =
     const payload = await getPayload({ config: configPromise })
 
     const flattenedCategories = categories?.map((category) => {
-      if (typeof category === 'object') return category.id
+      if (typeof category === 'object' && category !== null) return category.id
       else return category
     })
 

@@ -71,7 +71,13 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
     setLightboxOpen(true)
   }
 
-  if (images.length === 0) return null
+  if (images.length === 0) {
+    return (
+      <div className="w-full rounded-2xl aspect-square bg-sidebar-accent flex items-center justify-center">
+        <span className="text-muted-foreground text-sm">No image</span>
+      </div>
+    )
+  }
 
   const hasSingle = images.length === 1
 

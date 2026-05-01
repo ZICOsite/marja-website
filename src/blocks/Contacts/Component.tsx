@@ -107,7 +107,7 @@ export const ContactsBlockComponent = ({
                     <div>
                       <a
                         href={`mailto:${email}`}
-                        className="font-semibold hover:text-primary transition-colors"
+                        className="font-semibold hover:text-primary transition-colors font-sans"
                       >
                         {email}
                       </a>

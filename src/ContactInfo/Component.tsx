@@ -18,7 +18,7 @@ export const TopBar = async ({ locale }: Props) => {
       <div className="container flex items-center justify-between flex-wrap gap-4">
         <div className="topBar__left flex items-center gap-3 text-[12px] md:text-sm flex-wrap">
           {data?.email && (
-            <a href={`mailto:${data.email}`} className="flex items-center gap-1.5">
+            <a href={`mailto:${data.email}`} className="flex items-center gap-1.5 font-sans">
               <Mail className="shrink-0" size={16} />
               {data.email}
             </a>

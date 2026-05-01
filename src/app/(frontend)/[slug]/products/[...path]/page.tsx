@@ -94,9 +94,9 @@ async function ProductDetailPage({
     ...(heroImage ? [heroImage] : []),
     ...(Array.isArray(product.gallery)
       ? product.gallery.flatMap((item) => {
-          const img = typeof item.image === 'object' ? item.image : null
-          return img?.url ? [{ url: img.url, alt: img.alt }] : []
-        })
+        const img = typeof item.image === 'object' ? item.image : null
+        return img?.url ? [{ url: img.url, alt: img.alt }] : []
+      })
       : []),
   ]
 
@@ -122,9 +122,9 @@ async function ProductDetailPage({
       itemCondition: 'https://schema.org/NewCondition',
       ...(!product.priceOnRequest &&
         product.price != null && {
-          price: String(product.price),
-          priceCurrency: product.currency ?? 'UZS',
-        }),
+        price: String(product.price),
+        priceCurrency: product.currency ?? 'UZS',
+      }),
     },
   }
 
@@ -149,101 +149,100 @@ async function ProductDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="py-12">
-      <div className="container mx-auto px-4">
-        {/* Breadcrumbs */}
-        <Breadcrumbs items={breadcrumbs} className="mb-8" />
+        <div className="container mx-auto px-4">
+          {/* Breadcrumbs */}
+          <Breadcrumbs items={breadcrumbs} className="mb-8" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Галерея */}
-          <ProductGallery images={galleryImages} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            {/* Галерея */}
+            <ProductGallery images={galleryImages} />
 
-          {/* Информация */}
-          <div>
-            {product.sku && (
-              <p className="text-sm text-muted-foreground mb-2">
-                {t('sku')}: <span className="font-mono">{product.sku}</span>
-              </p>
-            )}
-            <h1 className="text-3xl md:text-4xl font-bold font-heading mb-4">{product.title}</h1>
-
-            <span
-              className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mb-6 ${
-                product.inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-              }`}
-            >
-              {product.inStock ? t('inStock') : t('outOfStock')}
-            </span>
-
-            {(product.priceOnRequest || product.price != null) && (
-              <div className="mb-6">
-                <p className="text-3xl font-bold text-primary">
-                  {product.priceOnRequest
-                    ? t('priceOnRequest')
-                    : `${(product.price as number).toLocaleString()} ${product.currency ?? 'UZS'}`}
+            {/* Информация */}
+            <div>
+              {product.sku && (
+                <p className="text-sm text-muted-foreground mb-2">
+                  {t('sku')}: <span className="font-mono">{product.sku}</span>
                 </p>
-              </div>
-            )}
-
-            {product.shortDescription && (
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                {product.shortDescription}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Табы: Описание / Характеристики / Документация */}
-        <div className="mb-16">
-          <ProductTabs
-            hasDescription={!!product.description}
-            description={
-              product.description ? (
-                <RichText data={product.description} enableGutter={false} locale={locale} />
-              ) : undefined
-            }
-            specGroups={groupedSpecs}
-            productTitle={product.title}
-            standardLabel={product.standardLabel}
-            qualityNote={product.qualityNote}
-            warrantyNote={product.warrantyNote}
-            documents={(product.documents ?? []).map((doc) => ({
-              category: doc.category,
-              files: (doc.files ?? []).map((f) => {
-                const file = typeof f.file === 'object' ? f.file : null
-                return {
-                  label: f.label,
-                  fileUrl: file?.url ?? null,
-                  filename: file?.filename ?? null,
-                }
-              }),
-            }))}
-            labels={{
-              description: t('description'),
-              specifications: t('specifications'),
-              documents: t('documents'),
-              noDocuments: t('noDocuments'),
-              downloadDocument: t('downloadDocument'),
-              specIndicator: t('specIndicator'),
-              specIndicatorValue: t('specIndicatorValue'),
-              specActualValues: t('specActualValues'),
-            }}
-          />
-        </div>
-
-        {/* Похожие товары */}
-        {Array.isArray(product.relatedProducts) && product.relatedProducts.length > 0 && (
-          <div>
-            <h2 className="text-2xl font-bold font-heading mb-6">{t('relatedProducts')}</h2>
-            <RelatedProductsSlider
-              products={product.relatedProducts.filter(
-                (r): r is Extract<typeof r, object> => typeof r === 'object',
               )}
-              locale={locale}
+              <h1 className="text-3xl md:text-4xl font-bold font-heading mb-4">{product.title}</h1>
+
+              <span
+                className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mb-6 ${product.inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                  }`}
+              >
+                {product.inStock ? t('inStock') : t('outOfStock')}
+              </span>
+
+              {(product.priceOnRequest || product.price != null) && (
+                <div className="mb-6">
+                  <p className="text-3xl font-bold text-primary">
+                    {product.priceOnRequest
+                      ? t('priceOnRequest')
+                      : `${(product.price as number).toLocaleString()} ${product.currency ?? 'UZS'}`}
+                  </p>
+                </div>
+              )}
+
+              {product.shortDescription && (
+                <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                  {product.shortDescription}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Табы: Описание / Характеристики / Документация */}
+          <div className="mb-16">
+            <ProductTabs
+              hasDescription={!!product.description}
+              description={
+                product.description ? (
+                  <RichText data={product.description} enableGutter={false} locale={locale} />
+                ) : undefined
+              }
+              specGroups={groupedSpecs}
+              productTitle={product.title}
+              standardLabel={product.standardLabel}
+              qualityNote={product.qualityNote}
+              warrantyNote={product.warrantyNote}
+              documents={(product.documents ?? []).map((doc) => ({
+                category: doc.category,
+                files: (doc.files ?? []).map((f) => {
+                  const file = typeof f.file === 'object' ? f.file : null
+                  return {
+                    label: f.label,
+                    fileUrl: file?.url ?? null,
+                    filename: file?.filename ?? null,
+                  }
+                }),
+              }))}
+              labels={{
+                description: t('description'),
+                specifications: t('specifications'),
+                documents: t('documents'),
+                noDocuments: t('noDocuments'),
+                downloadDocument: t('downloadDocument'),
+                specIndicator: t('specIndicator'),
+                specIndicatorValue: t('specIndicatorValue'),
+                specActualValues: t('specActualValues'),
+              }}
             />
           </div>
-        )}
+
+          {/* Похожие товары */}
+          {Array.isArray(product.relatedProducts) && product.relatedProducts.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-bold font-heading mb-6">{t('relatedProducts')}</h2>
+              <RelatedProductsSlider
+                products={product.relatedProducts.filter(
+                  (r): r is Extract<typeof r, object> => typeof r === 'object',
+                )}
+                locale={locale}
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   )
 }
@@ -280,23 +279,23 @@ async function CategoryPage({
     activeFilters.length === 0
       ? products
       : products.filter((p) => {
-          const productTokens = new Set(
-            ((p as { filterValues?: Array<{ value?: string | null }> }).filterValues ?? []).map(
-              (fv) => fv.value ?? '',
-            ),
-          )
-          const bySlug = new Map<string, string[]>()
-          for (const token of activeFilters) {
-            const colonIdx = token.indexOf(':')
-            if (colonIdx === -1) continue
-            const slug = token.slice(0, colonIdx)
-            if (!bySlug.has(slug)) bySlug.set(slug, [])
-            bySlug.get(slug)!.push(token)
-          }
-          return Array.from(bySlug.values()).every((tokens) =>
-            tokens.some((t) => productTokens.has(t)),
-          )
-        })
+        const productTokens = new Set(
+          ((p as { filterValues?: Array<{ value?: string | null }> }).filterValues ?? []).map(
+            (fv) => fv.value ?? '',
+          ),
+        )
+        const bySlug = new Map<string, string[]>()
+        for (const token of activeFilters) {
+          const colonIdx = token.indexOf(':')
+          if (colonIdx === -1) continue
+          const slug = token.slice(0, colonIdx)
+          if (!bySlug.has(slug)) bySlug.set(slug, [])
+          bySlug.get(slug)!.push(token)
+        }
+        return Array.from(bySlug.values()).every((tokens) =>
+          tokens.some((t) => productTokens.has(t)),
+        )
+      })
 
   const tree = buildCategoryTree(allCategories)
 
@@ -304,16 +303,16 @@ async function CategoryPage({
     { label: t('catalog'), url: `/${locale}/products` },
     ...(Array.isArray(category.breadcrumbs)
       ? category.breadcrumbs.map((b: BreadcrumbItem) => ({
-          label: b.label,
-          url: `/${locale}/products${b.url}`,
-        }))
+        label: b.label,
+        url: `/${locale}/products${b.url}`,
+      }))
       : [{ label: category.title, url: null }]),
   ]
 
   const imgUrl =
     typeof category.image === 'object' && category.image?.url ? category.image.url : null
   const imgAlt =
-    typeof category.image === 'object'
+    typeof category.image === 'object' && category.image !== null
       ? ((category.image as { alt?: string }).alt ?? category.title)
       : category.title
 

@@ -65,27 +65,33 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
     <>
       <div className="group relative rounded-2xl overflow-hidden border border-border hover:border-[var(--primary)] transition-colors bg-background cursor-zoom-in">
         {/* Слайдер */}
-        <Carousel setApi={setApi} opts={{ loop: images.length > 1 }} className="w-full">
-          <CarouselContent className="-ml-0">
-            {images.map((img, i) => (
-              <CarouselItem key={i} className="pl-0">
-                <div
-                  className="relative h-64 overflow-hidden bg-sidebar-accent"
-                  onClick={() => { setLightboxIndex(i); setLightboxOpen(true) }}
-                >
-                  <Image
-                    src={img.url}
-                    alt={img.alt ?? project.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    priority={i === 0}
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+        {images.length === 0 ? (
+          <div className="h-64 bg-sidebar-accent flex items-center justify-center">
+            <span className="text-muted-foreground text-sm">No image</span>
+          </div>
+        ) : (
+          <Carousel setApi={setApi} opts={{ loop: images.length > 1 }} className="w-full">
+            <CarouselContent className="-ml-0">
+              {images.map((img, i) => (
+                <CarouselItem key={i} className="pl-0">
+                  <div
+                    className="relative h-64 overflow-hidden bg-sidebar-accent"
+                    onClick={() => { setLightboxIndex(i); setLightboxOpen(true) }}
+                  >
+                    <Image
+                      src={img.url}
+                      alt={img.alt ?? project.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      priority={i === 0}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        )}
 
         {/* Hover-оверлей с заголовком и описанием */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-5 bg-gradient-to-t from-black/80 via-black/50 to-transparent translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
