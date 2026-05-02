@@ -61,13 +61,14 @@ This is a **Payload CMS v3 + Next.js 15** full-stack application using the App R
   - **Header**, **Footer** — Site-wide nav/footer data.
   - **ContactInfo** — Email, phones, addresses (used in top bar and contact sections).
   - **ProductsNotice** — Site-wide product notice banner.
-- `src/blocks/` — Layout builder blocks registered in the Pages collection. Current blocks: ArchiveBlock, Banner, Code, Content, Form, MediaBlock, Features, Statistics, Solutions, AboutCompany, Clients, PopularProducts, Timeline, Team, LatestPosts, CallToAction, Contacts, CompletedProjects, Downloads, Documentation, Careers, ReadySolutions, WarrantyIntro, MarketingAnalysis, CompanyGrowth, WarrantyFeatures.
+- `src/blocks/` — Layout builder blocks registered in the Pages collection. Current blocks: ArchiveBlock, Banner, Code, Content, Form, MediaBlock, Features, Statistics, Solutions, AboutCompany, Clients, PopularProducts, Timeline, Team, LatestPosts, CallToAction, Contacts, CompletedProjects, Downloads, Documentation, Careers, ReadySolutions, WarrantyIntro, MarketingAnalysis, CompanyGrowth, WarrantyFeatures, LeanIntro, LeanPrinciples, LeanTools, LeanResults.
 - `src/fields/` — Reusable custom field definitions (defaultLexical rich text, link, linkGroup).
 - `src/hooks/` — Payload lifecycle hooks: cache revalidation on save/delete, author auto-population.
 - `src/access/` — Access control functions (anyone, authenticated, authenticatedOrPublished).
 - `src/plugins/index.ts` — Plugin setup: SEO, Search, Redirects, Form Builder, Nested Docs.
 - `src/endpoints/` — Custom API endpoints (e.g., seed).
 - `src/search/` — Search plugin field synchronization customization.
+- `src/services/notifications/` — External notification integrations triggered on form submission: `telegram.ts` (posts to a Telegram bot) and `crm.ts` (pushes leads to an external CRM).
 
 ### Frontend
 
@@ -86,8 +87,8 @@ PostgreSQL via `@payloadcms/db-postgres`. Migrations managed with `pnpm payload 
 
 ### Testing
 
-- Integration tests: `tests/int/**/*.int.spec.ts` (Vitest, jsdom)
-- E2E tests: `tests/e2e/` (Playwright, Chromium, dev server at `http://localhost:3000`)
+- Integration tests: `tests/int/**/*.int.spec.ts` (Vitest, jsdom). Helpers in `tests/helpers/` (`login.ts`, `seedUser.ts`).
+- E2E tests: `tests/e2e/` (Playwright, Chromium, dev server at `http://localhost:3000`).
 
 ## Environment Variables
 
@@ -99,6 +100,9 @@ PAYLOAD_SECRET           # JWT/encryption secret
 NEXT_PUBLIC_SERVER_URL   # Base URL, no trailing slash (e.g. http://localhost:3000)
 CRON_SECRET              # Authenticates cron job requests
 PREVIEW_SECRET           # Validates draft preview tokens
+TELEGRAM_BOT_TOKEN       # Telegram bot token for form submission notifications
+TELEGRAM_CHAT_ID         # Telegram chat ID to receive notifications
+CRM_WEBHOOK_URL          # Make.com webhook URL — forwards form submissions to amoCRM
 ```
 
 ## Key Patterns
@@ -107,6 +111,7 @@ PREVIEW_SECRET           # Validates draft preview tokens
 - **Generated types**: After changing collections/fields, run `pnpm generate:types` to update `src/payload-types.ts`.
 - **Revalidation**: Frontend pages are revalidated via Next.js cache tags in hooks under `src/hooks/revalidate*` and per-collection `hooks/revalidate*.ts` files.
 - **Draft preview**: Posts, Pages, and Products support draft versioning; preview URL uses `PREVIEW_SECRET`.
+- **Standalone output**: `next.config.js` uses `output: 'standalone'` — the production build is self-contained for containerized deployment.
 - **Payload CMS reference docs**: Detailed docs are in `.claude/skills/payload/reference/` — FIELDS.md, HOOKS.md, QUERIES.md, ACCESS-CONTROL.md, ACCESS-CONTROL-ADVANCED.md, COLLECTIONS.md, ENDPOINTS.md, ADAPTERS.md, ADVANCED.md, PLUGIN-DEVELOPMENT.md. Consult these for Payload-specific patterns.
 
 ## Single Test Commands

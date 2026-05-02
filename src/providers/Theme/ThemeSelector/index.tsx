@@ -47,15 +47,15 @@ export const ThemeSelector: React.FC = () => {
       >
         {icons[value] ?? <Monitor className="w-4 h-4" />}
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="min-w-0 w-18">
         <SelectItem value="auto">
-          <span className="flex items-center gap-2"><Monitor className="w-4 h-4" /> Auto</span>
+          <Monitor className="w-4 h-4" /><span className="sr-only">Auto</span>
         </SelectItem>
         <SelectItem value="light">
-          <span className="flex items-center gap-2"><Sun className="w-4 h-4" /> Light</span>
+          <Sun className="w-4 h-4" /><span className="sr-only">Light</span>
         </SelectItem>
         <SelectItem value="dark">
-          <span className="flex items-center gap-2"><Moon className="w-4 h-4" /> Dark</span>
+          <Moon className="w-4 h-4" /><span className="sr-only">Dark</span>
         </SelectItem>
       </SelectContent>
     </Select>
