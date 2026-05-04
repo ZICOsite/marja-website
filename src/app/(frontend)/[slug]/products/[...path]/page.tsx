@@ -20,6 +20,9 @@ import { SortBar } from './SortBar'
 import { RelatedProductsSlider } from './RelatedProductsSlider'
 import { AttributeFilters, type FilterAttr } from './AttributeFilters'
 import { getServerSideURL } from '@/utilities/getURL'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import { ProductsNoticeCard } from '@/ProductsNotice/Component'
+import type { ProductsNotice } from '@/payload-types'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -267,11 +270,12 @@ async function CategoryPage({
   if (!category) return notFound()
   const t = await getTranslations({ locale, namespace: 'products' })
 
-  const [subcategories, products, allCategories, filterAttrs] = await Promise.all([
+  const [subcategories, products, allCategories, filterAttrs, notice] = await Promise.all([
     querySubcategories({ parentId: String(category.id), locale }),
     queryProductsByCategory({ categoryId: String(category.id), locale, sort }),
     queryAllCategories({ locale }),
     queryFilterableAttrs({ categoryId: String(category.id), locale }),
+    getCachedGlobal('products-notice', 0, locale)() as Promise<ProductsNotice>,
   ])
 
   // Apply attribute filters client-side (AND between attrs, OR within same attr)
@@ -344,8 +348,8 @@ async function CategoryPage({
           </div>
         )}
 
-        {/* Подкатегории */}
-        {subcategories.length > 0 && (
+        {/* Подкатегории как pills — только когда есть прямые товары */}
+        {subcategories.length > 0 && filteredProducts.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-8">
             {subcategories.map((sub) => (
               <Link
@@ -361,39 +365,91 @@ async function CategoryPage({
 
         {/* Layout: sidebar слева, товары справа */}
         <div className="flex flex-col lg:flex-row gap-8">
-          <div className="w-full lg:w-64 shrink-0 space-y-4">
+          <div className="w-full lg:w-64 shrink-0 flex flex-col gap-4">
+            {notice?.enabled && notice.text && notice.position === 'above' && (
+              <ProductsNoticeCard text={notice.text} />
+            )}
             <CategorySidebar tree={tree} locale={locale} currentPath={path} />
-            <AttributeFilters
-              attrs={filterAttrs}
-              selected={activeFilters}
-              currentSort={sort}
-            />
+            {filteredProducts.length > 0 && (
+              <AttributeFilters
+                attrs={filterAttrs}
+                selected={activeFilters}
+                currentSort={sort}
+              />
+            )}
+            {notice?.enabled && notice.text && notice.position === 'below' && (
+              <ProductsNoticeCard text={notice.text} />
+            )}
           </div>
 
           {/* Правая часть */}
           <div className="flex-1 min-w-0">
-            <SortBar current={sort} total={filteredProducts.length} />
-
-            {filteredProducts.length === 0 ? (
-              <div className="py-16 text-center text-muted-foreground">{t('noProducts')}</div>
-            ) : (
+            {filteredProducts.length > 0 ? (
+              <>
+                <SortBar current={sort} total={filteredProducts.length} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                  {filteredProducts.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      href={`/${locale}/products/${path.join('/')}/${product.slug}`}
+                      title={product.title}
+                      sku={product.sku}
+                      inStock={product.inStock}
+                      heroImage={product.heroImage}
+                      shortDescription={product.shortDescription}
+                      price={product.price as number | null}
+                      priceOnRequest={product.priceOnRequest}
+                      currency={product.currency}
+                      locale={locale}
+                    />
+                  ))}
+                </div>
+              </>
+            ) : subcategories.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                {filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    href={`/${locale}/products/${path.join('/')}/${product.slug}`}
-                    title={product.title}
-                    sku={product.sku}
-                    inStock={product.inStock}
-                    heroImage={product.heroImage}
-                    shortDescription={product.shortDescription}
-                    price={product.price as number | null}
-                    priceOnRequest={product.priceOnRequest}
-                    currency={product.currency}
-                    locale={locale}
-                  />
-                ))}
+                {subcategories.map((sub) => {
+                  const imgUrl =
+                    typeof sub.image === 'object' && sub.image?.url ? sub.image.url : null
+                  const imgAlt =
+                    typeof sub.image === 'object' && sub.image !== null
+                      ? ((sub.image as { alt?: string }).alt ?? sub.title)
+                      : sub.title
+                  return (
+                    <Link
+                      key={sub.id}
+                      href={`/${locale}/products/${path.join('/')}/${sub.slug}`}
+                      className="group rounded-2xl overflow-hidden border border-border hover:border-primary transition-colors bg-background flex flex-col"
+                    >
+                      <div className="relative h-52 overflow-hidden bg-sidebar-accent shrink-0">
+                        {imgUrl ? (
+                          <Image
+                            src={imgUrl}
+                            alt={imgAlt || sub.title}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="h-full bg-gradient-to-br from-primary/10 to-primary/5" />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                      </div>
+                      <div className="p-5 flex flex-col flex-1">
+                        <h2 className="text-lg font-bold font-heading group-hover:text-primary transition-colors">
+                          {sub.title}
+                        </h2>
+                        {sub.description && (
+                          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                            {sub.description}
+                          </p>
+                        )}
+                      </div>
+                    </Link>
+                  )
+                })}
               </div>
+            ) : (
+              <div className="py-16 text-center text-muted-foreground">{t('noProducts')}</div>
             )}
           </div>
         </div>
@@ -495,7 +551,7 @@ const querySubcategories = cache(
           ...(draft ? [] : [{ _status: { equals: 'published' } }]),
         ],
       },
-      depth: 0,
+      depth: 1,
     })
 
     return result.docs

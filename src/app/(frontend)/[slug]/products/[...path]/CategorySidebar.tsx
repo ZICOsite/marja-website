@@ -52,8 +52,8 @@ export const CategorySidebar: React.FC<Props> = ({ tree, locale, currentPath }) 
             <Link
               href={`/${locale}/products`}
               className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${currentPath.length === 0
-                  ? 'bg-primary/10 text-primary font-semibold'
-                  : 'text-muted-foreground hover:bg-sidebar-accent hover:text-foreground'
+                ? 'bg-primary/10 text-primary font-semibold'
+                : 'text-muted-foreground hover:bg-sidebar-accent hover:text-foreground'
                 }`}
             >
               {t('allCategories')}
@@ -97,8 +97,8 @@ function CategoryNode({
     <div>
       <div
         className={`flex items-center gap-1 rounded-lg transition-colors ${isActive
-            ? 'bg-primary/10 text-primary'
-            : 'hover:bg-sidebar-accent'
+          ? 'bg-primary/10 text-primary'
+          : 'hover:bg-sidebar-accent'
           }`}
       >
         <Link

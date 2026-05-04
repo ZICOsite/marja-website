@@ -1,7 +1,7 @@
 import { MessageCircleWarning } from 'lucide-react'
 
 type Props = {
-  text: string
+  text?: string
 }
 
 export function ProductsNoticeCard({ text }: Props) {
