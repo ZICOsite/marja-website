@@ -7,12 +7,16 @@ DB_USER="postgres"
 BACKUP_DIR="/backups/marja-website"
 KEEP_DAYS=14
 
-# Load bot credentials from the app .env (same file Next.js uses)
-ENV_FILE="$(dirname "$0")/../.env"
+# Docker: имя сервиса postgres из docker-compose.yml
+PROJECT_DIR="$(dirname "$0")/.."
+COMPOSE_FILE="$PROJECT_DIR/docker-compose.yml"
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Load bot credentials from .env
+ENV_FILE="$PROJECT_DIR/.env"
 if [[ -f "$ENV_FILE" ]]; then
   export $(grep -E '^(TELEGRAM_BOT_TOKEN|TELEGRAM_CHAT_ID)=' "$ENV_FILE" | xargs)
 fi
-# ─────────────────────────────────────────────────────────────────────────────
 
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M")
 FILENAME="marja_${TIMESTAMP}.dump"
@@ -30,7 +34,10 @@ send_telegram() {
 }
 
 # ── Backup ────────────────────────────────────────────────────────────────────
-if pg_dump -U "$DB_USER" -F c -f "$OUT" "$DB_NAME"; then
+# pg_dump запускается внутри postgres-контейнера, дамп пишется на хост через stdout
+if docker compose -f "$COMPOSE_FILE" exec -T postgres \
+     pg_dump -U "$DB_USER" -F c "$DB_NAME" > "$OUT"; then
+
   SIZE=$(du -sh "$OUT" | cut -f1)
 
   # Rotate old backups
@@ -43,6 +50,9 @@ if pg_dump -U "$DB_USER" -F c -f "$OUT" "$DB_NAME"; then
 💾 Size: <b>${SIZE}</b>
 📦 Files kept: <b>${REMAINING}</b>"
 else
+  # Удалить пустой файл если pg_dump упал
+  rm -f "$OUT"
+
   send_telegram "❌ <b>Backup FAILED</b>
 🗄 DB: <code>${DB_NAME}</code>
 🕐 Time: <code>${TIMESTAMP}</code>
