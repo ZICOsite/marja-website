@@ -22,3 +22,4 @@ node_modules/
 
 # Database backups
 backups/
+scripts/backup.ps1

@@ -64,6 +64,12 @@
     "viewAll": "Barchasini ko'rish",
     "noProjects": "Ob'ektlar topilmadi"
   },
+  "marketingAnalysis": {
+    "year": "yil"
+  },
+  "warranty": {
+    "yearsLabel": "yil kafolat"
+  },
   "products": {
     "catalog": "Mahsulotlar katalogi",
     "catalogDescription": "Bizning mahsulotlarimiz bilan tanishing",

@@ -1,6 +1,6 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+﻿import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    ALTER TABLE "top_bar_addresses_locales" DROP CONSTRAINT "top_bar_addresses_locales_parent_id_fk";
   ALTER TABLE "top_bar_phones" DROP CONSTRAINT "top_bar_phones_parent_id_fk";
@@ -28,7 +28,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE UNIQUE INDEX "contact_info_addresses_locales_locale_parent_id_unique" ON "contact_info_addresses_locales" USING btree ("_locale","_parent_id");`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    ALTER TABLE "contact_info_addresses_locales" DROP CONSTRAINT "contact_info_addresses_locales_parent_id_fk";
   ALTER TABLE "contact_info_phones" DROP CONSTRAINT "contact_info_phones_parent_id_fk";

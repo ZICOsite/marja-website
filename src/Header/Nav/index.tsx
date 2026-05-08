@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import type { Header as HeaderType, ProductCategory } from '@/payload-types'
 
@@ -41,6 +41,9 @@ interface NavbarProps {
 }
 
 const Navbar = ({ menu, className }: NavbarProps) => {
+  const [open, setOpen] = useState(false)
+  const closeMenu = () => setOpen(false)
+
   return (
     <section className={className}>
       <div>
@@ -58,7 +61,7 @@ const Navbar = ({ menu, className }: NavbarProps) => {
         {/* Mobile Menu */}
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
-            <Sheet>
+            <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
                   <Menu className="size-4" />
@@ -72,7 +75,7 @@ const Navbar = ({ menu, className }: NavbarProps) => {
                 </SheetHeader>
                 <div className="flex flex-col gap-6 py-4">
                   <Accordion type="single" collapsible className="flex w-full flex-col gap-4">
-                    {menu.map((item) => renderMobileMenuItem(item))}
+                    {menu.map((item) => renderMobileMenuItem(item, closeMenu))}
                   </Accordion>
                 </div>
               </SheetContent>
@@ -114,7 +117,7 @@ const renderMenuItem = (item: MenuItem) => {
   )
 }
 
-const renderMobileMenuItem = (item: MenuItem) => {
+const renderMobileMenuItem = (item: MenuItem, onClose: () => void) => {
   if (item.items) {
     return (
       <AccordionItem key={item.title} value={item.title} className="border-b-0">
@@ -123,7 +126,7 @@ const renderMobileMenuItem = (item: MenuItem) => {
         </AccordionTrigger>
         <AccordionContent className="mt-2">
           {item.items.map((subItem) => (
-            <SubMenuLink key={subItem.title} item={subItem} />
+            <SubMenuLink key={subItem.title} item={subItem} onClose={onClose} />
           ))}
         </AccordionContent>
       </AccordionItem>
@@ -131,17 +134,18 @@ const renderMobileMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <Link key={item.title} href={item.url} className="text-md font-semibold font-sans">
+    <Link key={item.title} href={item.url} className="text-md font-semibold font-sans" onClick={onClose}>
       {item.title}
     </Link>
   )
 }
 
-const SubMenuLink = ({ item }: { item: MenuItem }) => {
+const SubMenuLink = ({ item, onClose = () => {} }: { item: MenuItem; onClose?: () => void }) => {
   return (
     <Link
       className="flex min-w-80 flex-row gap-4 rounded-md py-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground"
       href={item.url}
+      onClick={onClose}
     >
       <div className="text-foreground">{item.icon}</div>
       <div>

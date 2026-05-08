@@ -64,6 +64,12 @@
     "viewAll": "Ҳамаро дидан",
     "noProjects": "Объектҳо ёфт нашуданд"
   },
+  "marketingAnalysis": {
+    "year": "сол"
+  },
+  "warranty": {
+    "yearsLabel": "соли кафолат"
+  },
   "products": {
     "catalog": "Каталоги молҳо",
     "catalogDescription": "Бо маҳсулоти мо шинос шавед",

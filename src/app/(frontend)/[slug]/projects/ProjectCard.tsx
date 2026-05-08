@@ -36,7 +36,7 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
     })
 
   // Main carousel (только для свайпа без навигации)
-  const [api, setApi] = useState<CarouselApi>()
+  const [, setApi] = useState<CarouselApi>()
 
   // Lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false)

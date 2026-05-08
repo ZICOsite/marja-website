@@ -21,12 +21,6 @@ export const MarketingAnalysisBlock: Block = {
       localized: true,
     },
     {
-      name: 'series2Label',
-      type: 'text',
-      label: 'Подпись метрики 2',
-      localized: true,
-    },
-    {
       name: 'items',
       type: 'array',
       label: 'Годы',
@@ -48,11 +42,6 @@ export const MarketingAnalysisBlock: Block = {
           name: 'value1',
           type: 'number',
           label: 'Значение метрики 1',
-        },
-        {
-          name: 'value2',
-          type: 'number',
-          label: 'Значение метрики 2',
         },
       ],
     },

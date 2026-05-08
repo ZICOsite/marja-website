@@ -2,19 +2,18 @@
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LabelList } from 'recharts'
 import { useId, useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 type Item = {
   id?: string | null
   year?: string | null
   description?: string | null
   value1?: number | null
-  value2?: number | null
 }
 
 type Props = {
   heading?: string | null
   series1Label?: string | null
-  series2Label?: string | null
   items?: Item[] | null
 }
 
@@ -26,6 +25,7 @@ export function MarketingAnalysisBlockComponent({ heading, series1Label, items }
   const uid = useId()
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
+  const t = useTranslations('marketingAnalysis')
   const gradId = `grad-${uid}`
 
   const validItems = (items ?? []).filter((i): i is Item => !!i.year)
@@ -51,7 +51,7 @@ export function MarketingAnalysisBlockComponent({ heading, series1Label, items }
                     {item.year}
                   </span>
                   <span className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">
-                    год
+                    {t('year')}
                   </span>
                 </div>
                 <div className="h-px bg-border mb-4" />

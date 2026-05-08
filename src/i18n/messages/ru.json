@@ -64,6 +64,12 @@
     "size": "Размер",
     "download": "Скачать"
   },
+  "marketingAnalysis": {
+    "year": "год"
+  },
+  "warranty": {
+    "yearsLabel": "лет гарантии"
+  },
   "products": {
     "catalog": "Каталог товаров",
     "catalogDescription": "Ознакомьтесь с нашей продукцией",

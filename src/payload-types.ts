@@ -1472,13 +1472,11 @@ export interface WarrantyIntroBlock {
 export interface MarketingAnalysisBlock {
   heading?: string | null;
   series1Label?: string | null;
-  series2Label?: string | null;
   items?:
     | {
         year: string;
         description?: string | null;
         value1?: number | null;
-        value2?: number | null;
         id?: string | null;
       }[]
     | null;
@@ -2421,14 +2419,12 @@ export interface WarrantyIntroBlockSelect<T extends boolean = true> {
 export interface MarketingAnalysisBlockSelect<T extends boolean = true> {
   heading?: T;
   series1Label?: T;
-  series2Label?: T;
   items?:
     | T
     | {
         year?: T;
         description?: T;
         value1?: T;
-        value2?: T;
         id?: T;
       };
   id?: T;

@@ -64,6 +64,12 @@
     "viewAll": "Барлығын көру",
     "noProjects": "Объектілер табылмады"
   },
+  "marketingAnalysis": {
+    "year": "жыл"
+  },
+  "warranty": {
+    "yearsLabel": "жыл кепілдік"
+  },
   "products": {
     "catalog": "Өнімдер каталогы",
     "catalogDescription": "Біздің өнімдерімізбен танысыңыз",

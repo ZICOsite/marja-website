@@ -1,6 +1,6 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+﻿import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    CREATE TYPE "public"."enum_pages_blocks_careers_sections_layout" AS ENUM('oneColumn', 'twoColumns');
   CREATE TYPE "public"."enum__pages_v_blocks_careers_sections_layout" AS ENUM('oneColumn', 'twoColumns');
@@ -74,7 +74,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "_pages_v_blocks_careers_photo_idx" ON "_pages_v_blocks_careers" USING btree ("photo_id");`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    DROP TABLE "pages_blocks_careers_sections" CASCADE;
   DROP TABLE "pages_blocks_careers" CASCADE;
