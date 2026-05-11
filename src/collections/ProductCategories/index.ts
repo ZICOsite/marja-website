@@ -103,6 +103,14 @@ export const ProductCategories: CollectionConfig<'product-categories'> = {
       ],
     },
     {
+      name: 'sortOrder',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        description: 'Порядок отображения категории (меньше = выше). Оставьте пустым — категория окажется последней.',
+      },
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: { position: 'sidebar' },

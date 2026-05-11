@@ -545,6 +545,7 @@ const querySubcategories = cache(
       pagination: false,
       overrideAccess: draft,
       locale: locale as PayloadLocale,
+      sort: 'sortOrder',
       where: {
         and: [
           { parent: { equals: parentId } },
@@ -673,6 +674,7 @@ const queryAllCategories = cache(async ({ locale }: { locale: string }) => {
     pagination: false,
     overrideAccess: draft,
     locale: locale as PayloadLocale,
+    sort: 'sortOrder',
     where: draft ? {} : { _status: { equals: 'published' } },
     depth: 0,
     select: { title: true, slug: true, parent: true, breadcrumbs: true },

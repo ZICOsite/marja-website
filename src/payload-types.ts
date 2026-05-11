@@ -1195,6 +1195,10 @@ export interface ProductCategory {
     image?: (number | null) | Media;
     description?: string | null;
   };
+  /**
+   * Порядок отображения категории (меньше = выше). Оставьте пустым — категория окажется последней.
+   */
+  sortOrder?: number | null;
   publishedAt?: string | null;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
@@ -2666,6 +2670,7 @@ export interface ProductCategoriesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  sortOrder?: T;
   publishedAt?: T;
   generateSlug?: T;
   slug?: T;
