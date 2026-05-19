@@ -15,16 +15,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-pnpm dev              # Start development server
-pnpm build            # Production build (runs sitemap generation after)
-pnpm start            # Run production server
-pnpm lint             # ESLint check
-pnpm lint:fix         # Auto-fix linting issues
-pnpm test             # Run all tests (integration + e2e)
-pnpm test:int         # Integration tests (Vitest)
-pnpm test:e2e         # E2E tests (Playwright)
-pnpm generate:types   # Regenerate Payload TypeScript types
-pnpm payload migrate  # Run database migrations
+pnpm dev                  # Start development server
+pnpm dev:prod             # Full production build then start (clears .next first)
+pnpm build                # Production build (runs sitemap generation after)
+pnpm start                # Run production server
+pnpm lint                 # ESLint check
+pnpm lint:fix             # Auto-fix linting issues
+pnpm test                 # Run all tests (integration + e2e)
+pnpm test:int             # Integration tests (Vitest)
+pnpm test:e2e             # E2E tests (Playwright)
+pnpm generate:types       # Regenerate Payload TypeScript types
+pnpm generate:importmap   # Regenerate Payload import map (needed after adding custom components to admin)
+pnpm payload migrate      # Run database migrations
+pnpm backup               # Run DB backup script with Telegram notification (scripts/backup.ps1)
 ```
 
 Node >=18.20.2 or >=20.9.0. Package manager: pnpm ^9 or ^10.
@@ -57,11 +60,12 @@ This is a **Payload CMS v3 + Next.js 15** full-stack application using the App R
   - **Reviews** — Public can submit (`create: anyone`); only `approved: true` reviews are publicly visible.
   - **Projects** — Completed project gallery with photo uploads.
   - **Media**, **Categories**, **Users**.
-- `src/globals/` — Singletons:
-  - **Header**, **Footer** — Site-wide nav/footer data.
-  - **ContactInfo** — Email, phones, addresses (used in top bar and contact sections).
-  - **ProductsNotice** — Site-wide product notice banner.
-- `src/blocks/` — Layout builder blocks registered in the Pages collection. Current blocks: ArchiveBlock, Banner, Code, Content, Form, MediaBlock, Features, Statistics, Solutions, AboutCompany, Clients, PopularProducts, Timeline, Team, LatestPosts, CallToAction, Contacts, CompletedProjects, Downloads, Documentation, Careers, ReadySolutions, WarrantyIntro, MarketingAnalysis, CompanyGrowth, WarrantyFeatures, LeanIntro, LeanPrinciples, LeanTools, LeanResults.
+- Globals are **feature-collocated**, not in a shared directory:
+  - `src/Header/` — Header global: config.ts, Component.tsx (server), Component.client.tsx, Nav/index.tsx, hooks/
+  - `src/Footer/` — Footer global: config.ts, Component.tsx, hooks/
+  - `src/ContactInfo/` — ContactInfo global (email, phones, addresses used in top bar): config.ts, Component.tsx, hooks/
+  - `src/ProductsNotice/` — Site-wide product notice banner: config.ts, Component.tsx, hooks/
+- `src/blocks/` — Layout builder blocks registered in the Pages collection. Current blocks: ArchiveBlock, Banner, Code, Content, Form, MediaBlock, Features, Statistics, Solutions, AboutCompany, Clients, PopularProducts, Timeline, Team, LatestPosts, CallToAction, Contacts, CompletedProjects, Downloads, Documentation, Careers, ReadySolutions, WarrantyIntro, MarketingAnalysis, CompanyGrowth, WarrantyFeatures, LeanIntro, LeanPrinciples, LeanTools, LeanResults. RelatedPosts is used on individual post pages (not in the layout builder).
 - `src/fields/` — Reusable custom field definitions (defaultLexical rich text, link, linkGroup).
 - `src/hooks/` — Payload lifecycle hooks: cache revalidation on save/delete, author auto-population.
 - `src/access/` — Access control functions (anyone, authenticated, authenticatedOrPublished).

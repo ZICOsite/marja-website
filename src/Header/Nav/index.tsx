@@ -140,7 +140,7 @@ const renderMobileMenuItem = (item: MenuItem, onClose: () => void) => {
   )
 }
 
-const SubMenuLink = ({ item, onClose = () => {} }: { item: MenuItem; onClose?: () => void }) => {
+const SubMenuLink = ({ item, onClose = () => { } }: { item: MenuItem; onClose?: () => void }) => {
   return (
     <Link
       className="flex min-w-80 flex-row gap-4 rounded-md py-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground"
@@ -191,13 +191,13 @@ export const HeaderNav: React.FC<{
   const catalogItem: MenuItem | null =
     categories.length > 0
       ? {
-          title: t('catalog'),
-          url: `/${locale}/products`,
-          items: categories.map((cat) => ({
-            title: cat.title || '',
-            url: `/${locale}/products/${cat.slug}`,
-          })),
-        }
+        title: t('catalog'),
+        url: `/${locale}/products`,
+        items: categories.map((cat) => ({
+          title: cat.title || '',
+          url: `/${locale}/products/${cat.slug}`,
+        })),
+      }
       : null
 
   const menu: MenuItem[] = [
@@ -207,10 +207,10 @@ export const HeaderNav: React.FC<{
       url: buildHref(item.link, locale),
       items: item.subLinks?.length
         ? item.subLinks.map((sub) => ({
-            title: sub.link?.label || '',
-            url: buildHref(sub.link, locale),
-            description: sub.description || undefined,
-          }))
+          title: sub.link?.label || '',
+          url: buildHref(sub.link, locale),
+          description: sub.description || undefined,
+        }))
         : undefined,
     })),
   ]

@@ -63,47 +63,51 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
 
   return (
     <>
-      <div className="group relative rounded-2xl overflow-hidden border border-border hover:border-[var(--primary)] transition-colors bg-background cursor-zoom-in">
-        {/* Слайдер */}
-        {images.length === 0 ? (
-          <div className="h-64 bg-sidebar-accent flex items-center justify-center">
-            <span className="text-muted-foreground text-sm">No image</span>
-          </div>
-        ) : (
-          <Carousel setApi={setApi} opts={{ loop: images.length > 1 }} className="w-full">
-            <CarouselContent className="-ml-0">
-              {images.map((img, i) => (
-                <CarouselItem key={i} className="pl-0">
-                  <div
-                    className="relative h-64 overflow-hidden bg-sidebar-accent"
-                    onClick={() => { setLightboxIndex(i); setLightboxOpen(true) }}
-                  >
-                    <Image
-                      src={img.url}
-                      alt={img.alt ?? project.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      priority={i === 0}
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
-        )}
+      <div className="group rounded-2xl overflow-hidden border border-border hover:border-primary transition-colors bg-background cursor-zoom-in">
+        {/* Слайдер с badge */}
+        <div className="relative">
+          {images.length === 0 ? (
+            <div className="h-64 bg-sidebar-accent flex items-center justify-center">
+              <span className="text-muted-foreground text-sm">No image</span>
+            </div>
+          ) : (
+            <Carousel setApi={setApi} opts={{ loop: images.length > 1 }} className="w-full">
+              <CarouselContent className="-ml-0">
+                {images.map((img, i) => (
+                  <CarouselItem key={i} className="pl-0">
+                    <div
+                      className="relative h-64 overflow-hidden bg-sidebar-accent"
+                      onClick={() => { setLightboxIndex(i); setLightboxOpen(true) }}
+                    >
+                      <Image
+                        src={img.url}
+                        alt={img.alt ?? project.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover"
+                        priority={i === 0}
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          )}
 
-        {/* Hover-оверлей с заголовком и описанием */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-5 bg-gradient-to-t from-black/80 via-black/50 to-transparent translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-          <h2 className="font-sans font-bold text-white text-base leading-snug">
+          {/* Badge с заголовком — левый верхний угол */}
+          <span className="absolute top-3 left-3 z-10 bg-background/90 text-foreground text-xs font-semibold px-2.5 py-1 rounded-md leading-tight max-w-[70%] line-clamp-1">
             {project.title}
-          </h2>
-          {project.description && (
-            <p className="text-sm text-white/80 mt-1 line-clamp-2">
+          </span>
+        </div>
+
+        {/* Описание под картинкой */}
+        {project.description && (
+          <div className="px-4 py-3">
+            <p className="text-sm text-muted-foreground line-clamp-2">
               {project.description}
             </p>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Лайтбокс */}
