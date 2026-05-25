@@ -9,7 +9,10 @@
   },
   "nav": {
     "search": "Іздеу",
-    "catalog": "Каталог"
+    "catalog": "Каталог",
+    "openMenu": "Мәзірді ашу",
+    "selectLanguage": "Тілді таңдау",
+    "selectTheme": "Тақырыпты таңдау"
   },
   "post": {
     "by": "Автор",
@@ -92,6 +95,8 @@
     "allCategories": "Барлық санаттар",
     "foundProducts": "{count} өнім табылды",
     "filters": "Сүзгілер",
+    "collapse": "Жию",
+    "expand": "Кеңейту",
     "resetFilters": "Тазалау",
     "sortBy": "Сұрыптау",
     "sort": {

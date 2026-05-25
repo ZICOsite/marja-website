@@ -41,6 +41,7 @@ export const AboutCompanyBlock = ({
                   resource={image}
                   className="w-full h-auto object-cover transform hover:scale-[1.02] transition duration-500"
                   imgClassName="w-full h-auto object-cover max-h-[400px] lg:max-h-none"
+                  size="(max-width: 1024px) 100vw, 50vw"
                 />
               )}
               {(statValue || statLabel) && (
@@ -92,7 +93,7 @@ export const AboutCompanyBlock = ({
                         <Icon className="text-blue-600 w-6 h-6" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-900 font-sans">{feature.title}</h4>
+                        <h3 className="font-bold text-slate-900 font-sans text-base">{feature.title}</h3>
                         {feature.description && (
                           <p className="text-sm text-slate-500">{feature.description}</p>
                         )}

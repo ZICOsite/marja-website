@@ -9,7 +9,10 @@
   },
   "nav": {
     "search": "Search",
-    "catalog": "Catalog"
+    "catalog": "Catalog",
+    "openMenu": "Open menu",
+    "selectLanguage": "Select language",
+    "selectTheme": "Select theme"
   },
   "post": {
     "by": "By",
@@ -92,6 +95,8 @@
     "allCategories": "All categories",
     "foundProducts": "{count} products found",
     "filters": "Filters",
+    "collapse": "Collapse",
+    "expand": "Expand",
     "resetFilters": "Reset",
     "sortBy": "Sort",
     "sort": {

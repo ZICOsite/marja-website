@@ -149,7 +149,7 @@ export async function Footer({ locale }: Props) {
             {footerData?.privacyPolicy && (
               <Dialog>
                 <DialogTrigger asChild>
-                  <span className="cursor-pointer text-sm">{t('privacyPolicy')}</span>
+                  <button className="cursor-pointer text-sm">{t('privacyPolicy')}</button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
@@ -168,7 +168,7 @@ export async function Footer({ locale }: Props) {
             {footerData?.termsOfUse && (
               <Dialog>
                 <DialogTrigger asChild>
-                  <span className="cursor-pointer text-sm">{t('termsOfUse')}</span>
+                  <button className="cursor-pointer text-sm">{t('termsOfUse')}</button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>

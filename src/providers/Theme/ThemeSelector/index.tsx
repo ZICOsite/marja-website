@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/select'
 import React, { useState } from 'react'
 import { Sun, Moon, Monitor } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import type { Theme } from './types'
 
@@ -23,6 +24,7 @@ const icons: Record<string, React.ReactNode> = {
 export const ThemeSelector: React.FC = () => {
   const { setTheme } = useTheme()
   const [value, setValue] = useState('auto')
+  const t = useTranslations('nav')
 
   const onThemeChange = (themeToSet: Theme & 'auto') => {
     if (themeToSet === 'auto') {
@@ -42,7 +44,7 @@ export const ThemeSelector: React.FC = () => {
   return (
     <Select onValueChange={onThemeChange} value={value}>
       <SelectTrigger
-        aria-label="Select a theme"
+        aria-label={t('selectTheme')}
         className="w-auto bg-transparent border-none focus:ring-0 [&>svg:last-child]:hidden"
       >
         {icons[value] ?? <Monitor className="w-4 h-4" />}

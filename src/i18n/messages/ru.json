@@ -9,7 +9,10 @@
   },
   "nav": {
     "search": "Поиск",
-    "catalog": "Каталог"
+    "catalog": "Каталог",
+    "openMenu": "Открыть меню",
+    "selectLanguage": "Выбрать язык",
+    "selectTheme": "Выбрать тему"
   },
   "post": {
     "by": "Автор",
@@ -92,6 +95,8 @@
     "allCategories": "Все категории",
     "foundProducts": "Найдено товаров: {count}",
     "filters": "Фильтры",
+    "collapse": "Свернуть",
+    "expand": "Развернуть",
     "resetFilters": "Сбросить",
     "sortBy": "Сортировка",
     "sort": {

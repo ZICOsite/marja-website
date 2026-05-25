@@ -86,6 +86,7 @@ function CategoryNode({
   currentPath: string[]
   depth: number
 }) {
+  const t = useTranslations('products')
   const nodeSlugs = node.breadcrumbUrl.split('/').filter(Boolean)
   const isInPath = nodeSlugs.length <= currentPath.length && nodeSlugs.every((s, i) => currentPath[i] === s)
   const isActive = nodeSlugs.length === currentPath.length && isInPath
@@ -112,7 +113,7 @@ function CategoryNode({
           <button
             onClick={() => setExpanded((v) => !v)}
             className="pr-3 py-2 text-muted-foreground hover:text-foreground"
-            aria-label={expanded ? 'Свернуть' : 'Развернуть'}
+            aria-label={expanded ? t('collapse') : t('expand')}
           >
             {expanded ? (
               <ChevronDown className="w-3.5 h-3.5" />

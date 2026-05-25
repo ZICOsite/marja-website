@@ -43,6 +43,7 @@ interface NavbarProps {
 const Navbar = ({ menu, className }: NavbarProps) => {
   const [open, setOpen] = useState(false)
   const closeMenu = () => setOpen(false)
+  const t = useTranslations('nav')
 
   return (
     <section className={className}>
@@ -63,7 +64,7 @@ const Navbar = ({ menu, className }: NavbarProps) => {
           <div className="flex items-center justify-between">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" aria-label={t('openMenu')}>
                   <Menu className="size-4" />
                 </Button>
               </SheetTrigger>

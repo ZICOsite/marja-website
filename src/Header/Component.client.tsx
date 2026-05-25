@@ -3,6 +3,7 @@ import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 import type { Header, ProductCategory } from '@/payload-types'
 
@@ -18,6 +19,7 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale, categories }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
+  const t = useTranslations('common')
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
 
@@ -34,7 +36,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale, catego
   return (
     <header className="sticky top-0 z-20 py-2 bg-[var(--background)] shadow-md" {...(theme ? { 'data-theme': theme } : {})}>
       <div className="container flex justify-between">
-        <Link href={`/${locale}`}>
+        <Link href={`/${locale}`} aria-label={t('home')}>
           <Logo className="logo" />
         </Link>
         <HeaderNav data={data} locale={locale} categories={categories} />

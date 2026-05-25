@@ -2,12 +2,15 @@ import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
+import { Inter } from 'next/font/google'
 import { getLocale } from 'next-intl/server'
 import React from 'react'
 
+const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter' })
+
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { defaultTheme } from '@/providers/Theme/ThemeSelector/types'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -17,8 +20,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html
-      className={cn(GeistSans.variable, GeistMono.variable)}
+      className={cn(inter.variable, GeistMono.variable)}
       lang={locale}
+      data-theme={defaultTheme}
       suppressHydrationWarning
     >
       <head>

@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter } from '@/navigation'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { locales, type Locale } from '@/i18n/routing'
 import {
   Select,
@@ -24,6 +24,7 @@ export function LocaleSwitcher() {
   const locale = useLocale() as Locale
   const router = useRouter()
   const pathname = usePathname()
+  const t = useTranslations('nav')
 
   const handleChange = (nextLocale: Locale) => {
     router.replace(pathname, { locale: nextLocale })
@@ -31,7 +32,7 @@ export function LocaleSwitcher() {
 
   return (
     <Select value={locale} onValueChange={handleChange}>
-      <SelectTrigger className="w-[130px] h-8 text-xs gap-1">
+      <SelectTrigger className="w-[130px] h-8 text-xs gap-1" aria-label={t('selectLanguage')}>
         <Globe className="w-3.5 h-3.5 shrink-0" />
         <SelectValue />
       </SelectTrigger>

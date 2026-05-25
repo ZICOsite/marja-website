@@ -9,7 +9,10 @@
   },
   "nav": {
     "search": "Qidirish",
-    "catalog": "Katalog"
+    "catalog": "Katalog",
+    "openMenu": "Menyuni ochish",
+    "selectLanguage": "Tilni tanlash",
+    "selectTheme": "Mavzuni tanlash"
   },
   "post": {
     "by": "Muallif",
@@ -92,6 +95,8 @@
     "allCategories": "Barcha kategoriyalar",
     "foundProducts": "{count} ta mahsulot topildi",
     "filters": "Filtrlar",
+    "collapse": "Yig'ish",
+    "expand": "Kengaytirish",
     "resetFilters": "Tozalash",
     "sortBy": "Saralash",
     "sort": {

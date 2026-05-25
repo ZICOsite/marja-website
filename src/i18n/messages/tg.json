@@ -9,7 +9,10 @@
   },
   "nav": {
     "search": "Ҷустуҷӯ",
-    "catalog": "Каталог"
+    "catalog": "Каталог",
+    "openMenu": "Менюро кушодан",
+    "selectLanguage": "Забонро интихоб кунед",
+    "selectTheme": "Мавзӯро интихоб кунед"
   },
   "post": {
     "by": "Муаллиф",
@@ -92,6 +95,8 @@
     "allCategories": "Ҳамаи категорияҳо",
     "foundProducts": "{count} маҳсул ёфт шуд",
     "filters": "Филтрҳо",
+    "collapse": "Ҷамъ кунед",
+    "expand": "Кушодан",
     "resetFilters": "Тозакунӣ",
     "sortBy": "Тартиб",
     "sort": {
