@@ -2,6 +2,7 @@
 # https://nextjs.org/docs/app/api-reference/config/next-config-js/output
 
 FROM node:22-alpine AS base
+RUN npm install -g pnpm
 
 # ── deps ──────────────────────────────────────────────────────────────────────
 FROM base AS deps
@@ -9,7 +10,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
-RUN corepack enable pnpm && pnpm i --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 # ── builder ───────────────────────────────────────────────────────────────────
 FROM base AS builder
@@ -33,7 +34,7 @@ ENV PREVIEW_SECRET=$PREVIEW_SECRET
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS=--no-deprecation
 
-RUN corepack enable pnpm && pnpm run build
+RUN pnpm run build
 
 # ── runner ────────────────────────────────────────────────────────────────────
 FROM base AS runner
