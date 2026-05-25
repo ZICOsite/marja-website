@@ -2,7 +2,7 @@
 # https://nextjs.org/docs/app/api-reference/config/next-config-js/output
 
 FROM node:22-alpine AS base
-RUN npm install -g pnpm
+RUN npm install -g pnpm@10
 
 # ── deps ──────────────────────────────────────────────────────────────────────
 FROM base AS deps
