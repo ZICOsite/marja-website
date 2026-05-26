@@ -1,6 +1,17 @@
 ﻿import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db }: MigrateUpArgs): Promise<void> {
+  // Migration 20260330_115004 already created contact_info_* and dropped top_bar_* tables.
+  // On a fresh database those tables won't exist, so this rename becomes a no-op.
+  const check = await db.execute(sql`
+    SELECT EXISTS (
+      SELECT 1 FROM information_schema.tables
+      WHERE table_schema = 'public' AND table_name = 'top_bar'
+    ) AS "exists"
+  `)
+  // @ts-ignore
+  if (!check.rows[0]?.exists) return
+
   await db.execute(sql`
    ALTER TABLE "top_bar_addresses_locales" DROP CONSTRAINT "top_bar_addresses_locales_parent_id_fk";
   ALTER TABLE "top_bar_phones" DROP CONSTRAINT "top_bar_phones_parent_id_fk";
