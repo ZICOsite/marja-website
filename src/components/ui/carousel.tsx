@@ -71,7 +71,8 @@ const Carousel = React.forwardRef<
 
   React.useEffect(() => {
     if (!api) return
-    onSelect(api)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    onSelect(api) // Embla: sync state immediately on mount/reinit
     api.on('reInit', onSelect)
     api.on('select', onSelect)
     return () => { api.off('reInit', onSelect); api.off('select', onSelect) }

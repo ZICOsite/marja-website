@@ -57,6 +57,7 @@ function AnimatedCounter({ value, duration = 1800, triggered }: CounterProps) {
     if (!triggered) return
 
     startTimeRef.current = null
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDisplayed(0)
 
     const animate = (timestamp: number) => {

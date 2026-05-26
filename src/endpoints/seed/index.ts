@@ -48,6 +48,7 @@ export const seed = async ({
     globals.map((global) =>
       payload.updateGlobal({
         slug: global,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: {} as any,
         depth: 0,
         context: {

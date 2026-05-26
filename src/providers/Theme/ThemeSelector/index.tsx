@@ -38,6 +38,7 @@ export const ThemeSelector: React.FC = () => {
 
   React.useEffect(() => {
     const preference = window.localStorage.getItem(themeLocalStorageKey)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setValue(preference ?? 'auto')
   }, [])
 

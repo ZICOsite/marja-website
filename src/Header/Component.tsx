@@ -3,6 +3,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import React from 'react'
 
 import type { Header, ProductCategory } from '@/payload-types'
+import type { Locale } from '@/i18n/routing'
 import { TopBar } from '@/ContactInfo/Component'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
@@ -21,7 +22,7 @@ const getHeaderCategories = (locale: string) =>
         limit: 12,
         pagination: false,
         overrideAccess: false,
-        locale: locale as any,
+        locale: locale as Locale,
         fallbackLocale: false,
         where: {
           and: [{ parent: { exists: false } }, { _status: { equals: 'published' } }],

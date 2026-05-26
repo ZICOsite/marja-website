@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import type { Locale } from '@/i18n/routing'
 
 import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
@@ -92,7 +93,7 @@ const queryPostBySlug = cache(async ({ slug, locale }: { slug: string; locale: s
     limit: 1,
     overrideAccess: draft,
     pagination: false,
-    locale: locale as any,
+    locale: locale as Locale,
     where: { slug: { equals: slug } },
   })
 

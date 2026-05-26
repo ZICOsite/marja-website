@@ -24,6 +24,7 @@ const COLOR_BOT = '#3b82f6'
 export function MarketingAnalysisBlockComponent({ heading, series1Label, items }: Props) {
   const uid = useId()
   const [mounted, setMounted] = useState(false)
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), [])
   const t = useTranslations('marketingAnalysis')
   const gradId = `grad-${uid}`

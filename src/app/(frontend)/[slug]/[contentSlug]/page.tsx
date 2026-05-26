@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import type { Locale } from '@/i18n/routing'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
@@ -95,7 +96,7 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: s
     limit: 1,
     pagination: false,
     overrideAccess: draft,
-    locale: locale as any,
+    locale: locale as Locale,
     where: { slug: { equals: slug } },
   })
 

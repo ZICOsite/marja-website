@@ -49,7 +49,8 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
   }, [])
   useEffect(() => {
     if (!lightboxApi) return
-    onLightboxSelect(lightboxApi)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    onLightboxSelect(lightboxApi) // Embla: sync state immediately on mount/reinit
     lightboxApi.on('select', onLightboxSelect)
     return () => { lightboxApi.off('select', onLightboxSelect) }
   }, [lightboxApi, onLightboxSelect])

@@ -9,6 +9,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
 import type { ContactInfo, Footer, ProductCategory } from '@/payload-types'
+import type { Locale } from '@/i18n/routing'
 
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
@@ -35,7 +36,7 @@ const getTopLevelCategories = (locale: string) =>
         limit: 8,
         pagination: false,
         overrideAccess: false,
-        locale: locale as any,
+        locale: locale as Locale,
         fallbackLocale: false,
         where: {
           and: [{ parent: { exists: false } }, { _status: { equals: 'published' } }],

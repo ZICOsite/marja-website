@@ -1,4 +1,5 @@
 import type { Metadata } from 'next/types'
+import type { Locale } from '@/i18n/routing'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -27,7 +28,7 @@ export default async function ProjectsPage({ params }: Args) {
     depth: 1,
     limit: 100,
     overrideAccess: false,
-    locale: locale as any,
+    locale: locale as Locale,
   })
 
   return (

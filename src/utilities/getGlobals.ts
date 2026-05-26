@@ -1,4 +1,5 @@
 import type { Config } from 'src/payload-types'
+import type { Locale } from '@/i18n/routing'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -12,7 +13,7 @@ async function getGlobal(slug: Global, depth = 0, locale = 'uz') {
   const global = await payload.findGlobal({
     slug,
     depth,
-    locale: locale as any,
+    locale: locale as Locale,
   })
 
   return global

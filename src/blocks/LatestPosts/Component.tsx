@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
+import type { Media, Category } from '@/payload-types'
 import { PostsCarousel } from './PostsCarousel'
 
 type Props = {
@@ -41,11 +42,11 @@ export async function LatestPostsBlock({
   const posts = result.docs.map((doc) => {
     const heroImg =
       doc.heroImage && typeof doc.heroImage === 'object'
-        ? { url: (doc.heroImage as any).url ?? null, alt: (doc.heroImage as any).alt ?? null }
+        ? { url: (doc.heroImage as Media).url ?? null, alt: (doc.heroImage as Media).alt ?? null }
         : null
     const metaImg =
       doc.meta?.image && typeof doc.meta.image === 'object'
-        ? { url: (doc.meta.image as any).url ?? null, alt: (doc.meta.image as any).alt ?? null }
+        ? { url: (doc.meta.image as Media).url ?? null, alt: (doc.meta.image as Media).alt ?? null }
         : null
 
     return {
@@ -54,7 +55,7 @@ export async function LatestPostsBlock({
       title: doc.title,
       publishedAt: doc.publishedAt ?? null,
       categories: (doc.categories ?? []).map((c) =>
-        typeof c === 'object' && c !== null ? { id: c.id, title: (c as any).title ?? null } : c,
+        typeof c === 'object' && c !== null ? { id: c.id, title: (c as Category).title ?? null } : c,
       ),
       meta: {
         description: doc.meta?.description ?? null,

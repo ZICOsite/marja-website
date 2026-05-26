@@ -1,4 +1,5 @@
 import type { Metadata } from 'next/types'
+import type { Locale } from '@/i18n/routing'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
@@ -29,7 +30,7 @@ export default async function Page({ params }: Args) {
     depth: 1,
     limit: 12,
     overrideAccess: false,
-    locale: locale as any,
+    locale: locale as Locale,
     select: { title: true, slug: true, categories: true, meta: true, heroImage: true },
   })
 

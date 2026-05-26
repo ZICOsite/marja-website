@@ -1,4 +1,5 @@
 import type { Metadata } from 'next/types'
+import type { Locale } from '@/i18n/routing'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -33,7 +34,7 @@ export default async function Page({ params, searchParams: searchParamsPromise }
     collection: 'search',
     depth: 1,
     limit: 6,
-    locale: locale as any,
+    locale: locale as Locale,
     select: { title: true, slug: true, categories: true, meta: true, heroImage: true },
     pagination: false,
     where: {
@@ -61,7 +62,7 @@ export default async function Page({ params, searchParams: searchParamsPromise }
         collection: 'search',
         depth: 1,
         limit: 12,
-        locale: locale as any,
+        locale: locale as Locale,
         pagination: false,
         where: {
           and: [
