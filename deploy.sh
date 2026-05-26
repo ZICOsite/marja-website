@@ -15,7 +15,13 @@ echo " ✓"
 echo "=== 3. Строим образ приложения ==="
 docker compose build app
 
-echo "=== 4. Запускаем миграции и приложение ==="
+echo "=== 4. Собираем образ для миграций ==="
+docker compose --profile migrate build migrate
+
+echo "=== 5. Запускаем миграции ==="
+docker compose --profile migrate run --rm migrate
+
+echo "=== 6. Запускаем приложение ==="
 docker compose up -d
 
 echo "=== Готово! ==="
