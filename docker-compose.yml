@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host   # билд видит localhost хост-машины → может подключиться к postgres:5432
       args:
         DATABASE_URL: ${DATABASE_URL}
         PAYLOAD_SECRET: ${PAYLOAD_SECRET}
@@ -11,6 +12,9 @@ services:
         PREVIEW_SECRET: ${PREVIEW_SECRET}
     env_file:
       - .env
+    environment:
+      # Во время runtime переопределяем DATABASE_URL на имя сервиса compose-сети
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/marja-website
     depends_on:
       postgres:
         condition: service_healthy

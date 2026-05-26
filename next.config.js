@@ -11,7 +11,7 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'standalone',
+  output: 'standalone',
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31536000,
