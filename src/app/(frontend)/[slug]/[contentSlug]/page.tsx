@@ -25,22 +25,26 @@ type Args = {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const pages = await payload.find({
-    collection: 'pages',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    locale: 'all',
-    select: { slug: true },
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const pages = await payload.find({
+      collection: 'pages',
+      draft: false,
+      limit: 1000,
+      overrideAccess: false,
+      pagination: false,
+      locale: 'all',
+      select: { slug: true },
+    })
 
-  return routing.locales.flatMap((locale) =>
-    pages.docs
-      .filter((doc) => doc.slug !== 'home')
-      .map(({ slug }) => ({ slug: locale, contentSlug: slug })),
-  )
+    return routing.locales.flatMap((locale) =>
+      pages.docs
+        .filter((doc) => doc.slug !== 'home')
+        .map(({ slug }) => ({ slug: locale, contentSlug: slug })),
+    )
+  } catch {
+    return []
+  }
 }
 
 export default async function Page({ params: paramsPromise }: Args) {

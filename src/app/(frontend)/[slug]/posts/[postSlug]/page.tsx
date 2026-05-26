@@ -26,20 +26,24 @@ type Args = {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const posts = await payload.find({
-    collection: 'posts',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    locale: 'all',
-    select: { slug: true },
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const posts = await payload.find({
+      collection: 'posts',
+      draft: false,
+      limit: 1000,
+      overrideAccess: false,
+      pagination: false,
+      locale: 'all',
+      select: { slug: true },
+    })
 
-  return routing.locales.flatMap((locale) =>
-    posts.docs.map(({ slug }) => ({ slug: locale, postSlug: slug })),
-  )
+    return routing.locales.flatMap((locale) =>
+      posts.docs.map(({ slug }) => ({ slug: locale, postSlug: slug })),
+    )
+  } catch {
+    return []
+  }
 }
 
 export default async function PostPage({ params: paramsPromise }: Args) {

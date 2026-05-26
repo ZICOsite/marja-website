@@ -76,19 +76,23 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const { totalDocs } = await payload.count({
-    collection: 'posts',
-    overrideAccess: false,
-  })
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const { totalDocs } = await payload.count({
+      collection: 'posts',
+      overrideAccess: false,
+    })
 
-  const totalPages = Math.ceil(totalDocs / 12)
+    const totalPages = Math.ceil(totalDocs / 12)
 
-  return routing.locales.flatMap((locale) => {
-    const pages: { slug: string; pageNumber: string }[] = []
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push({ slug: locale, pageNumber: String(i) })
-    }
-    return pages
-  })
+    return routing.locales.flatMap((locale) => {
+      const pages: { slug: string; pageNumber: string }[] = []
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push({ slug: locale, pageNumber: String(i) })
+      }
+      return pages
+    })
+  } catch {
+    return []
+  }
 }

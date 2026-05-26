@@ -34,7 +34,7 @@ ENV PREVIEW_SECRET=$PREVIEW_SECRET
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS="--no-deprecation --max-old-space-size=1536"
 
-RUN pnpm run build
+RUN pnpm payload migrate && pnpm run build
 
 # ── runner ────────────────────────────────────────────────────────────────────
 FROM base AS runner
