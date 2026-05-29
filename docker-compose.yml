@@ -17,6 +17,8 @@ services:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/marja-website
     ports:
       - '3000:3000'
+    volumes:
+      - media-uploads:/app/public/media
     depends_on:
       postgres:
         condition: service_healthy
@@ -88,6 +90,7 @@ volumes:
   pgdata:
   certbot-www:
   certbot-certs:
+  media-uploads:
 
 networks:
   internal:
