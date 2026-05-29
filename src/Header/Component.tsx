@@ -24,6 +24,7 @@ const getHeaderCategories = (locale: string) =>
         overrideAccess: false,
         locale: locale as Locale,
         fallbackLocale: false,
+        sort: 'sortOrder',
         where: {
           and: [{ parent: { exists: false } }, { _status: { equals: 'published' } }],
         },

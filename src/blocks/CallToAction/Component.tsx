@@ -27,7 +27,7 @@ export const CallToActionBlock = ({ title, titleTag = 'h2', links, richText }: C
           {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
           <div className="flex gap-8">
             {(links || []).map(({ link }, i) => {
-              return <CMSLink key={i} size="lg" {...link} className='uppercase' />
+              return <CMSLink key={i} size="lg" {...link} className='font-sans uppercase' />
             })}
           </div>
         </div>

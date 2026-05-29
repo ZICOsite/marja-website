@@ -40,6 +40,11 @@ interface NavbarProps {
   menu: MenuItem[]
 }
 
+const ORDER_CLASSES = [
+  'order-3', 'order-2', 'order-3', 'order-4', 'order-5',
+  'order-6', 'order-7', 'order-8', 'order-9', 'order-10',
+]
+
 const Navbar = ({ menu, className }: NavbarProps) => {
   const [open, setOpen] = useState(false)
   const closeMenu = () => setOpen(false)
@@ -53,7 +58,9 @@ const Navbar = ({ menu, className }: NavbarProps) => {
           <div className="flex items-center gap-6">
             <div className="flex items-center">
               <NavigationMenu>
-                <NavigationMenuList>{menu.map((item) => renderMenuItem(item))}</NavigationMenuList>
+                <NavigationMenuList>
+                  {menu.map((item, index) => renderMenuItem(item, ORDER_CLASSES[index] ?? ''))}
+                </NavigationMenuList>
               </NavigationMenu>
             </div>
           </div>
@@ -76,7 +83,7 @@ const Navbar = ({ menu, className }: NavbarProps) => {
                 </SheetHeader>
                 <div className="flex flex-col gap-6 py-4">
                   <Accordion type="single" collapsible className="flex w-full flex-col gap-4">
-                    {menu.map((item) => renderMobileMenuItem(item, closeMenu))}
+                    {menu.map((item, index) => renderMobileMenuItem(item, closeMenu, ORDER_CLASSES[index] ?? ''))}
                   </Accordion>
                 </div>
               </SheetContent>
@@ -88,10 +95,10 @@ const Navbar = ({ menu, className }: NavbarProps) => {
   )
 }
 
-const renderMenuItem = (item: MenuItem) => {
+const renderMenuItem = (item: MenuItem, orderClass: string) => {
   if (item.items) {
     return (
-      <NavigationMenuItem key={item.title}>
+      <NavigationMenuItem key={item.title} className={orderClass}>
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent className="bg-popover text-popover-foreground">
           {item.items.map((subItem) => (
@@ -105,7 +112,7 @@ const renderMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <NavigationMenuItem key={item.title}>
+    <NavigationMenuItem key={item.title} className={orderClass}>
       <NavigationMenuLink asChild>
         <Link
           href={item.url}
@@ -118,10 +125,10 @@ const renderMenuItem = (item: MenuItem) => {
   )
 }
 
-const renderMobileMenuItem = (item: MenuItem, onClose: () => void) => {
+const renderMobileMenuItem = (item: MenuItem, onClose: () => void, orderClass: string) => {
   if (item.items) {
     return (
-      <AccordionItem key={item.title} value={item.title} className="border-b-0">
+      <AccordionItem key={item.title} value={item.title} className={`border-b-0 ${orderClass}`}>
         <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline">
           {item.title}
         </AccordionTrigger>
@@ -135,7 +142,7 @@ const renderMobileMenuItem = (item: MenuItem, onClose: () => void) => {
   }
 
   return (
-    <Link key={item.title} href={item.url} className="text-md font-semibold font-sans" onClick={onClose}>
+    <Link key={item.title} href={item.url} className={`text-md font-semibold font-sans ${orderClass}`} onClick={onClose}>
       {item.title}
     </Link>
   )
