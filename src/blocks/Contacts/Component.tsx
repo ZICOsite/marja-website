@@ -89,7 +89,7 @@ export const ContactsBlockComponent = ({
                         <div>
                           <a
                             href={`tel:${phone.number.replace(/\s/g, '')}`}
-                            className="font-semibold hover:text-primary transition-colors"
+                            className="font-semibold hover:text-primary transition-colors text-sm"
                           >
                             {phone.number}
                           </a>

@@ -124,7 +124,7 @@ export const StatsBlock = ({ items }: Props) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center text-white">
           {items?.map((item, i) => (
             <div key={i}>
-              <div className="text-5xl font-bold font-heading mb-2">
+              <div className="text-4xl md:text-5xl font-bold font-heading mb-2">
                 <AnimatedCounter value={item.value} triggered={triggered} />
               </div>
               <div className="text-blue-100 font-medium uppercase tracking-widest text-sm">

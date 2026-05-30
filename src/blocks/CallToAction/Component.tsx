@@ -25,7 +25,7 @@ export const CallToActionBlock = ({ title, titleTag = 'h2', links, richText }: C
             </DynamicTitle>
           )}
           {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
-          <div className="flex gap-8">
+          <div className="flex gap-4 md:gap-8 flex-wrap">
             {(links || []).map(({ link }, i) => {
               return <CMSLink key={i} size="lg" {...link} className='font-sans uppercase' />
             })}

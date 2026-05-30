@@ -129,7 +129,7 @@ const renderMobileMenuItem = (item: MenuItem, onClose: () => void, orderClass: s
   if (item.items) {
     return (
       <AccordionItem key={item.title} value={item.title} className={`border-b-0 ${orderClass}`}>
-        <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline">
+        <AccordionTrigger className="py-0 text-[14px] font-semibold hover:no-underline">
           {item.title}
         </AccordionTrigger>
         <AccordionContent className="mt-2">
@@ -142,7 +142,7 @@ const renderMobileMenuItem = (item: MenuItem, onClose: () => void, orderClass: s
   }
 
   return (
-    <Link key={item.title} href={item.url} className={`text-md font-semibold font-sans ${orderClass}`} onClick={onClose}>
+    <Link key={item.title} href={item.url} className={`text-[14px] font-semibold ${orderClass}`} onClick={onClose}>
       {item.title}
     </Link>
   )
@@ -157,7 +157,7 @@ const SubMenuLink = ({ item, onClose = () => { } }: { item: MenuItem; onClose?: 
     >
       <div className="text-foreground">{item.icon}</div>
       <div>
-        <div className="text-sm font-semibold">{item.title}</div>
+        <div className="md:text-sm font-semibold">{item.title}</div>
         {item.description && (
           <p className="text-sm leading-snug text-muted-foreground">{item.description}</p>
         )}

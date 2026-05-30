@@ -329,7 +329,7 @@ async function CategoryPage({
         {/* Баннер категории */}
         {imgUrl && (
           <div className="relative rounded-2xl overflow-hidden h-44 mb-8">
-            <Image src={imgUrl} alt={imgAlt} fill sizes="100vw" className="object-cover" />
+            <Image src={'/banner.png'} alt={imgAlt} fill sizes="100vw" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
             <div className="absolute bottom-6 left-8">
               <h1 className="text-4xl font-bold font-heading text-white">{category.title}</h1>
@@ -427,7 +427,7 @@ async function CategoryPage({
                             alt={imgAlt || sub.title}
                             fill
                             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="object-contain transition-transform duration-500 group-hover:scale-105"
                           />
                         ) : (
                           <div className="h-full bg-gradient-to-br from-primary/10 to-primary/5" />

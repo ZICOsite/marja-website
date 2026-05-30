@@ -22,8 +22,6 @@
     font-size: unset;
     font-family: monospace;
   }
-  p {
-  }
 }
 
 @plugin "@tailwindcss/typography";
