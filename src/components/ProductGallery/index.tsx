@@ -102,7 +102,7 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
                     alt={img.alt ?? ''}
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
+                    className="object-contain"
                     priority={i === 0}
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
