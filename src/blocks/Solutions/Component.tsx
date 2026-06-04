@@ -2,7 +2,7 @@ import { Factory, ShieldCheck, ArrowRight, LucideIcon } from 'lucide-react'
 import type { SolutionsBlock as SolutionsBlockProps } from '@/payload-types'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 const iconMap: Record<string, LucideIcon> = {
   foundation: ShieldCheck,
@@ -13,8 +13,17 @@ type Props = {
   className?: string
 } & SolutionsBlockProps
 
+const addLocale = (link: string, locale: string) => {
+  if (!link || link === '#!' || link.startsWith('http')) return link
+  if (link.startsWith('/') && !link.startsWith(`/${locale}/`) && link !== `/${locale}`) {
+    return `/${locale}${link}`
+  }
+  return link
+}
+
 export const SolutionsBlock = ({ tagline, title, description, cards }: Props) => {
   const t = useTranslations('solutions')
+  const locale = useLocale()
   return (
     <section className="py-24 overflow-hidden">
       <div className="container mx-auto px-4">
@@ -44,7 +53,7 @@ export const SolutionsBlock = ({ tagline, title, description, cards }: Props) =>
             return (
               <Link
                 key={index}
-                href={card.link || '#!'}
+                href={addLocale(card.link || '#!', locale)}
                 className="relative group overflow-hidden rounded-3xl h-[400px] block"
               >
                 {imgUrl && (

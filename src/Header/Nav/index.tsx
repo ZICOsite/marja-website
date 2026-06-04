@@ -1,18 +1,19 @@
 'use client'
 
 import React, { useState } from 'react'
+import * as AccordionPrimitive from '@radix-ui/react-accordion'
 
 import type { Header as HeaderType, ProductCategory } from '@/payload-types'
 
 import Link from 'next/link'
-import { SearchIcon, Menu } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { SearchIcon, Menu, ChevronDown } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import {
@@ -49,6 +50,7 @@ const Navbar = ({ menu, className }: NavbarProps) => {
   const [open, setOpen] = useState(false)
   const closeMenu = () => setOpen(false)
   const t = useTranslations('nav')
+  const router = useRouter()
 
   return (
     <section className={className}>
@@ -59,7 +61,7 @@ const Navbar = ({ menu, className }: NavbarProps) => {
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
-                  {menu.map((item, index) => renderMenuItem(item, ORDER_CLASSES[index] ?? ''))}
+                  {menu.map((item, index) => renderMenuItem(item, ORDER_CLASSES[index] ?? '', router))}
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
@@ -95,11 +97,13 @@ const Navbar = ({ menu, className }: NavbarProps) => {
   )
 }
 
-const renderMenuItem = (item: MenuItem, orderClass: string) => {
+const renderMenuItem = (item: MenuItem, orderClass: string, router: ReturnType<typeof useRouter>) => {
   if (item.items) {
     return (
       <NavigationMenuItem key={item.title} className={orderClass}>
-        <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
+        <NavigationMenuTrigger onClick={() => router.push(item.url)}>
+          {item.title}
+        </NavigationMenuTrigger>
         <NavigationMenuContent className="bg-popover text-popover-foreground">
           {item.items.map((subItem) => (
             <NavigationMenuLink asChild key={subItem.title} className="w-80">
@@ -129,9 +133,18 @@ const renderMobileMenuItem = (item: MenuItem, onClose: () => void, orderClass: s
   if (item.items) {
     return (
       <AccordionItem key={item.title} value={item.title} className={`border-b-0 ${orderClass}`}>
-        <AccordionTrigger className="py-0 text-[14px] font-semibold hover:no-underline">
-          {item.title}
-        </AccordionTrigger>
+        <AccordionPrimitive.Header className="flex items-center justify-between py-0">
+          <Link
+            href={item.url}
+            className="flex-1 text-[14px] font-semibold font-sans"
+            onClick={onClose}
+          >
+            {item.title}
+          </Link>
+          <AccordionPrimitive.Trigger className="p-1 [&[data-state=open]>svg]:rotate-180">
+            <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+          </AccordionPrimitive.Trigger>
+        </AccordionPrimitive.Header>
         <AccordionContent className="mt-2">
           {item.items.map((subItem) => (
             <SubMenuLink key={subItem.title} item={subItem} onClose={onClose} />

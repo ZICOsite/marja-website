@@ -82,7 +82,11 @@ export async function LatestPostsBlock({
 
           {viewAllLink && (
             <Link
-              href={viewAllLink}
+              href={
+                viewAllLink.startsWith('/') && !viewAllLink.startsWith(`/${locale}/`) && viewAllLink !== `/${locale}`
+                  ? `/${locale}${viewAllLink}`
+                  : viewAllLink
+              }
               className="font-sans inline-flex items-center gap-2 font-semibold text-[var(--primary)] hover:underline shrink-0 group"
             >
               {viewAllLabel || t('title')}

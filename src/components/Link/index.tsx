@@ -2,6 +2,7 @@ import { Button, type ButtonProps } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import Link from 'next/link'
 import React from 'react'
+import { getLocale } from 'next-intl/server'
 
 import type { Page, Post } from '@/payload-types'
 
@@ -21,25 +22,30 @@ type CMSLinkType = {
   url?: string | null
 }
 
-export const CMSLink: React.FC<CMSLinkType> = (props) => {
+export const CMSLink: React.FC<CMSLinkType> = async (props) => {
   const {
     type,
     appearance = 'inline',
     children,
     className,
     label,
-    locale,
+    locale: localeProp,
     newTab,
     reference,
     size: sizeFromProps,
     url,
   } = props
 
+  const locale = localeProp || await getLocale()
+
   const buildHref = () => {
     if (type === 'reference' && typeof reference?.value === 'object' && reference.value.slug) {
-      const prefix = locale ? `/${locale}` : ''
+      const prefix = `/${locale}`
       const collectionPrefix = reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''
       return `${prefix}${collectionPrefix}/${reference.value.slug}`
+    }
+    if (url && url.startsWith('/') && !url.startsWith(`/${locale}/`) && url !== `/${locale}`) {
+      return `/${locale}${url}`
     }
     return url
   }
