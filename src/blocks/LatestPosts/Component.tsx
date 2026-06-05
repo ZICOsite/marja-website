@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { getLocale, getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
@@ -13,6 +13,7 @@ type Props = {
   description?: string | null
   viewAllLabel?: string | null
   viewAllLink?: string | null
+  locale?: string
 }
 
 export async function LatestPostsBlock({
@@ -21,8 +22,8 @@ export async function LatestPostsBlock({
   description,
   viewAllLabel,
   viewAllLink,
+  locale = 'uz',
 }: Props) {
-  const locale = await getLocale()
   const t = await getTranslations({ locale, namespace: 'posts' })
 
   const payload = await getPayload({ config: configPromise })
