@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import type { Locale } from '@/i18n/routing'
 
+export const dynamic = 'force-dynamic'
+
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
