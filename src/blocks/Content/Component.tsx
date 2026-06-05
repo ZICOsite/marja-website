@@ -5,8 +5,8 @@ import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 
 import { CMSLink } from '../../components/Link'
 
-export const ContentBlock = (props: ContentBlockProps) => {
-  const { columns } = props
+export const ContentBlock = (props: ContentBlockProps & { locale?: string }) => {
+  const { columns, locale } = props
 
   const colsSpanClasses = {
     full: '12',
@@ -32,7 +32,7 @@ export const ContentBlock = (props: ContentBlockProps) => {
               >
                 {richText && <RichText data={richText} enableGutter={false} />}
 
-                {enableLink && <CMSLink {...link} />}
+                {enableLink && <CMSLink {...link} locale={locale} />}
               </div>
             )
           })}

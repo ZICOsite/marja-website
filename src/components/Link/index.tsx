@@ -41,6 +41,9 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
       const collectionPrefix = reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''
       return `${prefix}${collectionPrefix}/${reference.value.slug}`
     }
+    if (locale && url && url.startsWith('/') && !url.startsWith(`/${locale}/`) && url !== `/${locale}`) {
+      return `/${locale}${url}`
+    }
     return url
   }
 

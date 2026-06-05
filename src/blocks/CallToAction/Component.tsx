@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
 
-export const CallToActionBlock = ({ title, titleTag = 'h2', links, richText }: CTABlockProps) => {
+export const CallToActionBlock = ({ title, titleTag = 'h2', links, richText, locale }: CTABlockProps & { locale?: string }) => {
   const t = useTranslations()
 
   return (
@@ -27,7 +27,7 @@ export const CallToActionBlock = ({ title, titleTag = 'h2', links, richText }: C
           {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
           <div className="flex gap-4 md:gap-8 flex-wrap">
             {(links || []).map(({ link }, i) => {
-              return <CMSLink key={i} size="lg" {...link} className='font-sans uppercase' />
+              return <CMSLink key={i} size="lg" {...link} locale={locale} className='font-sans uppercase' />
             })}
           </div>
         </div>
