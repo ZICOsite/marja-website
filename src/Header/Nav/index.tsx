@@ -193,10 +193,13 @@ export const HeaderNav: React.FC<{
       ? {
         title: t('catalog'),
         url: `/${locale}/products`,
-        items: categories.map((cat) => ({
-          title: cat.title || '',
-          url: `/${locale}/products/${cat.slug}`,
-        })),
+        items: [
+          { title: t('allCategories'), url: `/${locale}/products` },
+          ...categories.map((cat) => ({
+            title: cat.title || '',
+            url: `/${locale}/products/${cat.slug}`,
+          })),
+        ],
       }
       : null
 

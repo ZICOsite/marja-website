@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import type { Locale } from '@/i18n/routing'
 
+export const dynamic = 'force-dynamic'
+
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
@@ -76,8 +78,8 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PageClient />
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      <RenderHero {...hero} locale={locale} />
+      <RenderBlocks blocks={layout} locale={locale} />
     </article>
   )
 }

@@ -15,6 +15,7 @@ const iconMap: Record<string, LucideIcon> = {
 
 type Props = {
   className?: string
+  locale?: string
 } & AboutCompanyBlockProps
 
 export const AboutCompanyBlock = ({
@@ -27,6 +28,7 @@ export const AboutCompanyBlock = ({
   statLabel,
   features,
   button,
+  locale,
 }: Props) => {
   return (
     <section className="py-24 overflow-hidden">
@@ -108,6 +110,7 @@ export const AboutCompanyBlock = ({
               <div className="mt-12">
                 <CMSLink
                   {...button}
+                  locale={locale}
                   className="font-sans px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition inline-flex items-center group shadow-xl shadow-slate-900/20"
                 >
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />

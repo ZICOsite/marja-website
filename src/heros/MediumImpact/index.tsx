@@ -6,7 +6,7 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
-export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
+export const MediumImpactHero: React.FC<Page['hero'] & { locale?: string }> = ({ links, media, richText, locale }) => {
   return (
     <div className="">
       <div className="container mb-8">
@@ -17,7 +17,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
             {links.map(({ link }, i) => {
               return (
                 <li key={i}>
-                  <CMSLink {...link} />
+                  <CMSLink {...link} locale={locale} />
                 </li>
               )
             })}
