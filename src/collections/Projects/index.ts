@@ -13,10 +13,19 @@ export const Projects: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ['title', 'updatedAt'],
+    defaultColumns: ['order', 'title', 'updatedAt'],
     useAsTitle: 'title',
   },
   fields: [
+    {
+      name: 'order',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        description: 'Порядок отображения (меньше — выше)',
+      },
+    },
     {
       name: 'title',
       type: 'text',

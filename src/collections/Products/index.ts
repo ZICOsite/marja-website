@@ -25,7 +25,7 @@ export const Products: CollectionConfig<'products'> = {
   slug: 'products',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'sku', 'categories', 'inStock', 'updatedAt'],
+    defaultColumns: ['order', 'title', 'sku', 'categories', 'inStock', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -62,6 +62,15 @@ export const Products: CollectionConfig<'products'> = {
     priceOnRequest: true,
   },
   fields: [
+    {
+      name: 'order',
+      type: 'number',
+      defaultValue: 0,
+      admin: {
+        position: 'sidebar',
+        description: 'Порядок отображения (меньше — выше)',
+      },
+    },
     {
       name: 'title',
       type: 'text',

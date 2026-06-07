@@ -982,7 +982,7 @@ export interface PopularProductsBlock {
   title: string;
   description?: string | null;
   /**
-   * Выберите от 1 до 8 товаров для отображения в блоке
+   * Выберите от 1 до 9 товаров для отображения в блоке
    */
   products: (number | Product)[];
   /**
@@ -1003,6 +1003,10 @@ export interface PopularProductsBlock {
  */
 export interface Product {
   id: number;
+  /**
+   * Порядок отображения (меньше — выше)
+   */
+  order?: number | null;
   title: string;
   heroImage: number | Media;
   gallery?:
@@ -1333,6 +1337,10 @@ export interface CompletedProjectsBlock {
  */
 export interface Project {
   id: number;
+  /**
+   * Порядок отображения (меньше — выше)
+   */
+  order?: number | null;
   title: string;
   description?: string | null;
   /**
@@ -2594,6 +2602,7 @@ export interface PostsSelect<T extends boolean = true> {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
+  order?: T;
   title?: T;
   heroImage?: T;
   gallery?:
@@ -2737,6 +2746,7 @@ export interface ReviewsSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  order?: T;
   title?: T;
   description?: T;
   gallery?: T;

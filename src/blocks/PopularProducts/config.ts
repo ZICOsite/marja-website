@@ -35,10 +35,10 @@ export const PopularProducts: Block = {
       hasMany: true,
       required: true,
       minRows: 1,
-      maxRows: 8,
+      maxRows: 9,
       label: 'Товары',
       admin: {
-        description: 'Выберите от 1 до 8 товаров для отображения в блоке',
+        description: 'Выберите от 1 до 9 товаров для отображения в блоке',
       },
     },
     {
