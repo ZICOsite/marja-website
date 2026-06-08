@@ -29,7 +29,7 @@ export const SortBar: React.FC<Props> = ({ current, total }) => {
   const currentSort = (SORT_OPTIONS.includes(current as SortKey) ? current : '') as SortKey
 
   return (
-    <div className="flex items-center justify-between gap-3 pb-4 border-b border-border mb-6">
+    <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-border mb-6">
       <p className="text-sm text-muted-foreground">
         {t('foundProducts', { count: total })}
       </p>

@@ -17,7 +17,6 @@ type Props = {
   items?: Item[] | null
 }
 
-
 const COLOR_TOP = '#60a5fa'
 const COLOR_BOT = '#3b82f6'
 
