@@ -106,10 +106,22 @@ export const DocumentationBlockComponent = ({ heading, categories }: Props) => {
                   i < items.length - 1 && 'border-b border-border',
                 )}
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <FileTypeIcon mimeType={item.file.mimeType} />
-                  <span className="text-sm font-medium leading-snug">{item.name}</span>
-                </div>
+                {item.file.url ? (
+                  <a
+                    href={item.file.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 min-w-0 hover:underline"
+                  >
+                    <FileTypeIcon mimeType={item.file.mimeType} />
+                    <span className="text-sm font-medium leading-snug">{item.name}</span>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-3 min-w-0">
+                    <FileTypeIcon mimeType={item.file.mimeType} />
+                    <span className="text-sm font-medium leading-snug">{item.name}</span>
+                  </div>
+                )}
 
                 <span className="text-xs text-muted-foreground sm:text-right pl-8 sm:pl-0">
                   {formatFileSize(item.file.filesize)}

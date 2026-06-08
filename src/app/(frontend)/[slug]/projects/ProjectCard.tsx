@@ -96,7 +96,7 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
           )}
 
           {/* Badge с заголовком — левый верхний угол */}
-          <span className="absolute top-3 left-3 z-10 bg-background/90 text-foreground text-xs font-semibold px-2.5 py-1 rounded-md leading-tight max-w-[100%] line-clamp-1">
+          <span className="absolute top-3 left-3 z-10 bg-background/90 text-foreground text-xs font-semibold px-2.5 py-1 rounded-md leading-[1.5] max-w-[90%] line-clamp-1">
             {project.title}
           </span>
         </div>
