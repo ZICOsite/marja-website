@@ -203,19 +203,22 @@ export const HeaderNav: React.FC<{
       }
       : null
 
+  const mappedNavItems = navItems.map((item) => ({
+    title: item.link?.label || '',
+    url: buildHref(item.link, locale),
+    items: item.subLinks?.length
+      ? item.subLinks.map((sub) => ({
+        title: sub.link?.label || '',
+        url: buildHref(sub.link, locale),
+        description: sub.description || undefined,
+      }))
+      : undefined,
+  }))
+
   const menu: MenuItem[] = [
+    ...(mappedNavItems.length > 0 ? [mappedNavItems[0]] : []),
     ...(catalogItem ? [catalogItem] : []),
-    ...navItems.map((item) => ({
-      title: item.link?.label || '',
-      url: buildHref(item.link, locale),
-      items: item.subLinks?.length
-        ? item.subLinks.map((sub) => ({
-          title: sub.link?.label || '',
-          url: buildHref(sub.link, locale),
-          description: sub.description || undefined,
-        }))
-        : undefined,
-    })),
+    ...mappedNavItems.slice(1),
   ]
 
   return (

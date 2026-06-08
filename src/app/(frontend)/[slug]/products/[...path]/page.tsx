@@ -573,7 +573,7 @@ const queryProductsByCategory = cache(
             ? 'price'
             : sort === 'price_desc'
               ? '-price'
-              : '-createdAt'
+              : 'order'
 
     const result = await payload.find({
       collection: 'products',

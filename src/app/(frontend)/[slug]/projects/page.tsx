@@ -29,6 +29,7 @@ export default async function ProjectsPage({ params }: Args) {
     limit: 100,
     overrideAccess: false,
     locale: locale as Locale,
+    sort: 'order',
   })
 
   return (
