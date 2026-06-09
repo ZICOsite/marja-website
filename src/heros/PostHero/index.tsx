@@ -40,23 +40,24 @@ export const PostHero: React.FC<{
   return (
     <div className="relative">
       <div className="container z-10 relative pb-8">
-        <div className="uppercase text-sm mb-6">
-          {categories?.map((category, index) => {
-            if (typeof category === 'object' && category !== null) {
-              const { title: categoryTitle } = category
-              const titleToUse = categoryTitle || 'Untitled category'
-              const isLast = index === categories.length - 1
-
-              return (
-                <React.Fragment key={index}>
-                  {titleToUse}
-                  {!isLast && <React.Fragment>, &nbsp;</React.Fragment>}
-                </React.Fragment>
-              )
-            }
-            return null
-          })}
-        </div>
+        {categories && categories.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-6">
+            {categories.map((category, index) => {
+              if (typeof category === 'object' && category !== null) {
+                const titleToUse = category.title || 'Untitled category'
+                return (
+                  <span
+                    key={index}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest bg-[var(--primary)] text-white"
+                  >
+                    {titleToUse}
+                  </span>
+                )
+              }
+              return null
+            })}
+          </div>
+        )}
 
         <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl font-bold">{title}</h1>
 

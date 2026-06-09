@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import NextImage from 'next/image'
 import {
   Carousel,
@@ -7,6 +7,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from '@/components/ui/carousel'
 
 export type GalleryImage = {
@@ -17,6 +18,25 @@ export type GalleryImage = {
 }
 
 export const PostGallery: React.FC<{ images: GalleryImage[] }> = ({ images }) => {
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+
+  const onSelect = useCallback((api: CarouselApi) => {
+    if (!api) return
+    setCurrent(api.selectedScrollSnap())
+  }, [])
+
+  useEffect(() => {
+    if (!api) return
+    onSelect(api)
+    api.on('select', onSelect)
+    api.on('reInit', onSelect)
+    return () => {
+      api.off('select', onSelect)
+      api.off('reInit', onSelect)
+    }
+  }, [api, onSelect])
+
   if (!images.length) return null
 
   if (images.length === 1) {
@@ -36,7 +56,7 @@ export const PostGallery: React.FC<{ images: GalleryImage[] }> = ({ images }) =>
 
   return (
     <div className="relative w-full">
-      <Carousel>
+      <Carousel setApi={setApi}>
         <CarouselContent>
           {images.map((img, i) => (
             <CarouselItem key={i}>
@@ -53,12 +73,22 @@ export const PostGallery: React.FC<{ images: GalleryImage[] }> = ({ images }) =>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-2" />
-        <CarouselNext className="right-2" />
+        <CarouselPrevious className="cursor-pointer left-2" />
+        <CarouselNext className="cursor-pointer right-2" />
       </Carousel>
-      <div className="flex justify-center gap-1.5 mt-3">
+
+      <div className="flex justify-center gap-2 mt-4">
         {images.map((_, i) => (
-          <span key={i} className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40" />
+          <button
+            key={i}
+            onClick={() => api?.scrollTo(i)}
+            aria-label={`Slide ${i + 1}`}
+            className={`rounded-full transition-all duration-300 cursor-pointer ${
+              i === current
+                ? 'w-6 h-2 bg-[var(--primary)]'
+                : 'w-2 h-2 bg-muted-foreground/30 hover:bg-muted-foreground/60'
+            }`}
+          />
         ))}
       </div>
     </div>

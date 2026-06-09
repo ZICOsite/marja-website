@@ -74,6 +74,11 @@
   "warranty": {
     "yearsLabel": "years warranty"
   },
+  "activityFeed": {
+    "post": "New post",
+    "project": "New project",
+    "fresh": "Latest"
+  },
   "products": {
     "catalog": "Product Catalog",
     "catalogDescription": "Browse our products",

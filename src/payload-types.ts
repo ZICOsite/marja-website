@@ -256,6 +256,7 @@ export interface Page {
     | LeanPrinciplesBlock
     | LeanToolsBlock
     | LeanResultsBlock
+    | ActivityFeedBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1639,6 +1640,18 @@ export interface LeanResultsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActivityFeedBlock".
+ */
+export interface ActivityFeedBlock {
+  tagline?: string | null;
+  title: string;
+  description?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'activityFeed';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -2025,6 +2038,7 @@ export interface PagesSelect<T extends boolean = true> {
         leanPrinciples?: T | LeanPrinciplesBlockSelect<T>;
         leanTools?: T | LeanToolsBlockSelect<T>;
         leanResults?: T | LeanResultsBlockSelect<T>;
+        activityFeed?: T | ActivityFeedBlockSelect<T>;
       };
   meta?:
     | T
@@ -2561,6 +2575,17 @@ export interface LeanResultsBlockSelect<T extends boolean = true> {
         after?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActivityFeedBlock_select".
+ */
+export interface ActivityFeedBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  title?: T;
+  description?: T;
   id?: T;
   blockName?: T;
 }

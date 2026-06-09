@@ -13,6 +13,7 @@ import { homeStatic } from '@/endpoints/seed/home-static'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
+import { RecentActivityBar } from '@/components/RecentActivityBar'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -79,6 +80,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
       <RenderHero {...hero} locale={locale} />
+      {contentSlug === 'home' && <RecentActivityBar locale={locale} />}
       <RenderBlocks blocks={layout} locale={locale} />
     </article>
   )

@@ -74,6 +74,11 @@
   "warranty": {
     "yearsLabel": "yil kafolat"
   },
+  "activityFeed": {
+    "post": "Yangi maqola",
+    "project": "Yangi ob'ekt",
+    "fresh": "Yangiliklar"
+  },
   "products": {
     "catalog": "Mahsulotlar katalogi",
     "catalogDescription": "Bizning mahsulotlarimiz bilan tanishing",

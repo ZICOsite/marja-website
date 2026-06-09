@@ -74,6 +74,11 @@
   "warranty": {
     "yearsLabel": "жыл кепілдік"
   },
+  "activityFeed": {
+    "post": "Жаңа мақала",
+    "project": "Жаңа нысан",
+    "fresh": "Жаңалықтар"
+  },
   "products": {
     "catalog": "Өнімдер каталогы",
     "catalogDescription": "Біздің өнімдерімізбен танысыңыз",

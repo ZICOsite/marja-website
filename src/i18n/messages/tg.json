@@ -74,6 +74,11 @@
   "warranty": {
     "yearsLabel": "соли кафолат"
   },
+  "activityFeed": {
+    "post": "Мақолаи нав",
+    "project": "Объекти нав",
+    "fresh": "Тоза"
+  },
   "products": {
     "catalog": "Каталоги молҳо",
     "catalogDescription": "Бо маҳсулоти мо шинос шавед",

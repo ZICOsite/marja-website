@@ -74,6 +74,11 @@
   "warranty": {
     "yearsLabel": "лет гарантии"
   },
+  "activityFeed": {
+    "post": "Новая статья",
+    "project": "Новый объект",
+    "fresh": "Свежее"
+  },
   "products": {
     "catalog": "Каталог товаров",
     "catalogDescription": "Ознакомьтесь с нашей продукцией",

@@ -45,7 +45,7 @@ export const Card: React.FC<{
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (
-          <div className="uppercase text-sm mb-4">
+          <div className="text-xs font-bold text-[var(--primary)] uppercase tracking-widest mb-2">
             {categories?.map((category, index) => {
               if (typeof category === 'object' && category !== null) {
                 const { title: titleFromCategory } = category
@@ -68,7 +68,7 @@ export const Card: React.FC<{
           <div className="prose">
             <h3>
               {/* eslint-disable-next-line react-hooks/refs */}
-              <Link className="not-prose" href={href} ref={link.ref}>
+              <Link className="not-prose font-semibold text-base leading-snug mb-2 group-hover:text-[var(--primary)] transition-colors" href={href} ref={link.ref}>
                 {titleToUse}
               </Link>
             </h3>
