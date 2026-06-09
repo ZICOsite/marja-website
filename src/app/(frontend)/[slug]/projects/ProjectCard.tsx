@@ -104,7 +104,7 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
         {/* Описание под картинкой */}
         {project.description && (
           <div className="px-4 py-3">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground text-balance">
               {project.description}
             </p>
           </div>
