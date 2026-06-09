@@ -17,7 +17,7 @@ FROM base AS migrator
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-CMD ["pnpm", "payload", "migrate"]
+CMD ["pnpm", "payload", "migrate", "--yes"]
 
 # ── builder ───────────────────────────────────────────────────────────────────
 FROM base AS builder
