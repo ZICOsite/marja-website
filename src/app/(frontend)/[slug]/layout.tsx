@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 
 import { AdminBar } from '@/components/AdminBar'
+import { FloatingContact } from '@/components/FloatingContact'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
@@ -44,6 +45,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <Header locale={locale} />
         {children}
         <Footer locale={locale} />
+        <FloatingContact locale={locale} />
       </Providers>
     </NextIntlClientProvider>
   )
