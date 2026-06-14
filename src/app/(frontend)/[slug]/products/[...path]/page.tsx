@@ -28,6 +28,8 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 import type { ProductsNotice } from '@/payload-types'
 
+export const dynamic = 'force-dynamic'
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
