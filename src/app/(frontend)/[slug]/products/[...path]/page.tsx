@@ -15,6 +15,10 @@ import { ProductGallery } from '@/components/ProductGallery'
 import { ProductCard } from '@/components/ProductCard'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { ProductTabs } from '@/components/ProductTabs'
+import { Button } from '@/components/ui/button'
+import { ShoppingBag } from 'lucide-react'
+import { OrderDialog } from '@/components/Product/OrderDialog'
+import { AddToCartButton } from '@/components/Cart/AddToCartButton'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
 import { SortBar } from './SortBar'
 import { RelatedProductsSlider } from './RelatedProductsSlider'
@@ -87,6 +91,7 @@ async function ProductDetailPage({
 }) {
   if (!product) return notFound()
   const t = await getTranslations({ locale, namespace: 'products' })
+  const tOrder = await getTranslations({ locale, namespace: 'order' })
 
   const heroImage =
     typeof product.heroImage === 'object' && product.heroImage?.url
@@ -191,6 +196,30 @@ async function ProductDetailPage({
                   {product.shortDescription}
                 </p>
               )}
+
+              <div className="flex flex-wrap items-center gap-3">
+                <OrderDialog
+                  items={[{ title: product.title, url: productUrl, sku: product.sku }]}
+                  trigger={
+                    <Button size="lg" className="gap-2">
+                      <ShoppingBag className="w-5 h-5" />
+                      {tOrder('buttonLabel')}
+                    </Button>
+                  }
+                />
+                <AddToCartButton
+                  product={{
+                    id: String(product.id),
+                    title: product.title,
+                    href: `/${locale}/products/${path.join('/')}`,
+                    image: heroImage?.url ?? null,
+                    price: product.priceOnRequest ? null : ((product.price as number | null) ?? null),
+                    currency: product.currency ?? null,
+                    priceOnRequest: product.priceOnRequest ?? null,
+                    sku: product.sku ?? null,
+                  }}
+                />
+              </div>
             </div>
           </div>
 

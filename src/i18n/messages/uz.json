@@ -1,4 +1,30 @@
 {
+  "cart": {
+    "title": "Savatcha",
+    "empty": "Savatcha bo'sh",
+    "addToCart": "Savatchaga qo'shish",
+    "inCart": "Savatchada",
+    "remove": "O'chirish",
+    "clear": "Tozalash",
+    "continueShopping": "Xaridni davom ettirish",
+    "checkout": "Buyurtmani rasmiylashtirish",
+    "priceOnRequest": "Narx so'rovga ko'ra"
+  },
+  "order": {
+    "buttonLabel": "Buyurtma berish",
+    "title": "Ariza qoldirish",
+    "description": "Kontaktlaringizni qoldiring, biz siz bilan bog'lanamiz",
+    "product": "Mahsulot",
+    "products": "Mahsulotlar",
+    "name": "Ism",
+    "namePlaceholder": "Ismingiz",
+    "phone": "Telefon",
+    "phonePlaceholder": "+998 90 123 45 67",
+    "submit": "Yuborish",
+    "submitting": "Yuborilmoqda...",
+    "success": "Rahmat! Tez orada siz bilan bog'lanamiz.",
+    "error": "Yuborib bo'lmadi. Keyinroq urinib ko'ring."
+  },
   "common": {
     "readMore": "Ko'proq o'qish",
     "backToList": "Ro'yxatga qaytish",

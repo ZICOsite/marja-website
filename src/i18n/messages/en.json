@@ -1,4 +1,30 @@
 {
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "addToCart": "Add to cart",
+    "inCart": "In cart",
+    "remove": "Remove",
+    "clear": "Clear",
+    "continueShopping": "Continue shopping",
+    "checkout": "Place a request",
+    "priceOnRequest": "Price on request"
+  },
+  "order": {
+    "buttonLabel": "Order",
+    "title": "Leave a request",
+    "description": "Leave your contacts and we'll get back to you",
+    "product": "Product",
+    "products": "Products",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "phone": "Phone",
+    "phonePlaceholder": "+998 90 123 45 67",
+    "submit": "Send",
+    "submitting": "Sending...",
+    "success": "Thank you! We'll contact you soon.",
+    "error": "Failed to send. Please try again later."
+  },
   "common": {
     "readMore": "Read more",
     "backToList": "Back to list",

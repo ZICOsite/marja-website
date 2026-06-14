@@ -1,4 +1,30 @@
 {
+  "cart": {
+    "title": "Корзина",
+    "empty": "Корзина пуста",
+    "addToCart": "В корзину",
+    "inCart": "В корзине",
+    "remove": "Удалить",
+    "clear": "Очистить",
+    "continueShopping": "Продолжить покупки",
+    "checkout": "Оформить заявку",
+    "priceOnRequest": "Цена по запросу"
+  },
+  "order": {
+    "buttonLabel": "Заказать",
+    "title": "Оставить заявку",
+    "description": "Оставьте контакты, и мы свяжемся с вами",
+    "product": "Товар",
+    "products": "Товары",
+    "name": "Имя",
+    "namePlaceholder": "Ваше имя",
+    "phone": "Телефон",
+    "phonePlaceholder": "+998 90 123 45 67",
+    "submit": "Отправить",
+    "submitting": "Отправка...",
+    "success": "Спасибо! Мы скоро свяжемся с вами.",
+    "error": "Не удалось отправить. Попробуйте позже."
+  },
   "common": {
     "readMore": "Читать далее",
     "backToList": "Назад к списку",

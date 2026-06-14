@@ -25,7 +25,7 @@ import {
 } from '@/components/ui/navigation-menu'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Logo } from '@/components/Logo/Logo'
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
+import { CartIcon } from '@/components/Cart/CartIcon'
 
 interface MenuItem {
   title: string
@@ -224,11 +224,11 @@ export const HeaderNav: React.FC<{
   return (
     <nav className="flex gap-3 items-center">
       <Navbar menu={menu} />
-      <ThemeSelector />
       <Link href={`/${locale}/search`}>
         <span className="sr-only">{t('search')}</span>
         <SearchIcon className="w-5 text-primary" />
       </Link>
+      <CartIcon locale={locale} />
     </nav>
   )
 }
