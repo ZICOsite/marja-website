@@ -257,6 +257,7 @@ export interface Page {
     | LeanToolsBlock
     | LeanResultsBlock
     | ActivityFeedBlock
+    | FAQBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1652,6 +1653,25 @@ export interface ActivityFeedBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock".
+ */
+export interface FAQBlock {
+  tagline?: string | null;
+  title?: string | null;
+  description?: string | null;
+  items?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -2039,6 +2059,7 @@ export interface PagesSelect<T extends boolean = true> {
         leanTools?: T | LeanToolsBlockSelect<T>;
         leanResults?: T | LeanResultsBlockSelect<T>;
         activityFeed?: T | ActivityFeedBlockSelect<T>;
+        faq?: T | FAQBlockSelect<T>;
       };
   meta?:
     | T
@@ -2586,6 +2607,24 @@ export interface ActivityFeedBlockSelect<T extends boolean = true> {
   tagline?: T;
   title?: T;
   description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FAQBlock_select".
+ */
+export interface FAQBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  title?: T;
+  description?: T;
+  items?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
