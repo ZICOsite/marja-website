@@ -11,7 +11,6 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import { ProductCard } from '@/components/ProductCard'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
-import { CardPostData } from '@/components/Card'
 
 type Args = {
   params: Promise<{ slug: string }>
@@ -29,9 +28,9 @@ export default async function Page({ params, searchParams: searchParamsPromise }
 
   const payload = await getPayload({ config: configPromise })
 
-  // --- Поиск по постам (через searchPlugin) ---
+  // --- Поиск по постам (напрямую через posts, чтобы категории были в нужной локали) ---
   const posts = await payload.find({
-    collection: 'search',
+    collection: 'posts',
     depth: 1,
     limit: 6,
     locale: locale as Locale,
@@ -39,7 +38,7 @@ export default async function Page({ params, searchParams: searchParamsPromise }
     pagination: false,
     where: {
       and: [
-        { 'doc.relationTo': { equals: 'posts' } },
+        { _status: { equals: 'published' } },
         ...(query
           ? [
               {
@@ -142,7 +141,7 @@ export default async function Page({ params, searchParams: searchParamsPromise }
               {posts.totalDocs}
             </span>
           </h2>
-          <CollectionArchive posts={posts.docs as CardPostData[]} />
+          <CollectionArchive posts={posts.docs} />
         </div>
       )}
     </div>

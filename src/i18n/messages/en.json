@@ -19,7 +19,7 @@
     "name": "Name",
     "namePlaceholder": "Your name",
     "phone": "Phone",
-    "phonePlaceholder": "+998 90 123 45 67",
+    "phonePlaceholder": "Enter your number",
     "submit": "Send",
     "submitting": "Sending...",
     "success": "Thank you! We'll contact you soon.",

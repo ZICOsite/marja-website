@@ -78,29 +78,29 @@ export async function RecentActivityBar({ locale = 'uz' }: Props) {
     <div className="border-b border-border bg-muted/40 mb-6">
       <div className="container mx-auto px-4">
         <div className="flex items-center gap-3 h-11">
-          <span className="flex items-center gap-1.5 text-xs font-bold text-[var(--primary)] shrink-0 uppercase tracking-wider">
+          <span className="hidden sm:flex items-center gap-1.5 text-xs font-bold text-[var(--primary)] shrink-0 uppercase tracking-wider">
             <Clock className="w-3.5 h-3.5" />
             {t('fresh')}
           </span>
 
-          <div className="w-px h-4 bg-border shrink-0" />
+          <div className="hidden sm:block w-px h-4 bg-border shrink-0" />
 
-          <div className="flex items-center gap-1 overflow-hidden min-w-0">
+          <div className="flex items-center gap-1 overflow-x-auto min-w-0 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {items.map((item, index) => (
-              <div key={`${item.type}-${item.id}`} className="flex items-center gap-1 min-w-0">
+              <div key={`${item.type}-${item.id}`} className="flex items-center gap-1 shrink-0 snap-start">
                 {index > 0 && (
                   <span className="text-border mx-1 shrink-0">•</span>
                 )}
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-[var(--primary)] transition-colors whitespace-nowrap overflow-hidden group"
+                  className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-[var(--primary)] transition-colors whitespace-nowrap group"
                 >
                   {item.type === 'post' ? (
                     <FileText className="w-3.5 h-3.5 shrink-0 text-blue-500" />
                   ) : (
                     <Building2 className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
                   )}
-                  <span className="truncate max-w-[180px] sm:max-w-[240px]">
+                  <span className="truncate max-w-[160px] sm:max-w-[240px]">
                     {item.title}
                   </span>
                 </Link>

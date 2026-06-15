@@ -19,7 +19,7 @@
     "name": "Имя",
     "namePlaceholder": "Ваше имя",
     "phone": "Телефон",
-    "phonePlaceholder": "+998 90 123 45 67",
+    "phonePlaceholder": "Введите номер",
     "submit": "Отправить",
     "submitting": "Отправка...",
     "success": "Спасибо! Мы скоро свяжемся с вами.",

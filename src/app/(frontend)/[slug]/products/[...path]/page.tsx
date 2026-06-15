@@ -363,7 +363,7 @@ async function CategoryPage({
             <Image src={'/banner.png'} alt={imgAlt} fill sizes="100vw" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
             <div className="absolute bottom-6 left-8">
-              <h1 className="text-4xl font-bold font-heading text-white">{category.title}</h1>
+              <h1 className="text-2xl font-bold font-heading text-white">{category.title}</h1>
               {category.description && (
                 <p className="text-white/80 mt-1 text-sm max-w-md">{category.description}</p>
               )}

@@ -58,7 +58,7 @@ export const FAQBlockComponent = ({ tagline, title, description, items }: Props)
           <Accordion type="single" collapsible className="w-full">
             {faqItems.map((item, i) => (
               <AccordionItem key={i} value={`faq-${i}`}>
-                <AccordionTrigger className="text-left text-base md:text-lg text-gray-900 dark:text-white">
+                <AccordionTrigger className="text-left text-[18px] md:text-xl text-gray-900 dark:text-white">
                   {item.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-base text-gray-600 dark:text-gray-300 whitespace-pre-line">
