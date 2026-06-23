@@ -9,6 +9,7 @@ import { getPayload } from 'payload'
 import { setRequestLocale, getTranslations } from 'next-intl/server'
 import React from 'react'
 import PageClient from './page.client'
+import { buildAlternates } from '@/utilities/generateMeta'
 
 export const dynamic = 'force-dynamic'
 
@@ -60,5 +61,8 @@ export default async function Page({ params }: Args) {
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug: locale } = await params
   const t = await getTranslations({ locale, namespace: 'posts' })
-  return { title: t('title') }
+  return {
+    title: t('title'),
+    alternates: buildAlternates(locale, '/posts'),
+  }
 }

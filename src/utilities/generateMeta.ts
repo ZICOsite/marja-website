@@ -4,6 +4,7 @@ import type { Media, Page, Post, Config } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
+import { locales } from '@/i18n/routing'
 
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   const serverUrl = getServerSideURL()
@@ -19,10 +20,28 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   return url
 }
 
+// path — путь без локали, например '/about' или '/posts/my-post' или '' для главной
+export const buildAlternates = (locale: string, path: string): NonNullable<Metadata['alternates']> => {
+  const serverUrl = getServerSideURL()
+  const languages: Record<string, string> = {}
+
+  for (const loc of locales) {
+    languages[loc] = `${serverUrl}/${loc}${path}`
+  }
+  languages['x-default'] = `${serverUrl}/uz${path}`
+
+  return {
+    canonical: `${serverUrl}/${locale}${path}`,
+    languages,
+  }
+}
+
 export const generateMeta = async (args: {
   doc: Partial<Page> | Partial<Post> | null
+  locale?: string
+  path?: string
 }): Promise<Metadata> => {
-  const { doc } = args
+  const { doc, locale, path } = args
 
   const ogImage = getImageURL(doc?.meta?.image)
 
@@ -43,5 +62,6 @@ export const generateMeta = async (args: {
       url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
     }),
     title,
+    ...(locale != null && path != null ? { alternates: buildAlternates(locale, path) } : {}),
   }
 }

@@ -17,5 +17,5 @@ export default async function CartPage({ params }: Args) {
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug: locale } = await params
   const t = await getTranslations({ locale, namespace: 'cart' })
-  return { title: t('title') }
+  return { title: t('title'), robots: { index: false, follow: false } }
 }

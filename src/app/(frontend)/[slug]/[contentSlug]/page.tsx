@@ -90,8 +90,9 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug: locale, contentSlug = 'home' } = await paramsPromise
   const decodedContentSlug = decodeURIComponent(contentSlug)
   const page = await queryPageBySlug({ slug: decodedContentSlug, locale })
+  const path = decodedContentSlug === 'home' ? '' : `/${decodedContentSlug}`
 
-  return generateMeta({ doc: page })
+  return generateMeta({ doc: page, locale, path })
 }
 
 const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: string }) => {

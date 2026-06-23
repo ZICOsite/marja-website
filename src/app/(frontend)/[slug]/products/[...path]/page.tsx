@@ -24,6 +24,7 @@ import { SortBar } from './SortBar'
 import { RelatedProductsSlider } from './RelatedProductsSlider'
 import { AttributeFilters, type FilterAttr } from './AttributeFilters'
 import { getServerSideURL } from '@/utilities/getURL'
+import { buildAlternates } from '@/utilities/generateMeta'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 import type { ProductsNotice } from '@/payload-types'
@@ -496,6 +497,7 @@ async function CategoryPage({
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug: locale, path } = await paramsPromise
   const lastSegment = path[path.length - 1]!
+  const pagePath = `/products/${path.join('/')}`
 
   const product = await queryProductBySlug({ slug: lastSegment, locale })
   if (product) {
@@ -510,6 +512,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
               ? [{ url: product.heroImage.url }]
               : [],
       },
+      alternates: buildAlternates(locale, pagePath),
     }
   }
 
@@ -517,6 +520,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   return {
     title: category?.meta?.title || category?.title || undefined,
     description: category?.meta?.description || category?.description || undefined,
+    alternates: buildAlternates(locale, pagePath),
   }
 }
 
