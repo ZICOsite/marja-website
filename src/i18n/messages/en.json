@@ -25,6 +25,19 @@
     "success": "Thank you! We'll contact you soon.",
     "error": "Failed to send. Please try again later."
   },
+  "consultation": {
+    "bubbleLabel": "Get a consultation",
+    "title": "Get a consultation",
+    "description": "Leave your name and phone number and we'll get back to you",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "phone": "Phone",
+    "phonePlaceholder": "Enter your number",
+    "submit": "Send",
+    "submitting": "Sending...",
+    "success": "Thank you! We'll contact you soon.",
+    "error": "Failed to send. Please try again later."
+  },
   "common": {
     "readMore": "Read more",
     "backToList": "Back to list",

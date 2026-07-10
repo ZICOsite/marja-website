@@ -25,6 +25,19 @@
     "success": "Rahmat! Tez orada siz bilan bog'lanamiz.",
     "error": "Yuborib bo'lmadi. Keyinroq urinib ko'ring."
   },
+  "consultation": {
+    "bubbleLabel": "Konsultatsiya olish",
+    "title": "Konsultatsiya olish",
+    "description": "Ismingiz va telefon raqamingizni qoldiring, biz siz bilan bog'lanamiz",
+    "name": "Ism",
+    "namePlaceholder": "Ismingiz",
+    "phone": "Telefon",
+    "phonePlaceholder": "Raqamingizni kiriting",
+    "submit": "Yuborish",
+    "submitting": "Yuborilmoqda...",
+    "success": "Rahmat! Tez orada siz bilan bog'lanamiz.",
+    "error": "Yuborib bo'lmadi. Keyinroq urinib ko'ring."
+  },
   "common": {
     "readMore": "Ko'proq o'qish",
     "backToList": "Ro'yxatga qaytish",
