@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter' }
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { defaultTheme } from '@/providers/Theme/ThemeSelector/types'
+import { GoogleAnalytics } from '@/components/Analytics/GoogleAnalytics'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -30,7 +31,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
-      <body>{children}</body>
+      <body>
+        <GoogleAnalytics />
+        {children}
+      </body>
     </html>
   )
 }
