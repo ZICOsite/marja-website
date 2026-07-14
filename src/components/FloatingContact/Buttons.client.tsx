@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dialog'
 import { submitConsultationRequest } from '@/actions/submitConsultationRequest'
 
-const TELEGRAM_URL = 'https://t.me/uz_marja'
+const TELEGRAM_URL = 'https://telegram.me/uz_marja'
 const BUBBLE_DELAY_MS = 20000
 
 type Props = {
