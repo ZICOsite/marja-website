@@ -38,9 +38,9 @@ const sheetVariants = cva(
         top: "inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
         bottom:
           "inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-        left: "inset-y-0 left-0 h-full w-3/3 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
+        left: "inset-y-0 left-0 h-full w-[95%] border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm",
         right:
-          "inset-y-0 right-0 h-full w-3/3  border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
+          "inset-y-0 right-0 h-full w-[95%] border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
       },
     },
     defaultVariants: {
@@ -53,25 +53,96 @@ interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {}
 
+// Distance (px) a swipe must cover, past this the sheet closes; otherwise it snaps back.
+const SWIPE_CLOSE_THRESHOLD = 80
+
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
->(({ side = "right", className, children, ...props }, ref) => (
-  <SheetPortal>
-    <SheetOverlay />
-    <SheetPrimitive.Content
-      ref={ref}
-      className={cn(sheetVariants({ side }), className)}
-      {...props}
-    >
-      {children}
-      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-        <X className="h-4 w-4" />
-        <span className="sr-only">Close</span>
-      </SheetPrimitive.Close>
-    </SheetPrimitive.Content>
-  </SheetPortal>
-))
+>(({ side = "right", className, children, ...props }, ref) => {
+  const closeRef = React.useRef<HTMLButtonElement>(null)
+  const touchStart = React.useRef<{ x: number; y: number } | null>(null)
+  const swipeLock = React.useRef<"horizontal" | "vertical" | null>(null)
+  const [dragX, setDragX] = React.useState(0)
+  const [dragging, setDragging] = React.useState(false)
+
+  // Sign of the swipe direction that closes the sheet: right-side sheets close on
+  // rightward drag, left-side sheets close on leftward drag. Top/bottom don't support swipe.
+  const swipeSign = side === "right" ? 1 : side === "left" ? -1 : 0
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (swipeSign === 0) return
+    const touch = e.touches[0]
+    touchStart.current = { x: touch.clientX, y: touch.clientY }
+    swipeLock.current = null
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (swipeSign === 0 || !touchStart.current) return
+    const touch = e.touches[0]
+    const deltaX = touch.clientX - touchStart.current.x
+    const deltaY = touch.clientY - touchStart.current.y
+
+    if (swipeLock.current === null) {
+      if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) return
+      swipeLock.current = Math.abs(deltaX) > Math.abs(deltaY) ? "horizontal" : "vertical"
+    }
+    if (swipeLock.current !== "horizontal") return
+
+    const closingDelta = Math.max(0, deltaX * swipeSign)
+    setDragging(true)
+    setDragX(closingDelta)
+  }
+
+  const handleTouchEnd = () => {
+    if (swipeSign === 0 || !touchStart.current) return
+    touchStart.current = null
+
+    if (swipeLock.current === "horizontal" && dragX > SWIPE_CLOSE_THRESHOLD) {
+      closeRef.current?.click()
+      setDragging(false)
+      setDragX(0)
+    } else {
+      // Snap back with a short transition, then hand control back to the default styles.
+      setDragX(0)
+      window.setTimeout(() => setDragging(false), 200)
+    }
+    swipeLock.current = null
+  }
+
+  return (
+    <SheetPortal>
+      <SheetOverlay />
+      <SheetPrimitive.Content
+        ref={ref}
+        className={cn(sheetVariants({ side }), className)}
+        style={
+          dragging
+            ? {
+                transform: `translateX(${dragX * swipeSign}px)`,
+                transition: dragX === 0 ? "transform 200ms ease" : "none",
+                touchAction: "pan-y",
+              }
+            : undefined
+        }
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
+        {...props}
+      >
+        {children}
+        <SheetPrimitive.Close
+          ref={closeRef}
+          className="absolute right-4 top-4 rounded-full p-2 opacity-70 ring-offset-background transition-opacity hover:opacity-100 hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+        >
+          <X className="h-6 w-6" />
+          <span className="sr-only">Close</span>
+        </SheetPrimitive.Close>
+      </SheetPrimitive.Content>
+    </SheetPortal>
+  )
+})
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
 const SheetHeader = ({

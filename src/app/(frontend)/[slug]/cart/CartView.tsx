@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { useCart } from '@/providers/Cart'
 import { OrderDialog } from '@/components/Product/OrderDialog'
 import { getServerSideURL } from '@/utilities/getURL'
+import { formatPrice } from '@/utilities/formatPrice'
 
 export const CartView: React.FC<{ locale: string }> = ({ locale }) => {
   const t = useTranslations('cart')
@@ -77,7 +78,7 @@ export const CartView: React.FC<{ locale: string }> = ({ locale }) => {
                 <p className="text-sm text-primary font-bold mt-1">
                   {item.priceOnRequest || item.price == null
                     ? t('priceOnRequest')
-                    : `${item.price.toLocaleString()} ${item.currency ?? 'UZS'}`}
+                    : `${formatPrice(item.price)} ${item.currency ?? 'UZS'}`}
                 </p>
               )}
             </div>

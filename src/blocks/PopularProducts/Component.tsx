@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Link } from '@/navigation'
 import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { formatPrice } from '@/utilities/formatPrice'
 import {
   Carousel,
   CarouselContent,
@@ -140,7 +141,9 @@ export const PopularProductsBlock = ({
 
                     <div className="p-5 flex flex-col flex-1">
                       {product.sku && (
-                        <p className="text-xs text-muted-foreground font-mono mb-1">{product.sku}</p>
+                        <p className="text-xs text-muted-foreground mb-1">
+                          {t('sku')}: <span className="font-mono">{product.sku}</span>
+                        </p>
                       )}
                       <h3 className="font-sans font-semibold text-base leading-snug group-hover:text-[var(--primary)] transition-colors line-clamp-2 mb-2">
                         {product.title}
@@ -155,7 +158,7 @@ export const PopularProductsBlock = ({
                           {product.priceOnRequest
                             ? t('priceOnRequest')
                             : product.price != null
-                              ? `${product.price.toLocaleString()} ${product.currency ?? 'UZS'}`
+                              ? `${formatPrice(product.price)} ${product.currency ?? 'UZS'}`
                               : null}
                         </span>
                         <span className="flex items-center gap-1 text-sm font-semibold text-[var(--primary)]">

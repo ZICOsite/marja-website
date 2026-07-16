@@ -25,6 +25,7 @@ import { RelatedProductsSlider } from './RelatedProductsSlider'
 import { AttributeFilters, type FilterAttr } from './AttributeFilters'
 import { getServerSideURL } from '@/utilities/getURL'
 import { buildAlternates } from '@/utilities/generateMeta'
+import { formatPrice } from '@/utilities/formatPrice'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 import type { ProductsNotice } from '@/payload-types'
@@ -189,7 +190,7 @@ async function ProductDetailPage({
                   <p className="text-3xl font-bold text-primary">
                     {product.priceOnRequest
                       ? t('priceOnRequest')
-                      : `${(product.price as number).toLocaleString()} ${product.currency ?? 'UZS'}`}
+                      : `${formatPrice(product.price as number)} ${product.currency ?? 'UZS'}`}
                   </p>
                 </div>
               )}

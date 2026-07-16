@@ -3,6 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import {
   Carousel,
   CarouselContent,
@@ -18,6 +19,8 @@ type Props = {
 }
 
 export function RelatedProductsSlider({ products, locale }: Props) {
+  const t = useTranslations('products')
+
   return (
     <Carousel opts={{ align: 'start', loop: false }} className="w-full">
       <CarouselContent className="-ml-4">
@@ -53,7 +56,9 @@ export function RelatedProductsSlider({ products, locale }: Props) {
                     {related.title}
                   </h3>
                   {related.sku && (
-                    <p className="text-xs text-muted-foreground mt-1 font-mono">{related.sku}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {t('sku')}: <span className="font-mono">{related.sku}</span>
+                    </p>
                   )}
                 </div>
               </Link>

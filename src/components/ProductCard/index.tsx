@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
+import { formatPrice } from '@/utilities/formatPrice'
 
 type ProductCardProps = {
   href: string
@@ -57,7 +58,11 @@ export async function ProductCard({
         </span>
       </div>
       <div className="p-5 flex flex-col flex-1">
-        {sku && <p className="text-xs text-muted-foreground font-mono mb-1">{sku}</p>}
+        {sku && (
+          <p className="text-xs text-muted-foreground mb-1">
+            {t('sku')}: <span className="font-mono">{sku}</span>
+          </p>
+        )}
         <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2 flex-1 font-sans">
           {title}
         </h3>
@@ -68,7 +73,7 @@ export async function ProductCard({
           <p className="mt-3 text-base font-bold text-primary">
             {priceOnRequest
               ? t('priceOnRequest')
-              : `${(price as number).toLocaleString()} ${currency ?? 'UZS'}`}
+              : `${formatPrice(price as number)} ${currency ?? 'UZS'}`}
           </p>
         )}
       </div>
