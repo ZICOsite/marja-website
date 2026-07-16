@@ -16,6 +16,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { submitProductOrder, type OrderProduct } from '@/actions/submitProductOrder'
+import { trackLead } from '@/utilities/trackLead'
 
 type Props = {
   items: OrderProduct[]
@@ -51,6 +52,7 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
     const res = await submitProductOrder({ name, phone, items })
     if (res.ok) {
       setStatus('success')
+      trackLead('product_order', { items: items.length })
       onSuccess?.()
     } else {
       setStatus('error')

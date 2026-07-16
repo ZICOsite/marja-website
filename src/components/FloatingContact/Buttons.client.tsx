@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { submitConsultationRequest } from '@/actions/submitConsultationRequest'
+import { trackLead } from '@/utilities/trackLead'
 
 const TELEGRAM_URL = 'https://telegram.me/uz_marja'
 const BUBBLE_DELAY_MS = 20000
@@ -60,6 +61,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
     setStatus('submitting')
     const res = await submitConsultationRequest({ name, phone })
     setStatus(res.ok ? 'success' : 'error')
+    if (res.ok) trackLead('consultation')
   }
 
   return (
@@ -83,6 +85,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Telegram"
+        onClick={() => trackLead('telegram_click')}
         className="flex h-14 w-14 items-center justify-center rounded-full bg-[#229ED9] text-white shadow-lg transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#229ED9]"
       >
         {/* Иконка Telegram (бренд) */}
@@ -95,6 +98,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
         <a
           href={telHref}
           aria-label={phoneNumber ?? 'Позвонить'}
+          onClick={() => trackLead('phone_click')}
           className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
         >
           <Phone className="h-6 w-6" />

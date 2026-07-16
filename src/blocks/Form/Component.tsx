@@ -10,6 +10,7 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
+import { trackLead } from '@/utilities/trackLead'
 
 export type FormBlockType = {
   blockName?: string
@@ -86,6 +87,7 @@ export const FormBlock = (props: { id?: string } & FormBlockType) => {
 
           setIsLoading(false)
           setHasSubmitted(true)
+          trackLead('contact_form')
 
           if (confirmationType === 'redirect' && redirect) {
             const { url } = redirect
