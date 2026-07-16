@@ -43,7 +43,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           }}
         />
         <Header locale={locale} />
-        {children}
+        <main>{children}</main>
         <Footer locale={locale} />
         <FloatingContact locale={locale} />
       </Providers>

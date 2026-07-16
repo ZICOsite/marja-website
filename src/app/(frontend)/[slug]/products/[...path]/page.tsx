@@ -495,6 +495,16 @@ async function CategoryPage({
 // Metadata
 // ---------------------------------------------------------------------------
 
+// Kategoriya sahifasida meta description bo'sh bo'lsa — SEO uchun aqlli fallback.
+function categoryMetaDescription(locale: string, name: string): string {
+  const t: Record<string, string> = {
+    uz: `${name} — marja.uz'da keng assortimentda. Sifatli gidroizolyatsiya materiallari, kafolat va professional maslahat. Toshkent bo'ylab yetkazib berish.`,
+    ru: `${name} — широкий ассортимент на marja.uz. Качественные гидроизоляционные материалы, гарантия и профессиональная консультация. Доставка по Ташкенту.`,
+    en: `${name} — wide range at marja.uz. Quality waterproofing materials, warranty and professional advice. Delivery across Tashkent.`,
+  }
+  return t[locale] || t.ru!
+}
+
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug: locale, path } = await paramsPromise
   const lastSegment = path[path.length - 1]!
@@ -518,9 +528,13 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   }
 
   const category = await queryCategoryBySlug({ slug: lastSegment, locale })
+  const categoryName = category?.meta?.title || category?.title
   return {
-    title: category?.meta?.title || category?.title || undefined,
-    description: category?.meta?.description || category?.description || undefined,
+    title: categoryName ? `${categoryName} | MARJA` : undefined,
+    description:
+      category?.meta?.description ||
+      category?.description ||
+      (categoryName ? categoryMetaDescription(locale, categoryName) : undefined),
     alternates: buildAlternates(locale, pagePath),
   }
 }
