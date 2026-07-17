@@ -6,6 +6,7 @@ import { draftMode } from 'next/headers'
 
 import { AdminBar } from '@/components/AdminBar'
 import { FloatingContact } from '@/components/FloatingContact'
+import { OrganizationJsonLd } from '@/components/OrganizationJsonLd'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
@@ -37,6 +38,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider messages={messages}>
       <Providers>
+        <OrganizationJsonLd locale={locale} />
         <AdminBar
           adminBarProps={{
             preview: isEnabled,
