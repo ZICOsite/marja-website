@@ -3,7 +3,6 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { locales } from '@/i18n/routing'
-import type { ProductCategory } from '@/payload-types'
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SERVER_URL ||
@@ -29,23 +28,11 @@ const getProductsSitemap = unstable_cache(
     const dateFallback = new Date().toISOString()
 
     return results.docs.flatMap((product) => {
-      // Берём первую категорию для построения URL
-      const firstCat =
-        Array.isArray(product.categories) && product.categories.length > 0
-          ? (product.categories[0] as ProductCategory)
-          : null
-
-      const categoryPath = (() => {
-        if (!firstCat || typeof firstCat !== 'object') return ''
-        const crumbs = firstCat.breadcrumbs as Array<{ url?: string }> | null | undefined
-        if (Array.isArray(crumbs) && crumbs.length > 0) {
-          return crumbs[crumbs.length - 1]?.url ?? `/${firstCat.slug}`
-        }
-        return `/${firstCat.slug}`
-      })()
-
+      // Kanonik URL — kategoriyasiz (B variant): /{locale}/products/{slug}.
+      // Sahifadagi canonical/hreflang va 308 redirect ham aynan shu sxemaga
+      // ishlaydi, shuning uchun sitemap faqat kanonik URL'larni beradi.
       return locales.map((locale) => ({
-        loc: `${SITE_URL}/${locale}/products${categoryPath}/${product.slug}`,
+        loc: `${SITE_URL}/${locale}/products/${product.slug}`,
         lastmod: product.updatedAt || dateFallback,
       }))
     })

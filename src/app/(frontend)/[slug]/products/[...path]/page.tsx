@@ -5,7 +5,7 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import { setRequestLocale } from 'next-intl/server'
 import { getTranslations } from 'next-intl/server'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { cache } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -61,7 +61,13 @@ export default async function ProductsPathPage({
 
   const product = await queryProductBySlug({ slug: lastSegment, locale })
   if (product) {
-    return <ProductDetailPage product={product} locale={locale} path={path} />
+    // Kanonik sxema: mahsulot HAR DOIM kategoriyasiz yo'lda ochiladi
+    // (/{locale}/products/{slug}). Kategoriya prefiksli variant (dublikat)
+    // kanonikga 308 bilan yo'naltiriladi — Google ikkalasini bitta sahifa deb ko'radi.
+    if (path.length > 1) {
+      permanentRedirect(`/${locale}/products/${product.slug}`)
+    }
+    return <ProductDetailPage product={product} locale={locale} path={[product.slug!]} />
   }
 
   const category = await queryCategoryBySlug({ slug: lastSegment, locale })
@@ -424,7 +430,7 @@ async function CategoryPage({
                   {filteredProducts.map((product) => (
                     <ProductCard
                       key={product.id}
-                      href={`/${locale}/products/${path.join('/')}/${product.slug}`}
+                      href={`/${locale}/products/${product.slug}`}
                       title={product.title}
                       sku={product.sku}
                       inStock={product.inStock}
@@ -512,6 +518,10 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   const product = await queryProductBySlug({ slug: lastSegment, locale })
   if (product) {
+    // Mahsulot uchun kanonik yo'l HAR DOIM kategoriyasiz (B variant) — kirilgan
+    // URL kategoriya prefiksli bo'lsa ham. Shu tufayli canonical va hreflang
+    // dublikatlarni bitta sahifaga birlashtiradi.
+    const canonicalPath = `/products/${product.slug}`
     return {
       title: product.meta?.title || product.title,
       description: product.meta?.description || product.shortDescription || undefined,
@@ -523,7 +533,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
               ? [{ url: product.heroImage.url }]
               : [],
       },
-      alternates: buildAlternates(locale, pagePath),
+      alternates: buildAlternates(locale, canonicalPath),
     }
   }
 
