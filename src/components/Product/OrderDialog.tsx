@@ -26,7 +26,7 @@ type Props = {
   onSuccess?: () => void
 }
 
-type Status = 'idle' | 'submitting' | 'success' | 'error'
+type Status = 'idle' | 'submitting' | 'success' | 'error' | 'rateLimited'
 
 export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
   const t = useTranslations('order')
@@ -34,6 +34,7 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
   const [status, setStatus] = useState<Status>('idle')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [website, setWebsite] = useState('')
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next)
@@ -41,6 +42,7 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
       setStatus('idle')
       setName('')
       setPhone('')
+      setWebsite('')
     }
   }
 
@@ -49,13 +51,14 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
     if (!name.trim() || !phone.trim() || status === 'submitting' || items.length === 0) return
 
     setStatus('submitting')
-    const res = await submitProductOrder({ name, phone, items })
+    const res = await submitProductOrder({ name, phone, items, website })
     if (res.ok) {
       setStatus('success')
       trackLead('product_order', { items: items.length })
       onSuccess?.()
     } else {
-      setStatus('error')
+      // Заявка не ушла — конверсию не засчитываем и корзину не чистим.
+      setStatus(res.reason === 'rateLimited' ? 'rateLimited' : 'error')
     }
   }
 
@@ -116,7 +119,22 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
               />
             </div>
 
+            {/* Honeypot — скрыт от людей, заполняется ботами */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
+
             {status === 'error' && <p className="text-sm text-destructive">{t('error')}</p>}
+            {status === 'rateLimited' && (
+              <p className="text-sm text-amber-600 dark:text-amber-500">{t('rateLimited')}</p>
+            )}
 
             <Button type="submit" size="lg" className="gap-2" disabled={status === 'submitting'}>
               {status === 'submitting' && <Loader2 className="w-4 h-4 animate-spin" />}

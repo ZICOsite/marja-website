@@ -25,6 +25,8 @@ import * as migration_20260606_152157 from './20260606_152157';
 import * as migration_20260606_154158 from './20260606_154158';
 import * as migration_20260609_141225 from './20260609_141225';
 import * as migration_20260614_152210_faq_block from './20260614_152210_faq_block';
+import * as migration_20260729_063535_calculator_block from './20260729_063535_calculator_block';
+import * as migration_20260730_065419_leads from './20260730_065419_leads';
 
 export const migrations = [
   {
@@ -160,6 +162,16 @@ export const migrations = [
   {
     up: migration_20260614_152210_faq_block.up,
     down: migration_20260614_152210_faq_block.down,
-    name: '20260614_152210_faq_block'
+    name: '20260614_152210_faq_block',
+  },
+  {
+    up: migration_20260729_063535_calculator_block.up,
+    down: migration_20260729_063535_calculator_block.down,
+    name: '20260729_063535_calculator_block',
+  },
+  {
+    up: migration_20260730_065419_leads.up,
+    down: migration_20260730_065419_leads.down,
+    name: '20260730_065419_leads'
   },
 ];

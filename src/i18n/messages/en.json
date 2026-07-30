@@ -23,7 +23,8 @@
     "submit": "Send",
     "submitting": "Sending...",
     "success": "Thank you! We'll contact you soon.",
-    "error": "Failed to send. Please try again later."
+    "error": "Failed to send. Please try again later.",
+    "rateLimited": "Too many requests from your address. Please try again in a couple of minutes."
   },
   "consultation": {
     "bubbleLabel": "Get a consultation",
@@ -36,7 +37,8 @@
     "submit": "Send",
     "submitting": "Sending...",
     "success": "Thank you! We'll contact you soon.",
-    "error": "Failed to send. Please try again later."
+    "error": "Failed to send. Please try again later.",
+    "rateLimited": "Too many requests from your address. Please try again in a couple of minutes."
   },
   "common": {
     "readMore": "Read more",
@@ -157,6 +159,139 @@
       "prev": "Previous photo",
       "next": "Next photo",
       "photo": "Photo {index}"
+    }
+  },
+  "calculator": {
+    "fields": {
+      "objectType": "Object type",
+      "inputMode": "How to enter dimensions",
+      "area": "Area",
+      "length": "Length",
+      "width": "Width",
+      "perimeter": "Foundation perimeter",
+      "depth": "Depth / wall height",
+      "parapets": "Joints and parapets",
+      "parapetHeight": "Upstand height on parapet",
+      "base": "Substrate",
+      "method": "Waterproofing method",
+      "layers": "Number of layers",
+      "insulation": "Insulation",
+      "thickness": "Insulation thickness",
+      "geotextile": "Geotextile protection",
+      "materials": "Materials",
+      "topLayer": "Top layer",
+      "bottomLayer": "Bottom layer",
+      "foundationRoll": "Roll material",
+      "masticProduct": "Mastic",
+      "primerProduct": "Primer"
+    },
+    "objectTypes": {
+      "flatRoof": "Flat roof",
+      "foundation": "Foundation / basement"
+    },
+    "modes": {
+      "area": "I know the area",
+      "dimensions": "Length × width",
+      "perimeter": "Perimeter × depth"
+    },
+    "bases": {
+      "concrete": "Concrete",
+      "screed": "Cement screed",
+      "profiledSheet": "Profiled sheet",
+      "oldRoofing": "Existing roll roofing"
+    },
+    "methods": {
+      "torch": "Torch-applied roll",
+      "pvc": "PVC membrane",
+      "coating": "Coating (mastic)",
+      "roll": "Roll (torch-applied)",
+      "combined": "Combined"
+    },
+    "layers": {
+      "one": "1 layer",
+      "two": "2 layers"
+    },
+    "insulations": {
+      "none": "No insulation",
+      "penopleks": "XPS (Penoplex)",
+      "basalt": "Basalt wool"
+    },
+    "units": {
+      "kg": "kg",
+      "roll": "roll",
+      "m2": "m²",
+      "m3": "m³",
+      "m": "m",
+      "mm": "mm",
+      "lm": "lin. m",
+      "cm": "cm"
+    },
+    "materials": {
+      "roofizolTkp": "Roofizol TKP",
+      "izomembraneEkp": "Izomembrane EKP",
+      "roofizolTfp": "Roofizol TFP",
+      "izomembraneEfp": "Izomembrane EFP",
+      "folgoizolTfp": "Folgoizol TFP",
+      "folgoizolEfp": "Folgoizol EFP",
+      "roofizolTpp": "Roofizol TPP",
+      "izomembraneEpp": "Izomembrane EPP",
+      "poliizolTpp": "Poliizol TPP",
+      "poliizolEpp": "Poliizol EPP",
+      "izolTpp": "Izol TPP",
+      "gidroizolOsnova": "Gidroizol Osnova",
+      "gidroizolFundament": "Gidroizol Fundament",
+      "primerUniversal": "Universal bitumen primer",
+      "primerFast": "Fast-drying bitumen primer",
+      "primerMastifix": "Mastifix polymer primer",
+      "masticWaterproof": "Bitumen waterproofing mastic",
+      "masticMbr": "Bitumen mastic MBR",
+      "masticMbgG": "Bitumen mastic MBG-G",
+      "masticUniversal": "Universal bitumen mastic",
+      "masticRoof": "Bitumen roofing mastic",
+      "pvcMembrane": "PVC membrane",
+      "geotextile": "Marja-Tex geotextile",
+      "penopleks": "Penoplex",
+      "basaltWool": "Basalt wool",
+      "sealant": "MARJA BP-G bitumen-polymer sealant",
+      "vaporBarrier": "Vapour barrier"
+    },
+    "result": {
+      "title": "Your estimate",
+      "area": "Waterproofed area: {area} m²",
+      "total": "Approximate total",
+      "empty": "Enter your object dimensions — the estimate will appear here",
+      "disclaimer": "This is an approximate estimate; quantities and prices may differ from the final quote. Our manager will prepare an exact one.",
+      "disclaimerVolumes": "This is an approximate estimate; quantities may differ from the final quote. Our manager will prepare exact figures and pricing."
+    },
+    "lead": {
+      "button": "Get an exact quote",
+      "title": "Get an exact quote",
+      "description": "Leave your contacts — we'll double-check the estimate and send current prices",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "phone": "Phone",
+      "phonePlaceholder": "Enter your number",
+      "city": "City",
+      "cityPlaceholder": "e.g. Tashkent",
+      "timing": "Purchase timeline",
+      "submit": "Send",
+      "submitting": "Sending...",
+      "success": "Thank you! A manager will contact you shortly.",
+      "error": "Failed to send. Please try again later.",
+      "rateLimited": "Too many requests from your address. Please try again in a couple of minutes."
+    },
+    "timings": {
+      "now": "Right now",
+      "month": "Within a month",
+      "quarter": "In 1–3 months"
+    },
+    "finishes": {
+      "granule": "mineral granules",
+      "foil": "foil"
+    },
+    "hints": {
+      "layerRoles": "The top layer carries mineral granules or foil and protects against UV. The bottom layer is the film-faced underlay. Each list only offers grades valid for that role.",
+      "parapetHeight": "Usually 30–50 cm. The reinforcing strip is 15 cm wider — it laps onto the roof."
     }
   }
 }

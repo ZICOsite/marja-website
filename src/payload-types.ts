@@ -75,6 +75,7 @@ export interface Config {
     attributes: Attribute;
     reviews: Review;
     projects: Project;
+    leads: Lead;
     media: Media;
     categories: Category;
     users: User;
@@ -103,6 +104,7 @@ export interface Config {
     attributes: AttributesSelect<false> | AttributesSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -258,6 +260,7 @@ export interface Page {
     | LeanResultsBlock
     | ActivityFeedBlock
     | FAQBlock
+    | CalculatorBlock
   )[];
   meta?: {
     title?: string | null;
@@ -1672,6 +1675,26 @@ export interface FAQBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CalculatorBlock".
+ */
+export interface CalculatorBlock {
+  tagline?: string | null;
+  heading: string;
+  description?: string | null;
+  /**
+   * Если выключить — калькулятор покажет только объёмы материалов, без сумм. Цены задаются в src/blocks/Calculator/calc.ts
+   */
+  showPrices?: boolean | null;
+  /**
+   * Если пусто — используется стандартный текст из переводов.
+   */
+  disclaimer?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'calculator';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews".
  */
 export interface Review {
@@ -1688,6 +1711,55 @@ export interface Review {
    * Опубликовать отзыв на сайте
    */
   approved?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Все заявки с сайта. Менеджеры получают их в Telegram — здесь архив и проверка доставки.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: number;
+  source: 'calculator' | 'consultation' | 'order';
+  name: string;
+  phone: string;
+  city?: string | null;
+  /**
+   * Заполняется только калькулятором
+   */
+  timing?: ('now' | 'month' | 'quarter') | null;
+  comment?: string | null;
+  /**
+   * Только для заявок из калькулятора
+   */
+  area?: number | null;
+  /**
+   * Ориентировочная сумма на момент заявки. Только для калькулятора.
+   */
+  amount?: number | null;
+  /**
+   * Ровно то, что было отправлено в Telegram и CRM.
+   */
+  details?:
+    | {
+        label?: string | null;
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  locale?: string | null;
+  /**
+   * unknown — заголовки от nginx не пришли
+   */
+  ip?: string | null;
+  /**
+   * pending после сохранения означает, что процесс упал между записью и отправкой — такую заявку нужно обработать вручную.
+   */
+  deliveryStatus: 'pending' | 'delivered' | 'partial' | 'failed';
+  telegramStatus?: ('pending' | 'sent' | 'failed' | 'skipped') | null;
+  crmStatus?: ('pending' | 'sent' | 'failed' | 'skipped') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1926,6 +1998,10 @@ export interface PayloadLockedDocument {
         value: number | Project;
       } | null)
     | ({
+        relationTo: 'leads';
+        value: number | Lead;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -2060,6 +2136,7 @@ export interface PagesSelect<T extends boolean = true> {
         leanResults?: T | LeanResultsBlockSelect<T>;
         activityFeed?: T | ActivityFeedBlockSelect<T>;
         faq?: T | FAQBlockSelect<T>;
+        calculator?: T | CalculatorBlockSelect<T>;
       };
   meta?:
     | T
@@ -2630,6 +2707,19 @@ export interface FAQBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CalculatorBlock_select".
+ */
+export interface CalculatorBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  heading?: T;
+  description?: T;
+  showPrices?: T;
+  disclaimer?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -2818,6 +2908,34 @@ export interface ProjectsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  source?: T;
+  name?: T;
+  phone?: T;
+  city?: T;
+  timing?: T;
+  comment?: T;
+  area?: T;
+  amount?: T;
+  details?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  locale?: T;
+  ip?: T;
+  deliveryStatus?: T;
+  telegramStatus?: T;
+  crmStatus?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

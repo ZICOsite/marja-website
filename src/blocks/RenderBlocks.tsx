@@ -32,6 +32,7 @@ import { LeanToolsBlockComponent } from '@/blocks/LeanTools/Component'
 import { LeanResultsBlockComponent } from '@/blocks/LeanResults/Component'
 import { ActivityFeedBlockComponent } from '@/blocks/ActivityFeed/Component'
 import { FAQBlockComponent } from '@/blocks/FAQ/Component'
+import { CalculatorBlockComponent } from '@/blocks/Calculator/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -64,6 +65,7 @@ const blockComponents = {
   leanResults: LeanResultsBlockComponent,
   activityFeed: ActivityFeedBlockComponent,
   faq: FAQBlockComponent,
+  calculator: CalculatorBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{
