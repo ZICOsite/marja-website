@@ -1,7 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(pnpm payload *)",
+      "Bash(node -e ' *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Stop-Process *)",
+      "Bash(npx tsc *)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm dev *)",
+      "Bash(curl -s -o __TRACKED_VAR__/calc4.html -w 'status: %{http_code}\\\\n' http://localhost:3001/ru/calc-preview)",
+      "Bash(rm -rf \"src/app/\\(frontend\\)/[slug]/calc-preview\" \"src/app/\\(frontend\\)/[slug]/calc-check\")",
+      "Bash(rm -rf \".next/types/app/\\(frontend\\)/[slug]/calc-preview\" \".next/types/app/\\(frontend\\)/[slug]/calc-check\")",
+      "PowerShell($p = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty OwningProcess; if \\($p\\) { Write-Output \"killing $p\"; Stop-Process -Id $p -Force } else { Write-Output \"port 3000 free\" })",
+      "Bash(npx tsx *)",
+      "Bash(curl -s --max-time 60 -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3000/ru/products/paroizolyacziya\")",
+      "Bash(npx vitest *)",
+      "PowerShell(pnpm test:int *)",
+      "PowerShell(npx tsc --noEmit 2>&1 | Select-Object -Last 20)",
+      "PowerShell(pnpm exec *)",
+      "PowerShell(pnpm *)"
     ]
   }
 }
