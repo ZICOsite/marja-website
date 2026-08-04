@@ -1,9 +1,14 @@
 /**
  * Логика расчёта материалов для калькулятора объекта.
  *
- * ВНИМАНИЕ: нормы расхода и цены ниже — ОРИЕНТИРОВОЧНЫЕ (прототип).
- * Перед публикацией заменить на реальные значения из ТУ и прайса.
- * Всё, что нужно править, собрано в PRODUCTS и NORMS — трогать сам расчёт не требуется.
+ * ВНИМАНИЕ: нормы расхода (NORMS) — ОРИЕНТИРОВОЧНЫЕ, их ещё нужно свести с ТУ.
+ * А вот цен в этом файле больше нет вообще: они берутся из карточек каталога,
+ * см. `prices.ts`. Так сделано намеренно — выдуманные цены однажды разошлись
+ * с реальными втрое, и заметить это по коду было невозможно.
+ *
+ * `calculate()` принимает готовую карту цен за единицу расчёта. Если цены для
+ * материала нет, строка сметы остаётся без суммы (`total: null`), а у результата
+ * взводится `pricesComplete: false` — лучше показать прочерк, чем неверную сумму.
  */
 
 export type ObjectType = 'flatRoof' | 'foundation'
@@ -29,7 +34,6 @@ export type ProductRole =
   | 'membrane'
   | 'geotextile'
   | 'insulation'
-  | 'sealant'
   | 'vaporBarrier'
 
 /** Верхний слой: с посыпкой или фольгированный. */
@@ -67,13 +71,10 @@ export type ProductKey =
   | 'geotextile'
   | 'penopleks'
   | 'basaltWool'
-  | 'sealant'
   | 'vaporBarrier'
 
 type Product = {
   unit: Unit
-  /** Ориентировочная цена за единицу (UZS). ЗАМЕНИТЬ на реальную. */
-  pricePerUnit: number
   /** Полезная площадь рулона, м² (только для unit === 'roll'). */
   rollArea?: number
   /**
@@ -90,11 +91,16 @@ type Product = {
   finish?: TopFinish
 }
 
+/**
+ * Битумно-полимерный герметик MARJA БП-Г убран отсюда 31.07.2026: товара нет
+ * в производстве и цены на него нет. Примыкания считаются без него — усиливающий
+ * слой, праймер и добавка верхнего ковра на месте. Чтобы вернуть: позиция в
+ * PRODUCTS, роль 'sealant', норма sealantPerLm и строка в calculate().
+ */
 export const PRODUCTS: Record<ProductKey, Product> = {
   // ── Верхний слой ────────────────────────────────────────────────────────────
   roofizolTkp: {
     unit: 'roll',
-    pricePerUnit: 620_000,
     rollArea: 10,
     slug: 'roofizol-tkp',
     roles: ['rollTop', 'rollFoundation'],
@@ -102,7 +108,6 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   },
   izomembraneEkp: {
     unit: 'roll',
-    pricePerUnit: 700_000,
     rollArea: 10,
     // slug в каталоге именно такой — без «o» в izmembrane
     slug: 'izmembrane-ekp',
@@ -113,7 +118,6 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   // и повреждается при обратной засыпке.
   roofizolTfp: {
     unit: 'roll',
-    pricePerUnit: 590_000,
     rollArea: 10,
     slug: 'roofizol-tfp',
     roles: ['rollTop'],
@@ -121,7 +125,6 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   },
   izomembraneEfp: {
     unit: 'roll',
-    pricePerUnit: 680_000,
     rollArea: 10,
     slug: 'izomembrane-efp',
     roles: ['rollTop'],
@@ -129,7 +132,6 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   },
   folgoizolTfp: {
     unit: 'roll',
-    pricePerUnit: 640_000,
     rollArea: 10,
     slug: 'folgoizol-tfp',
     roles: ['rollTop'],
@@ -137,7 +139,6 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   },
   folgoizolEfp: {
     unit: 'roll',
-    pricePerUnit: 720_000,
     rollArea: 10,
     slug: 'folgoizol-efp',
     roles: ['rollTop'],
@@ -147,42 +148,36 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   // ── Нижний / подкладочный слой ──────────────────────────────────────────────
   roofizolTpp: {
     unit: 'roll',
-    pricePerUnit: 480_000,
     rollArea: 10,
     slug: 'roofizol-tpp',
     roles: ['rollBottom', 'rollFoundation'],
   },
   izomembraneEpp: {
     unit: 'roll',
-    pricePerUnit: 560_000,
     rollArea: 10,
     slug: 'izomembrane-epp',
     roles: ['rollBottom', 'rollFoundation'],
   },
   poliizolTpp: {
     unit: 'roll',
-    pricePerUnit: 450_000,
     rollArea: 10,
     slug: 'poliizol-tpp',
     roles: ['rollBottom', 'rollFoundation'],
   },
   poliizolEpp: {
     unit: 'roll',
-    pricePerUnit: 520_000,
     rollArea: 10,
     slug: 'poliizol-epp',
     roles: ['rollBottom', 'rollFoundation'],
   },
   izolTpp: {
     unit: 'roll',
-    pricePerUnit: 400_000,
     rollArea: 10,
     slug: 'izol-tpp',
     roles: ['rollBottom', 'rollFoundation'],
   },
   gidroizolOsnova: {
     unit: 'roll',
-    pricePerUnit: 360_000,
     rollArea: 10,
     slug: 'gidroizol-osnova',
     roles: ['rollBottom', 'rollFoundation'],
@@ -191,7 +186,6 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   // ── Фундамент ───────────────────────────────────────────────────────────────
   gidroizolFundament: {
     unit: 'roll',
-    pricePerUnit: 390_000,
     rollArea: 10,
     slug: 'gidroizol-fundament',
     roles: ['rollFoundation'],
@@ -200,19 +194,16 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   // ── Праймеры ────────────────────────────────────────────────────────────────
   primerUniversal: {
     unit: 'kg',
-    pricePerUnit: 28_000,
     slug: 'prajmer-bitumnyj-universalnyj',
     roles: ['primer'],
   },
   primerFast: {
     unit: 'kg',
-    pricePerUnit: 32_000,
     slug: 'bitumnyj-prajmer-bystrosohnushhij',
     roles: ['primer'],
   },
   primerMastifix: {
     unit: 'kg',
-    pricePerUnit: 45_000,
     slug: 'bitumnyj-prajmer-polimernyj-mastifix',
     roles: ['primer'],
   },
@@ -220,54 +211,41 @@ export const PRODUCTS: Record<ProductKey, Product> = {
   // ── Мастики ─────────────────────────────────────────────────────────────────
   masticWaterproof: {
     unit: 'kg',
-    pricePerUnit: 32_000,
     slug: 'mastika-bitumnaya-gidroizolyatsionnaya',
     roles: ['mastic'],
   },
   masticMbr: {
     unit: 'kg',
-    pricePerUnit: 30_000,
     slug: 'bitumnaya-mastika-mbr',
     roles: ['mastic'],
   },
   masticMbgG: {
     unit: 'kg',
-    pricePerUnit: 38_000,
     slug: 'bitumnaya-mastika-mbg-g',
     roles: ['mastic'],
   },
   masticUniversal: {
     unit: 'kg',
-    pricePerUnit: 34_000,
     slug: 'bitumnaya-mastika-universalnaya',
     roles: ['mastic'],
   },
   masticRoof: {
     unit: 'kg',
-    pricePerUnit: 36_000,
     slug: 'bitumnaya-mastika-krovelnaya',
     roles: ['mastic'],
   },
 
   // ── Прочее ──────────────────────────────────────────────────────────────────
-  pvcMembrane: { unit: 'm2', pricePerUnit: 95_000, slug: 'pvh-membrany', roles: ['membrane'] },
+  pvcMembrane: { unit: 'm2', slug: 'pvh-membrany', roles: ['membrane'] },
   geotextile: {
     unit: 'm2',
-    pricePerUnit: 14_000,
     slug: 'armirovannyj-getotekstil-marja-tex',
     roles: ['geotextile'],
   },
-  penopleks: { unit: 'm3', pricePerUnit: 1_250_000, slug: 'penopleks', roles: ['insulation'] },
-  basaltWool: { unit: 'm3', pricePerUnit: 850_000, slug: 'basalt-wool', roles: ['insulation'] },
-  sealant: {
-    unit: 'kg',
-    pricePerUnit: 55_000,
-    slug: 'bitumno-polimernyj-germetik-marja-bp-g',
-    roles: ['sealant'],
-  },
+  penopleks: { unit: 'm3', slug: 'penopleks', roles: ['insulation'] },
+  basaltWool: { unit: 'm3', slug: 'basalt-wool', roles: ['insulation'] },
   vaporBarrier: {
     unit: 'm2',
-    pricePerUnit: 12_000,
     slug: 'paroizolyacziya',
     roles: ['vaporBarrier'],
   },
@@ -282,6 +260,46 @@ export const productsForRole = (role: ProductRole): ProductKey[] =>
 export const hasRole = (key: ProductKey, role: ProductRole): boolean =>
   Boolean(PRODUCTS[key]?.roles.includes(role))
 
+/** Все slug'и каталога, которые нужны калькулятору — запрос цен идёт по ним. */
+export const CATALOG_SLUGS: string[] = KEYS.map((key) => PRODUCTS[key].slug)
+
+/** Цена за единицу расчёта (рулон/кг/м²/м³) в UZS. Материала может не быть. */
+export type PriceMap = Partial<Record<ProductKey, number>>
+
+/**
+ * Толщина плиты утеплителя, для которой в каталоге указана цена за м².
+ * В карточках толщина не проставлена, значение согласовано отдельно.
+ */
+const INSULATION_PRICE_THICKNESS_M = 0.05
+
+/**
+ * Перевод цены из карточки каталога в цену за единицу расчёта.
+ *
+ * У поля `price` в Products нет единицы измерения — это просто число, поэтому
+ * связь задаётся здесь и только здесь. Правило выведено из `unit`, а не задано
+ * у каждого товара: единица расчёта однозначно определяет, что означает
+ * каталожная цена. Если появится материал в м³, который продаётся НЕ плитами,
+ * правило придётся расщепить.
+ *
+ * - `roll` — в каталоге цена за м² полотна, считаем рулонами → × площадь рулона
+ * - `kg`, `m2` — единицы совпадают, берём как есть
+ * - `m3` — в каталоге цена за м² плиты, считаем кубами → делим на толщину плиты
+ */
+export function catalogPriceToUnitPrice(key: ProductKey, catalogPrice: number): number | null {
+  const product = PRODUCTS[key]
+  if (!Number.isFinite(catalogPrice) || catalogPrice <= 0) return null
+
+  switch (product.unit) {
+    case 'roll':
+      return product.rollArea ? catalogPrice * product.rollArea : null
+    case 'm3':
+      return catalogPrice / INSULATION_PRICE_THICKNESS_M
+    case 'kg':
+    case 'm2':
+      return catalogPrice
+  }
+}
+
 const NORMS = {
   /** Расход праймера, кг/м² — зависит от впитываемости основания. */
   primerPerM2: { concrete: 0.35, screed: 0.4, profiledSheet: 0, oldRoofing: 0.3 },
@@ -292,8 +310,6 @@ const NORMS = {
   membraneOverlap: 1.1,
   geotextileOverlap: 1.15,
   vaporBarrierOverlap: 1.15,
-  /** Расход герметика на примыканиях и парапетах, кг/п.м. */
-  sealantPerLm: 0.4,
   /**
    * Примыкания. Усиливающий слой — полоса, которая заходит на вертикаль
    * парапета и ложится на кровлю: её ширина = высота захода + полка.
@@ -354,7 +370,8 @@ export type CalcLine = {
   /** Итоговое количество в единицах материала (рулоны/кг/м²/м³). */
   qty: number
   unit: Unit
-  total: number
+  /** Сумма по строке. `null` — цены на материал нет в каталоге. */
+  total: number | null
   /** Полезная площадь рулона — для пояснения «58 рул. · 580 м²». */
   coverage?: number
 }
@@ -362,7 +379,13 @@ export type CalcLine = {
 export type CalcResult = {
   area: number
   lines: CalcLine[]
+  /** Сумма известных строк. Строки без цены в неё не входят. */
   total: number
+  /**
+   * Все ли материалы сметы получили цену. Если false — показывать итог как
+   * окончательный нельзя, часть позиций в него не вошла.
+   */
+  pricesComplete: boolean
 }
 
 export const DEFAULTS = {
@@ -413,8 +436,11 @@ export function resolveArea(input: CalcInput): number {
  * Иначе — материал по умолчанию: защищает и от подделки запроса, и от
  * рассинхрона, если марку убрали из каталога.
  */
-const pick = (chosen: ProductKey | undefined, role: ProductRole, fallback: ProductKey): ProductKey =>
-  chosen && hasRole(chosen, role) ? chosen : fallback
+const pick = (
+  chosen: ProductKey | undefined,
+  role: ProductRole,
+  fallback: ProductKey,
+): ProductKey => (chosen && hasRole(chosen, role) ? chosen : fallback)
 
 /**
  * Округление вверх, устойчивое к погрешности double.
@@ -466,8 +492,14 @@ function parapetRolls(key: ProductKey, lengthLm: number, stripWidth: number): nu
   return (lengthLm * NORMS.parapetOverlap) / lmPerRoll
 }
 
+/** Сумма строки, либо null — если цены на материал в каталоге нет. */
+const lineTotal = (key: ProductKey, qty: number, prices: PriceMap): number | null => {
+  const price = prices[key]
+  return price == null ? null : qty * price
+}
+
 /** Строка сметы по готовому числу рулонов — в обход пересчёта из площади. */
-function rollLine(key: ProductKey, rolls: number): CalcLine | null {
+function rollLine(key: ProductKey, rolls: number, prices: PriceMap): CalcLine | null {
   const product = PRODUCTS[key]
   const qty = ceilQty(rolls)
 
@@ -477,12 +509,12 @@ function rollLine(key: ProductKey, rolls: number): CalcLine | null {
     key,
     qty,
     unit: product.unit,
-    total: qty * product.pricePerUnit,
+    total: lineTotal(key, qty, prices),
     coverage: product.rollArea,
   }
 }
 
-function line(key: ProductKey, rawQty: number): CalcLine | null {
+function makeLine(key: ProductKey, rawQty: number, prices: PriceMap): CalcLine | null {
   const product = PRODUCTS[key]
   const perUnit = product.rollArea ? rawQty / product.rollArea : rawQty
   const qty = roundQty(perUnit, product.unit)
@@ -493,14 +525,20 @@ function line(key: ProductKey, rawQty: number): CalcLine | null {
     key,
     qty,
     unit: product.unit,
-    total: qty * product.pricePerUnit,
+    total: lineTotal(key, qty, prices),
     coverage: product.rollArea,
   }
 }
 
-export function calculate(input: CalcInput): CalcResult {
+/**
+ * @param prices цены за единицу расчёта, обычно из каталога (`fetchCatalogPrices`).
+ *   Пустая карта — смета без сумм: количества считаются как обычно.
+ */
+export function calculate(input: CalcInput, prices: PriceMap = {}): CalcResult {
+  const line = (key: ProductKey, rawQty: number) => makeLine(key, rawQty, prices)
+
   const area = resolveArea(input)
-  if (area <= 0) return { area: 0, lines: [], total: 0 }
+  if (area <= 0) return { area: 0, lines: [], total: 0, pricesComplete: true }
 
   const lines: (CalcLine | null)[] = []
   const layers = input.layers === 2 ? 2 : 1
@@ -531,20 +569,19 @@ export function calculate(input: CalcInput): CalcResult {
         lines.push(line(pick(input.bottomProduct, 'rollBottom', DEFAULTS.bottomProduct), rollArea))
       }
       // Верхний ковёр заходит на парапет поверх усиления — отсюда добавка площади.
-      lines.push(line(pick(input.topProduct, 'rollTop', DEFAULTS.topProduct), rollArea + parapetArea))
+      lines.push(
+        line(pick(input.topProduct, 'rollTop', DEFAULTS.topProduct), rollArea + parapetArea),
+      )
 
       if (hasParapets) {
         lines.push(
           rollLine(
             PARAPET_REINFORCEMENT,
             parapetRolls(PARAPET_REINFORCEMENT, input.parapets, stripWidth),
+            prices,
           ),
         )
       }
-    }
-
-    if (hasParapets) {
-      lines.push(line('sealant', input.parapets * NORMS.sealantPerLm))
     }
   } else {
     lines.push(line(primer, area * NORMS.primerPerM2[input.base]))
@@ -595,6 +632,7 @@ export function calculate(input: CalcInput): CalcResult {
   return {
     area: Math.round(area * 10) / 10,
     lines: result,
-    total: result.reduce((sum, item) => sum + item.total, 0),
+    total: result.reduce((sum, item) => sum + (item.total ?? 0), 0),
+    pricesComplete: result.every((item) => item.total !== null),
   }
 }

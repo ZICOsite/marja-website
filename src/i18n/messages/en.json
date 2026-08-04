@@ -252,13 +252,15 @@
       "geotextile": "Marja-Tex geotextile",
       "penopleks": "Penoplex",
       "basaltWool": "Basalt wool",
-      "sealant": "MARJA BP-G bitumen-polymer sealant",
       "vaporBarrier": "Vapour barrier"
     },
     "result": {
       "title": "Your estimate",
       "area": "Waterproofed area: {area} m²",
       "total": "Approximate total",
+      "totalPartial": "Total for priced items",
+      "priceOnRequest": "on request",
+      "missingPrices": "Some materials are priced on request and are not included in the total. Our manager will quote them separately.",
       "empty": "Enter your object dimensions — the estimate will appear here",
       "disclaimer": "This is an approximate estimate; quantities and prices may differ from the final quote. Our manager will prepare an exact one.",
       "disclaimerVolumes": "This is an approximate estimate; quantities may differ from the final quote. Our manager will prepare exact figures and pricing."

@@ -2,14 +2,28 @@ import { describe, it, expect } from 'vitest'
 
 import {
   calculate,
+  catalogPriceToUnitPrice,
   resolveArea,
   productsForRole,
   PRODUCTS,
   DEFAULT_INPUT,
   type CalcInput,
+  type PriceMap,
+  type ProductKey,
 } from '@/blocks/Calculator/calc'
 
-const input = (overrides: Partial<CalcInput> = {}): CalcInput => ({ ...DEFAULT_INPUT, ...overrides })
+const input = (overrides: Partial<CalcInput> = {}): CalcInput => ({
+  ...DEFAULT_INPUT,
+  ...overrides,
+})
+
+/**
+ * Цены в проде приходят из каталога, здесь — одинаковая условная цена на всё.
+ * Тестам важны количества и арифметика итога, а не конкретные суммы.
+ */
+const PRICES: PriceMap = Object.fromEntries(
+  (Object.keys(PRODUCTS) as ProductKey[]).map((key) => [key, 1000]),
+)
 
 describe('Калькулятор объекта', () => {
   it('считает площадь по длине и ширине', () => {
@@ -55,13 +69,9 @@ describe('Калькулятор объекта', () => {
     expect(keys).toEqual(['pvcMembrane'])
   })
 
-  it('добавляет герметик при указанных примыканиях', () => {
-    const withParapets = calculate(input({ parapets: 100 }))
-    // 100 п.м. × 0,4 кг/п.м. = 40 кг
-    expect(withParapets.lines.find((line) => line.key === 'sealant')?.qty).toBe(40)
-    expect(calculate(input({ parapets: 0 })).lines.some((line) => line.key === 'sealant')).toBe(
-      false,
-    )
+  it('герметик не попадает в смету — товара нет в производстве', () => {
+    const keys = calculate(input({ parapets: 100 })).lines.map((line) => line.key)
+    expect(keys).not.toContain('sealant')
   })
 
   describe('Примыкания и парапеты', () => {
@@ -106,9 +116,11 @@ describe('Калькулятор объекта', () => {
     it('у ПВХ примыкание решается краевой рейкой — рулонного усиления нет', () => {
       const keys = calculate(input({ roofMethod: 'pvc', parapets: 100 })).lines.map((l) => l.key)
 
-      expect(keys).toContain('sealant')
       expect(keys).not.toContain('poliizolTpp')
       expect(keys).not.toContain('primerUniversal')
+      // После удаления герметика примыкания не добавляют ПВХ-кровле ни одной
+      // позиции: смета совпадает с расчётом без примыканий.
+      expect(keys).toEqual(['pvcMembrane'])
     })
 
     it('высота вне допустимых границ зажимается', () => {
@@ -123,7 +135,9 @@ describe('Калькулятор объекта', () => {
 
     it('нечисловая высота откатывается к значению по умолчанию', () => {
       const broken = calculate(input({ parapets: 100, parapetHeight: NaN }))
-      expect(qty(broken, 'poliizolTpp')).toBe(qty(calculate(input({ parapets: 100 })), 'poliizolTpp'))
+      expect(qty(broken, 'poliizolTpp')).toBe(
+        qty(calculate(input({ parapets: 100 })), 'poliizolTpp'),
+      )
     })
   })
 
@@ -176,7 +190,9 @@ describe('Калькулятор объекта', () => {
   it('фундамент: обмазочная даёт мастику, рулонная — рулоны, комбинированная — оба', () => {
     const base = { objectType: 'foundation' as const, areaMode: 'area' as const, area: 150 }
 
-    const coating = calculate(input({ ...base, foundationMethod: 'coating' })).lines.map((l) => l.key)
+    const coating = calculate(input({ ...base, foundationMethod: 'coating' })).lines.map(
+      (l) => l.key,
+    )
     expect(coating).toContain('masticWaterproof')
     expect(coating).not.toContain('gidroizolFundament')
 
@@ -193,9 +209,8 @@ describe('Калькулятор объекта', () => {
 
   describe('Рулонные материалы в фундаменте', () => {
     const foundation = (overrides: Partial<CalcInput> = {}) =>
-      calculate(
-        input({ objectType: 'foundation', areaMode: 'area', area: 150, ...overrides }),
-      ).lines
+      calculate(input({ objectType: 'foundation', areaMode: 'area', area: 150, ...overrides }))
+        .lines
 
     it('для фундамента доступны марки с посыпкой и плёнкой, но не фольгированные', () => {
       const available = productsForRole('rollFoundation')
@@ -204,7 +219,12 @@ describe('Калькулятор объекта', () => {
         expect(available).toContain(key)
       }
       // фольга в грунте бесполезна и рвётся при обратной засыпке — только кровля
-      for (const key of ['roofizolTfp', 'izomembraneEfp', 'folgoizolTfp', 'folgoizolEfp'] as const) {
+      for (const key of [
+        'roofizolTfp',
+        'izomembraneEfp',
+        'folgoizolTfp',
+        'folgoizolEfp',
+      ] as const) {
         expect(available).not.toContain(key)
       }
     })
@@ -306,9 +326,9 @@ describe('Калькулятор объекта', () => {
     ).toBe(false)
 
     expect(
-      calculate(
-        input({ objectType: 'foundation', area: 150, insulation: 'basalt' }),
-      ).lines.some((l) => l.key === 'vaporBarrier'),
+      calculate(input({ objectType: 'foundation', area: 150, insulation: 'basalt' })).lines.some(
+        (l) => l.key === 'vaporBarrier',
+      ),
     ).toBe(false)
   })
 
@@ -319,9 +339,54 @@ describe('Калькулятор объекта', () => {
   })
 
   it('итог равен сумме позиций', () => {
-    const result = calculate(input({ area: 500, parapets: 40, insulation: 'basalt' }))
-    const sum = result.lines.reduce((acc, line) => acc + line.total, 0)
+    const result = calculate(input({ area: 500, parapets: 40, insulation: 'basalt' }), PRICES)
+    const sum = result.lines.reduce((acc, line) => acc + (line.total ?? 0), 0)
     expect(result.total).toBe(sum)
     expect(result.total).toBeGreaterThan(0)
+    expect(result.pricesComplete).toBe(true)
+  })
+
+  describe('Цены из каталога', () => {
+    it('без карты цен считает объёмы, но не суммы', () => {
+      const result = calculate(input({ area: 500 }))
+
+      expect(result.lines.length).toBeGreaterThan(0)
+      expect(result.lines.every((line) => line.total === null)).toBe(true)
+      expect(result.total).toBe(0)
+      expect(result.pricesComplete).toBe(false)
+    })
+
+    it('позиция без цены не попадает в итог, но остаётся в смете', () => {
+      const withoutPrimer: PriceMap = { ...PRICES }
+      delete withoutPrimer.primerUniversal
+
+      const full = calculate(input({ area: 500 }), PRICES)
+      const partial = calculate(input({ area: 500 }), withoutPrimer)
+
+      expect(partial.lines).toHaveLength(full.lines.length)
+      expect(partial.lines.find((line) => line.key === 'primerUniversal')?.total).toBeNull()
+      expect(partial.total).toBeLessThan(full.total)
+      expect(partial.pricesComplete).toBe(false)
+    })
+
+    it('рулонная цена каталога умножается на площадь рулона', () => {
+      // Roofizol ТПП: 16 500 сум/м² × 10 м² в рулоне
+      expect(catalogPriceToUnitPrice('roofizolTpp', 16_500)).toBe(165_000)
+    })
+
+    it('цена утеплителя за м² плиты переводится в кубометры', () => {
+      // Пеноплэкс: 20 000 сум/м² плиты 50 мм → 400 000 сум/м³
+      expect(catalogPriceToUnitPrice('penopleks', 20_000)).toBe(400_000)
+    })
+
+    it('кг и м² берутся из каталога как есть', () => {
+      expect(catalogPriceToUnitPrice('primerUniversal', 11_500)).toBe(11_500)
+      expect(catalogPriceToUnitPrice('pvcMembrane', 75_000)).toBe(75_000)
+    })
+
+    it('пустая или отрицательная цена не считается ценой', () => {
+      expect(catalogPriceToUnitPrice('roofizolTpp', 0)).toBeNull()
+      expect(catalogPriceToUnitPrice('roofizolTpp', NaN)).toBeNull()
+    })
   })
 })

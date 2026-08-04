@@ -53,6 +53,12 @@ vi.mock('@/services/notifications/crm', () => ({ sendToCRM: crm }))
 vi.mock('next/headers', () => ({
   headers: async () => ({ get: (name: string) => (name === 'x-forwarded-for' ? '10.0.0.7' : null) }),
 }))
+// Здесь проверяется запись заявки, а не цены: реальный источник ходит в каталог
+// через Payload, поэтому подменяем его фиксированной картой. Пересчёт каталожных
+// цен покрыт в calculator.int.spec.ts.
+vi.mock('@/blocks/Calculator/prices', () => ({
+  fetchCatalogPrices: vi.fn(async () => ({ roofizolTkp: 200_000, primerUniversal: 11_500 })),
+}))
 
 const { recordLead, deliverLead, markLeadDelivery } = await import('@/services/leads')
 const { submitCalculatorRequest } = await import('@/actions/submitCalculatorRequest')

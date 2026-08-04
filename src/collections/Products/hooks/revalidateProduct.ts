@@ -19,6 +19,8 @@ export const revalidateProduct: CollectionAfterChangeHook = ({
       // Тегированная ревалидация: страница товара использует этот тег
       revalidateTag(`product-${doc.slug}`)
       revalidateTag('products-sitemap')
+      // Калькулятор берёт цены из карточек — сбрасываем их общий кеш.
+      revalidateTag('calculator-prices')
       payload.logger.info(`Revalidated product: ${doc.slug}`)
     }
 
@@ -28,6 +30,8 @@ export const revalidateProduct: CollectionAfterChangeHook = ({
       }
       revalidateTag(`product-${previousDoc.slug}`)
       revalidateTag('products-sitemap')
+      // Калькулятор берёт цены из карточек — сбрасываем их общий кеш.
+      revalidateTag('calculator-prices')
     }
   }
   return doc

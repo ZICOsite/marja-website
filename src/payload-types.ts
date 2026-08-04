@@ -1682,7 +1682,7 @@ export interface CalculatorBlock {
   heading: string;
   description?: string | null;
   /**
-   * Если выключить — калькулятор покажет только объёмы материалов, без сумм. Цены задаются в src/blocks/Calculator/calc.ts
+   * Если выключить — калькулятор покажет только объёмы материалов, без сумм. Цены берутся из карточек товаров в каталоге.
    */
   showPrices?: boolean | null;
   /**

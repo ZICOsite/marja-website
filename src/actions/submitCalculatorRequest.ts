@@ -10,6 +10,7 @@ import {
   type ProductKey,
   type Unit,
 } from '@/blocks/Calculator/calc'
+import { fetchCatalogPrices } from '@/blocks/Calculator/prices'
 import { formatPrice } from '@/utilities/formatPrice'
 import { getClientIp } from '@/utilities/getClientIp'
 import { allowRequest, isDuplicate } from '@/services/rateLimit'
@@ -68,7 +69,6 @@ const MATERIAL_LABELS: Record<ProductKey, string> = {
   geotextile: 'Геотекстиль Marja-Tex',
   penopleks: 'Пеноплэкс',
   basaltWool: 'Базальтовая вата',
-  sealant: 'Битумно-полимерный герметик MARJA БП-Г',
   vaporBarrier: 'Пароизоляция',
 }
 
@@ -123,8 +123,9 @@ export async function submitCalculatorRequest(
   // Honeypot — молча подтверждаем, чтобы бот не подбирал обход.
   if (clean(input?.contact?.website, 100)) return { ok: true }
 
-  // Пересчитываем на сервере: в уведомление попадают суммы, которым можно доверять.
-  const result = calculate(input.calc)
+  // Пересчитываем на сервере с ценами из каталога: в уведомление попадают суммы,
+  // которым можно доверять, даже если клиент подменил присланные значения.
+  const result = calculate(input.calc, await fetchCatalogPrices())
   if (result.lines.length === 0) return { ok: false }
 
   // Порог и дубли отвечают ok, но ничего не шлют: спамер не должен нащупать границу,
@@ -148,7 +149,9 @@ export async function submitCalculatorRequest(
   const materials = result.lines
     .map(
       ({ key, qty, unit, total }) =>
-        `• ${MATERIAL_LABELS[key]} — ${qty} ${UNIT_LABELS[unit]} (~${formatPrice(total)} UZS)`,
+        `• ${MATERIAL_LABELS[key]} — ${qty} ${UNIT_LABELS[unit]} (${
+          total == null ? 'цена по запросу' : `~${formatPrice(total)} UZS`
+        })`,
     )
     .join('\n')
 
@@ -182,7 +185,11 @@ export async function submitCalculatorRequest(
           : `${INSULATION_LABELS[input.calc.insulation]}, ${input.calc.insulationThickness} мм`,
     },
     { field: 'Материалы', value: `\n${materials}` },
-    { field: 'Итого ориентировочно', value: `${formatPrice(result.total)} UZS` },
+    {
+      // Менеджер должен видеть, что итог неполный, а не считать его окончательным.
+      field: result.pricesComplete ? 'Итого ориентировочно' : 'Итого (без позиций по запросу)',
+      value: `${formatPrice(result.total)} UZS`,
+    },
     { field: 'Язык сайта', value: locale },
     { field: 'Комментарий', value: comment },
   ]

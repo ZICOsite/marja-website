@@ -37,6 +37,7 @@ import {
   PRODUCTS,
   productsForRole,
   type CalcInput,
+  type PriceMap,
   type ProductKey,
   type ProductRole,
 } from './calc'
@@ -45,6 +46,8 @@ type Props = {
   showPrices: boolean
   disclaimer?: string | null
   locale?: string
+  /** Цены из каталога, посчитанные на сервере. */
+  prices: PriceMap
 }
 
 type Status = 'idle' | 'submitting' | 'success' | 'error' | 'rateLimited'
@@ -166,7 +169,7 @@ function NumberField({
   )
 }
 
-export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale }) => {
+export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale, prices }) => {
   const t = useTranslations('calculator')
   const [input, setInput] = useState<CalcInput>(DEFAULT_INPUT)
   const [open, setOpen] = useState(false)
@@ -180,11 +183,12 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
     website: '',
   })
 
-  const result = useMemo(() => calculate(input), [input])
+  const result = useMemo(() => calculate(input, prices), [input, prices])
   const isRoof = input.objectType === 'flatRoof'
 
   // По профнастилу праймер не расходуется — селект для него скрываем.
-  const needsPrimer = (isRoof ? input.roofMethod === 'torch' : true) && input.base !== 'profiledSheet'
+  const needsPrimer =
+    (isRoof ? input.roofMethod === 'torch' : true) && input.base !== 'profiledSheet'
   // У ПВХ-мембраны выбирать нечего: она идёт одна, механическим креплением.
   const showMaterials = !(isRoof && input.roofMethod === 'pvc')
 
@@ -194,7 +198,12 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
   // Обычная функция, а не вложенный компонент: у вложенного при каждом рендере
   // менялся бы тип, и Select пересоздавался бы, теряя фокус.
   const renderProductField = (
-    field: 'topProduct' | 'bottomProduct' | 'foundationRollProduct' | 'primerProduct' | 'masticProduct',
+    field:
+      | 'topProduct'
+      | 'bottomProduct'
+      | 'foundationRollProduct'
+      | 'primerProduct'
+      | 'masticProduct',
     role: ProductRole,
     label: string,
   ) => (
@@ -430,13 +439,20 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
                 )}
 
                 {!isRoof && input.foundationMethod !== 'coating' && (
-                  <>{renderProductField('foundationRollProduct', 'rollFoundation', t('fields.foundationRoll'))}</>
+                  <>
+                    {renderProductField(
+                      'foundationRollProduct',
+                      'rollFoundation',
+                      t('fields.foundationRoll'),
+                    )}
+                  </>
                 )}
                 {!isRoof && input.foundationMethod !== 'roll' && (
                   <>{renderProductField('masticProduct', 'mastic', t('fields.masticProduct'))}</>
                 )}
 
-                {needsPrimer && renderProductField('primerProduct', 'primer', t('fields.primerProduct'))}
+                {needsPrimer &&
+                  renderProductField('primerProduct', 'primer', t('fields.primerProduct'))}
               </div>
 
               {isRoof && input.roofMethod === 'torch' && (
@@ -525,7 +541,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
                     </div>
                     {showPrices && (
                       <span className="shrink-0 text-sm font-semibold text-gray-900 dark:text-white">
-                        {formatPrice(item.total)}
+                        {item.total == null ? t('result.priceOnRequest') : formatPrice(item.total)}
                       </span>
                     )}
                   </li>
@@ -533,25 +549,33 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
               </ul>
 
               {showPrices && (
-                <div className="mt-4 flex items-baseline justify-between border-t border-gray-200 pt-4 dark:border-gray-800">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {t('result.total')}
-                  </span>
-                  <span className="text-xl font-bold text-gray-900 dark:text-white">
-                    {formatPrice(result.total)} UZS
-                  </span>
+                <div className="mt-4 border-t border-gray-200 pt-4 dark:border-gray-800">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                      {/* Часть позиций без цены — итог неполный, и подписать его
+                          просто «Итого» было бы враньём. */}
+                      {result.pricesComplete ? t('result.total') : t('result.totalPartial')}
+                    </span>
+                    <span className="text-xl font-bold text-gray-900 dark:text-white">
+                      {formatPrice(result.total)} UZS
+                    </span>
+                  </div>
+                  {!result.pricesComplete && (
+                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                      {t('result.missingPrices')}
+                    </p>
+                  )}
                 </div>
               )}
 
-              <Button className="mt-5 w-full" size="lg" onClick={() => setOpen(true)}>
+              <Button className="mt-5 w-full cursor-pointer" size="lg" onClick={() => setOpen(true)}>
                 {t('lead.button')}
               </Button>
 
               <p className="mt-3 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
                 {/* С выключенными ценами оговорка про цены только путает: в расчёте
                     их нет, и обещать «цены могут отличаться» не о чем. */}
-                {disclaimer ||
-                  t(showPrices ? 'result.disclaimer' : 'result.disclaimerVolumes')}
+                {disclaimer || t(showPrices ? 'result.disclaimer' : 'result.disclaimerVolumes')}
               </p>
             </>
           )}
@@ -643,7 +667,9 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
 
               {status === 'error' && <p className="text-sm text-destructive">{t('lead.error')}</p>}
               {status === 'rateLimited' && (
-                <p className="text-sm text-amber-600 dark:text-amber-500">{t('lead.rateLimited')}</p>
+                <p className="text-sm text-amber-600 dark:text-amber-500">
+                  {t('lead.rateLimited')}
+                </p>
               )}
 
               <Button type="submit" size="lg" className="gap-2" disabled={status === 'submitting'}>

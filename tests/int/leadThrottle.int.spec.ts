@@ -12,6 +12,11 @@ vi.mock('next/headers', () => ({
 // Здесь проверяется только антиспам, поэтому запись в БД подменяем, но каналы
 // по-прежнему вызываем — иначе счётчики отправок ниже перестали бы что-то значить.
 // Сама запись заявок покрыта в leads.int.spec.ts.
+// Цены калькулятор берёт из каталога через Payload и кеш Next — в этом тесте
+// суммы не проверяются, поэтому источник цен подменяем фиксированной картой.
+vi.mock('@/blocks/Calculator/prices', () => ({
+  fetchCatalogPrices: vi.fn(async () => ({ roofizolTkp: 200_000, primerUniversal: 11_500 })),
+}))
 vi.mock('@/services/leads', () => ({
   recordLead: vi.fn(async () => 1),
   deliverLead: vi.fn(

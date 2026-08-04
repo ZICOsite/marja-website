@@ -252,13 +252,15 @@
       "geotextile": "Marja-Tex geotekstili",
       "penopleks": "Penopleks",
       "basaltWool": "Bazalt paxta",
-      "sealant": "MARJA BP-G bitum-polimer germetigi",
       "vaporBarrier": "Bugʻ izolyatsiyasi"
     },
     "result": {
       "title": "Sizning hisobingiz",
       "area": "Izolyatsiya maydoni: {area} m²",
       "total": "Taxminiy jami",
+      "totalPartial": "Narxi ma'lum pozitsiyalar bo'yicha jami",
+      "priceOnRequest": "so'rov bo'yicha",
+      "missingPrices": "Ayrim materiallar narxi so'rov bo'yicha — ular summaga kirmadi. Menejer ularni alohida hisoblab beradi.",
       "empty": "Obyekt o'lchamlarini kiriting — hisob shu yerda chiqadi",
       "disclaimer": "Hisob taxminiy: hajm va narxlar yakuniy smetadan farq qilishi mumkin. Aniq hisobni menejer tayyorlaydi.",
       "disclaimerVolumes": "Hisob taxminiy: hajmlar yakuniy smetadan farq qilishi mumkin. Aniq hisob va narxlarni menejer tayyorlaydi."
