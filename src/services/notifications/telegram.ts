@@ -2,6 +2,17 @@ import type { DeliveryStatus, FormSubmission } from './types'
 
 export type { FormSubmission }
 
+/**
+ * Экранирует текст для `parse_mode: 'HTML'`.
+ *
+ * В заявку попадают имя, город и комментарий клиента. Без экранирования название
+ * вроде «ООО <Марджа>» Telegram отвергает с 400 `can't parse entities`, заявка
+ * остаётся в БД со статусом failed, а клиент уже увидел «Спасибо» — лид теряется
+ * молча. Telegram требует экранировать только эти три символа.
+ */
+const escapeHtml = (value: string): string =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
 export async function sendTelegramNotification(
   submission: FormSubmission,
 ): Promise<DeliveryStatus> {
@@ -17,10 +28,10 @@ export async function sendTelegramNotification(
 
   const lines = submission.submissionData
     .filter(({ value }) => value !== undefined && value !== '')
-    .map(({ field, value }) => `<b>${field}:</b> ${String(value)}`)
+    .map(({ field, value }) => `<b>${escapeHtml(field)}:</b> ${escapeHtml(String(value))}`)
     .join('\n')
 
-  const text = `📋 <b>${formTitle}</b>\n\n${lines}`
+  const text = `📋 <b>${escapeHtml(formTitle)}</b>\n\n${lines}`
 
   // Сеть может отвалиться на любом шаге — исключение здесь означало бы, что
   // заявка останется в БД со статусом pending навсегда, поэтому ловим сами.
