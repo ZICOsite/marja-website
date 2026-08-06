@@ -23,7 +23,8 @@
     "submit": "Yuborish",
     "submitting": "Yuborilmoqda...",
     "success": "Rahmat! Tez orada siz bilan bog'lanamiz.",
-    "error": "Yuborib bo'lmadi. Keyinroq urinib ko'ring."
+    "error": "Yuborib bo'lmadi. Keyinroq urinib ko'ring.",
+    "rateLimited": "Manzilingizdan juda koʻp soʻrov yuborildi. Bir necha daqiqadan soʻng qayta urinib koʻring."
   },
   "consultation": {
     "bubbleLabel": "Konsultatsiya olish",
@@ -36,7 +37,8 @@
     "submit": "Yuborish",
     "submitting": "Yuborilmoqda...",
     "success": "Rahmat! Tez orada siz bilan bog'lanamiz.",
-    "error": "Yuborib bo'lmadi. Keyinroq urinib ko'ring."
+    "error": "Yuborib bo'lmadi. Keyinroq urinib ko'ring.",
+    "rateLimited": "Manzilingizdan juda koʻp soʻrov yuborildi. Bir necha daqiqadan soʻng qayta urinib koʻring."
   },
   "common": {
     "readMore": "Ko'proq o'qish",
@@ -157,6 +159,150 @@
       "prev": "Oldingi rasm",
       "next": "Keyingi rasm",
       "photo": "{index}-rasm"
+    },
+    "priceFrom": "{price} dan",
+    "units": {
+      "m2": "m²",
+      "kg": "kg",
+      "roll": "rulon",
+      "m3": "m³",
+      "lm": "p.m.",
+      "pcs": "dona"
+    }
+  },
+  "calculator": {
+    "fields": {
+      "objectType": "Obyekt turi",
+      "inputMode": "O'lchamlarni qanday kiritamiz",
+      "area": "Maydon",
+      "length": "Uzunligi",
+      "width": "Eni",
+      "perimeter": "Poydevor perimetri",
+      "depth": "Chuqurlik / devor balandligi",
+      "parapets": "Tutashuvlar va parapetlar",
+      "parapetHeight": "Parapetga chiqish balandligi",
+      "base": "Asos",
+      "method": "Gidroizolyatsiya usuli",
+      "layers": "Qatlamlar soni",
+      "insulation": "Issiqlik izolyatsiyasi",
+      "thickness": "Izolyatsiya qalinligi",
+      "geotextile": "Geotekstil bilan himoya",
+      "materials": "Materiallar",
+      "topLayer": "Yuqori qatlam",
+      "bottomLayer": "Pastki qatlam",
+      "foundationRoll": "Rulonli material",
+      "masticProduct": "Mastika",
+      "primerProduct": "Praymer"
+    },
+    "objectTypes": {
+      "flatRoof": "Tekis tom",
+      "foundation": "Poydevor / yerto'la"
+    },
+    "modes": {
+      "area": "Maydonni bilaman",
+      "dimensions": "Uzunlik × eni",
+      "perimeter": "Perimetr × chuqurlik"
+    },
+    "bases": {
+      "concrete": "Beton",
+      "screed": "Sement qatlam",
+      "profiledSheet": "Profnastil",
+      "oldRoofing": "Eski rulonli qoplama"
+    },
+    "methods": {
+      "torch": "Yopishtiriladigan rulonli",
+      "pvc": "PVX membrana",
+      "coating": "Surtiladigan (mastika)",
+      "roll": "Rulonli (yopishtiriladigan)",
+      "combined": "Aralash"
+    },
+    "layers": {
+      "one": "1 qatlam",
+      "two": "2 qatlam"
+    },
+    "insulations": {
+      "none": "Izolyatsiyasiz",
+      "penopleks": "Penopleks",
+      "basalt": "Bazalt paxta"
+    },
+    "units": {
+      "kg": "kg",
+      "roll": "rulon",
+      "m2": "m²",
+      "m3": "m³",
+      "m": "m",
+      "mm": "mm",
+      "lm": "p.m.",
+      "cm": "sm"
+    },
+    "materials": {
+      "roofizolTkp": "Roofizol TKP",
+      "izomembraneEkp": "Izomembrane EKP",
+      "roofizolTfp": "Roofizol TFP",
+      "izomembraneEfp": "Izomembrane EFP",
+      "folgoizolTfp": "Folgoizol TFP",
+      "folgoizolEfp": "Folgoizol EFP",
+      "roofizolTpp": "Roofizol TPP",
+      "izomembraneEpp": "Izomembrane EPP",
+      "poliizolTpp": "Poliizol TPP",
+      "poliizolEpp": "Poliizol EPP",
+      "izolTpp": "Izol TPP",
+      "gidroizolOsnova": "Gidroizol Osnova",
+      "gidroizolFundament": "Gidroizol Fundament",
+      "primerUniversal": "Bitumli universal praymer",
+      "primerFast": "Bitumli tez quriydigan praymer",
+      "primerMastifix": "Mastifix polimer praymeri",
+      "masticWaterproof": "Bitumli gidroizolyatsiya mastikasi",
+      "masticMbr": "Bitumli mastika MBR",
+      "masticMbgG": "Bitumli mastika MBG-G",
+      "masticUniversal": "Bitumli universal mastika",
+      "masticRoof": "Bitumli tom mastikasi",
+      "pvcMembrane": "PVX membrana",
+      "geotextile": "Marja-Tex geotekstili",
+      "penopleks": "Penopleks",
+      "basaltWool": "Bazalt paxta",
+      "vaporBarrier": "Bugʻ izolyatsiyasi"
+    },
+    "result": {
+      "title": "Sizning hisobingiz",
+      "area": "Izolyatsiya maydoni: {area} m²",
+      "total": "Taxminiy jami",
+      "totalPartial": "Narxi ma'lum pozitsiyalar bo'yicha jami",
+      "priceOnRequest": "so'rov bo'yicha",
+      "missingPrices": "Ayrim materiallar narxi so'rov bo'yicha — ular summaga kirmadi. Menejer ularni alohida hisoblab beradi.",
+      "empty": "Obyekt o'lchamlarini kiriting — hisob shu yerda chiqadi",
+      "disclaimer": "Hisob taxminiy: hajm va narxlar yakuniy smetadan farq qilishi mumkin. Aniq hisobni menejer tayyorlaydi.",
+      "disclaimerVolumes": "Hisob taxminiy: hajmlar yakuniy smetadan farq qilishi mumkin. Aniq hisob va narxlarni menejer tayyorlaydi."
+    },
+    "lead": {
+      "button": "Aniq smeta olish",
+      "title": "Aniq smeta olish",
+      "description": "Aloqa ma'lumotlaringizni qoldiring — hisobni tekshirib, dolzarb narxlarni yuboramiz",
+      "name": "Ism",
+      "namePlaceholder": "Ismingiz",
+      "phone": "Telefon",
+      "phonePlaceholder": "Raqamingizni kiriting",
+      "city": "Shahar",
+      "cityPlaceholder": "Masalan, Toshkent",
+      "timing": "Xarid muddati",
+      "submit": "Yuborish",
+      "submitting": "Yuborilmoqda...",
+      "success": "Rahmat! Menejer tez orada siz bilan bogʻlanadi.",
+      "error": "Yuborib bo'lmadi. Keyinroq urinib ko'ring.",
+      "rateLimited": "Manzilingizdan juda koʻp soʻrov yuborildi. Bir necha daqiqadan soʻng qayta urinib koʻring."
+    },
+    "timings": {
+      "now": "Hozir",
+      "month": "Bir oy ichida",
+      "quarter": "1–3 oydan keyin"
+    },
+    "finishes": {
+      "granule": "sepma qoplama",
+      "foil": "folga"
+    },
+    "hints": {
+      "layerRoles": "Yuqori qatlam — sepma qoplama yoki folga bilan, u ultrabinafsha nurlardan himoya qiladi. Pastki qatlam — plyonkali tagliq. Roʻyxatlarda faqat oʻz roliga mos markalar bor.",
+      "parapetHeight": "Odatda 30–50 sm. Mustahkamlovchi tasma 15 sm kengroq — u tom yuzasiga yotadi."
     }
   }
 }

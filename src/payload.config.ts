@@ -9,6 +9,7 @@ import { en } from '@payloadcms/translations/languages/en'
 import { AttributeGroups } from './collections/AttributeGroups'
 import { Attributes } from './collections/Attributes'
 import { Categories } from './collections/Categories'
+import { Leads } from './collections/Leads'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -97,6 +98,7 @@ export default buildConfig({
     Attributes,
     Reviews,
     Projects,
+    Leads,
     Media,
     Categories,
     Users,

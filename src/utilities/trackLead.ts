@@ -14,6 +14,7 @@ export type LeadSource =
   | 'product_order'
   | 'phone_click'
   | 'telegram_click'
+  | 'calculator'
 
 type Gtag = (command: string, eventName: string, params?: Record<string, unknown>) => void
 

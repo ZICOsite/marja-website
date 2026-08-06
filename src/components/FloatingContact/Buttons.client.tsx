@@ -25,7 +25,7 @@ type Props = {
   phoneNumber: string | null | undefined
 }
 
-type Status = 'idle' | 'submitting' | 'success' | 'error'
+type Status = 'idle' | 'submitting' | 'success' | 'error' | 'rateLimited'
 
 export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }) => {
   const t = useTranslations('consultation')
@@ -34,6 +34,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
   const [status, setStatus] = useState<Status>('idle')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [website, setWebsite] = useState('')
 
   useEffect(() => {
     const timer = setTimeout(() => setShowBubble(true), BUBBLE_DELAY_MS)
@@ -46,6 +47,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
       setStatus('idle')
       setName('')
       setPhone('')
+      setWebsite('')
     }
   }
 
@@ -59,9 +61,15 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
     if (!name.trim() || !phone.trim() || status === 'submitting') return
 
     setStatus('submitting')
-    const res = await submitConsultationRequest({ name, phone })
-    setStatus(res.ok ? 'success' : 'error')
-    if (res.ok) trackLead('consultation')
+    const res = await submitConsultationRequest({ name, phone, website })
+
+    if (res.ok) {
+      setStatus('success')
+      trackLead('consultation')
+    } else {
+      // Заявка не ушла — конверсию не засчитываем.
+      setStatus(res.reason === 'rateLimited' ? 'rateLimited' : 'error')
+    }
   }
 
   return (
@@ -146,7 +154,22 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
                 />
               </div>
 
+              {/* Honeypot — скрыт от людей, заполняется ботами */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                className="absolute left-[-9999px] h-0 w-0 opacity-0"
+              />
+
               {status === 'error' && <p className="text-sm text-destructive">{t('error')}</p>}
+              {status === 'rateLimited' && (
+                <p className="text-sm text-amber-600 dark:text-amber-500">{t('rateLimited')}</p>
+              )}
 
               <Button type="submit" size="lg" className="gap-2" disabled={status === 'submitting'}>
                 {status === 'submitting' && <Loader2 className="w-4 h-4 animate-spin" />}

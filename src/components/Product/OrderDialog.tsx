@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Loader2, Check } from 'lucide-react'
+import { Loader2, Check, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
@@ -20,20 +20,36 @@ import { trackLead } from '@/utilities/trackLead'
 
 type Props = {
   items: OrderProduct[]
-  /** Element that opens the dialog (e.g. a Button). */
-  trigger: React.ReactNode
+  /**
+   * Подпись на кнопке, открывающей диалог. По умолчанию — order.buttonLabel.
+   *
+   * Кнопку рисует сам компонент, а не родитель. Готовый элемент сюда передавать нельзя:
+   * если серверный компонент отдаёт элемент пропом, React при переполнении RSC-ряда
+   * (порог 3200, deferTask) выносит его отдельным рядом «$L», и тогда разметка кнопки
+   * не попадает ни в SSR-HTML, ни в DOM после гидратации — кнопка молча исчезает.
+   * Так на проде пропала кнопка заказа у товаров с длинными описаниями.
+   */
+  triggerLabel?: string
+  /** Иконка на кнопке. */
+  triggerIcon?: 'bag' | 'cart'
   /** Called after a successful submission (e.g. to clear the cart). */
   onSuccess?: () => void
 }
 
-type Status = 'idle' | 'submitting' | 'success' | 'error'
+type Status = 'idle' | 'submitting' | 'success' | 'error' | 'rateLimited'
 
-export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
+export const OrderDialog: React.FC<Props> = ({
+  items,
+  triggerLabel,
+  triggerIcon = 'bag',
+  onSuccess,
+}) => {
   const t = useTranslations('order')
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [website, setWebsite] = useState('')
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next)
@@ -41,6 +57,7 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
       setStatus('idle')
       setName('')
       setPhone('')
+      setWebsite('')
     }
   }
 
@@ -49,19 +66,29 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
     if (!name.trim() || !phone.trim() || status === 'submitting' || items.length === 0) return
 
     setStatus('submitting')
-    const res = await submitProductOrder({ name, phone, items })
+    const res = await submitProductOrder({ name, phone, items, website })
     if (res.ok) {
       setStatus('success')
       trackLead('product_order', { items: items.length })
       onSuccess?.()
     } else {
-      setStatus('error')
+      // Заявка не ушла — конверсию не засчитываем и корзину не чистим.
+      setStatus(res.reason === 'rateLimited' ? 'rateLimited' : 'error')
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button size="lg" className="gap-2 cursor-pointer">
+          {triggerIcon === 'cart' ? (
+            <ShoppingCart className="w-5 h-5" />
+          ) : (
+            <ShoppingBag className="w-5 h-5" />
+          )}
+          {triggerLabel ?? t('buttonLabel')}
+        </Button>
+      </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
@@ -116,7 +143,22 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
               />
             </div>
 
+            {/* Honeypot — скрыт от людей, заполняется ботами */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
+
             {status === 'error' && <p className="text-sm text-destructive">{t('error')}</p>}
+            {status === 'rateLimited' && (
+              <p className="text-sm text-amber-600 dark:text-amber-500">{t('rateLimited')}</p>
+            )}
 
             <Button type="submit" size="lg" className="gap-2" disabled={status === 'submitting'}>
               {status === 'submitting' && <Loader2 className="w-4 h-4 animate-spin" />}

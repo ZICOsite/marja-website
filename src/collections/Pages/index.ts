@@ -45,6 +45,7 @@ import { LeanToolsBlock } from '@/blocks/LeanTools/config'
 import { LeanResultsBlock } from '@/blocks/LeanResults/config'
 import { ActivityFeedBlock } from '@/blocks/ActivityFeed/config'
 import { FAQBlock } from '@/blocks/FAQ/config'
+import { CalculatorBlock } from '@/blocks/Calculator/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -100,7 +101,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock, LatestPosts, ContactsBlock, CompletedProjects, DownloadsBlock, DocumentationBlock, CareersBlock, ReadySolutionsBlock, WarrantyIntroBlock, MarketingAnalysisBlock, CompanyGrowthBlock, WarrantyFeaturesBlock, LeanIntroBlock, LeanPrinciplesBlock, LeanToolsBlock, LeanResultsBlock, ActivityFeedBlock, FAQBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, Features, StatsBlock, Solutions, AboutCompanyBlock, ClientsBlock, PopularProducts, TimelineBlock, TeamBlock, LatestPosts, ContactsBlock, CompletedProjects, DownloadsBlock, DocumentationBlock, CareersBlock, ReadySolutionsBlock, WarrantyIntroBlock, MarketingAnalysisBlock, CompanyGrowthBlock, WarrantyFeaturesBlock, LeanIntroBlock, LeanPrinciplesBlock, LeanToolsBlock, LeanResultsBlock, ActivityFeedBlock, FAQBlock, CalculatorBlock],
               required: true,
               localized: true,
               admin: {

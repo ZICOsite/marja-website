@@ -10,6 +10,8 @@ export type CartItem = {
   price?: number | null
   currency?: string | null
   priceOnRequest?: boolean | null
+  priceFrom?: boolean | null
+  priceUnit?: string | null
   sku?: string | null
 }
 
