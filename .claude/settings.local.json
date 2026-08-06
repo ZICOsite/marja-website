@@ -22,7 +22,20 @@
       "PowerShell(pnpm *)",
       "Bash(curl -s http://localhost:3001/ru)",
       "Read(//c/Users/User/AppData/Local/Temp/claude/**)",
-      "Bash(node \"C:/Users/User/AppData/Local/Temp/claude/C--Users-User-OneDrive---------------------------2--marja-website/dd36b95d-004d-443d-936d-7ea432de57ac/scratchpad/checkPrices.mjs\")"
+      "Bash(node \"C:/Users/User/AppData/Local/Temp/claude/C--Users-User-OneDrive---------------------------2--marja-website/dd36b95d-004d-443d-936d-7ea432de57ac/scratchpad/checkPrices.mjs\")",
+      "Bash(grep -n \"={<\\\\|={\\(\\\\s*$\\\\|description=\\\\|specGroups=\" \"src/app/\\(frontend\\)/[slug]/products/[...path]/page.tsx\")",
+      "Bash(node scan_desc.mjs)",
+      "Bash(pnpm start *)",
+      "Bash(curl -s -o /dev/null http://localhost:3000/ru)",
+      "Bash(node scan_local.mjs)",
+      "Bash(curl -s \"http://localhost:3000/ru/products/roofizol-tkp\" -o loc2.html)",
+      "Bash(cp __TRACKED_VAR__/verify.mjs ./.tmp-verify.mjs)",
+      "Bash(node ./.tmp-verify.mjs __TRACKED_VAR__/after.png)",
+      "Bash(rm -f ./.tmp-verify.mjs)",
+      "Bash(pnpm tsx *)",
+      "Bash(curl -s \"http://localhost:3000/ru/products/roofizol-tkp\")",
+      "Bash(grep -o \"Roofizol ТКП-получают[^<]\\\\{0,120\\\\}\")",
+      "Bash(pnpm generate:types)"
     ]
   }
 }
