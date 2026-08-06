@@ -22,7 +22,7 @@ import { RelatedProductsSlider } from './RelatedProductsSlider'
 import { AttributeFilters, type FilterAttr } from './AttributeFilters'
 import { getServerSideURL } from '@/utilities/getURL'
 import { buildAlternates } from '@/utilities/generateMeta'
-import { formatPrice } from '@/utilities/formatPrice'
+import { formatProductPrice } from '@/utilities/formatPrice'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 import type { ProductsNotice } from '@/payload-types'
@@ -117,6 +117,13 @@ async function ProductDetailPage({
 
   const groupedSpecs = groupSpecifications(product.specifications ?? [])
 
+  const priceBase = formatProductPrice({
+    price: product.price as number,
+    currency: product.currency,
+    unitLabel: product.priceUnit ? t(`units.${product.priceUnit}`) : null,
+  })
+  const priceLabel = product.priceFrom ? t('priceFrom', { price: priceBase }) : priceBase
+
   // JSON-LD structured data for Google rich results
   const productUrl = `${getServerSideURL()}/${locale}/products/${path.join('/')}`
   const imageUrls = galleryImages.map((img) => img.url)
@@ -129,7 +136,10 @@ async function ProductDetailPage({
     ...(product.sku && { sku: product.sku }),
     url: productUrl,
     offers: {
-      '@type': 'Offer',
+      // «Цена от» — это нижняя граница вилки, а не цена товара: в разметке ей
+      // соответствует AggregateOffer с lowPrice, иначе Google покажет минимум
+      // как окончательную цену.
+      '@type': product.priceFrom ? 'AggregateOffer' : 'Offer',
       url: productUrl,
       availability: product.inStock
         ? 'https://schema.org/InStock'
@@ -137,7 +147,9 @@ async function ProductDetailPage({
       itemCondition: 'https://schema.org/NewCondition',
       ...(!product.priceOnRequest &&
         product.price != null && {
-        price: String(product.price),
+        ...(product.priceFrom
+          ? { lowPrice: String(product.price) }
+          : { price: String(product.price) }),
         priceCurrency: product.currency ?? 'UZS',
       }),
     },
@@ -191,9 +203,7 @@ async function ProductDetailPage({
               {(product.priceOnRequest || product.price != null) && (
                 <div className="mb-6">
                   <p className="text-3xl font-bold text-primary">
-                    {product.priceOnRequest
-                      ? t('priceOnRequest')
-                      : `${formatPrice(product.price as number)} ${product.currency ?? 'UZS'}`}
+                    {product.priceOnRequest ? t('priceOnRequest') : priceLabel}
                   </p>
                 </div>
               )}
@@ -218,6 +228,8 @@ async function ProductDetailPage({
                     price: product.priceOnRequest ? null : ((product.price as number | null) ?? null),
                     currency: product.currency ?? null,
                     priceOnRequest: product.priceOnRequest ?? null,
+                    priceFrom: product.priceFrom ?? null,
+                    priceUnit: product.priceUnit ?? null,
                     sku: product.sku ?? null,
                   }}
                 />
@@ -426,6 +438,8 @@ async function CategoryPage({
                       shortDescription={product.shortDescription}
                       price={product.price as number | null}
                       priceOnRequest={product.priceOnRequest}
+                      priceFrom={product.priceFrom}
+                      priceUnit={product.priceUnit}
                       currency={product.currency}
                       locale={locale}
                     />

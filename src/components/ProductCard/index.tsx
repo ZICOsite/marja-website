@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
-import { formatPrice } from '@/utilities/formatPrice'
+import { formatProductPrice } from '@/utilities/formatPrice'
 
 type ProductCardProps = {
   href: string
@@ -12,6 +12,8 @@ type ProductCardProps = {
   shortDescription?: string | null
   price?: number | null
   priceOnRequest?: boolean | null
+  priceFrom?: boolean | null
+  priceUnit?: string | null
   currency?: string | null
   locale: string
 }
@@ -25,10 +27,18 @@ export async function ProductCard({
   shortDescription,
   price,
   priceOnRequest,
+  priceFrom,
+  priceUnit,
   currency,
   locale,
 }: ProductCardProps) {
   const t = await getTranslations({ locale, namespace: 'products' })
+  const priceBase = formatProductPrice({
+    price: price as number,
+    currency,
+    unitLabel: priceUnit ? t(`units.${priceUnit}`) : null,
+  })
+  const priceLabel = priceFrom ? t('priceFrom', { price: priceBase }) : priceBase
   const img =
     typeof heroImage === 'object' && heroImage !== null
       ? (heroImage as { url?: string | null; alt?: string | null })
@@ -71,9 +81,7 @@ export async function ProductCard({
         )}
         {(priceOnRequest || price != null) && (
           <p className="mt-3 text-base font-bold text-primary">
-            {priceOnRequest
-              ? t('priceOnRequest')
-              : `${formatPrice(price as number)} ${currency ?? 'UZS'}`}
+            {priceOnRequest ? t('priceOnRequest') : priceLabel}
           </p>
         )}
       </div>

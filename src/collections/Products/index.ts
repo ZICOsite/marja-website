@@ -302,6 +302,34 @@ export const Products: CollectionConfig<'products'> = {
       },
     },
     {
+      name: 'priceFrom',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Цена «от»',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Товар выпускается в нескольких вариантах (напр. толщинах) с разной ценой. В поле «Цена» укажите минимальную — на витрине она покажется как «от 13 500».',
+      },
+    },
+    {
+      name: 'priceUnit',
+      type: 'select',
+      label: 'Единица измерения цены',
+      options: [
+        { label: 'м² (за квадратный метр)', value: 'm2' },
+        { label: 'кг (за килограмм)', value: 'kg' },
+        { label: 'рулон', value: 'roll' },
+        { label: 'м³ (за кубометр)', value: 'm3' },
+        { label: 'п.м. (за погонный метр)', value: 'lm' },
+        { label: 'шт', value: 'pcs' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Приписывается к цене: «13 500 UZS/м²». Пусто — цена без единицы.',
+      },
+    },
+    {
       name: 'currency',
       type: 'select',
       defaultValue: 'UZS',

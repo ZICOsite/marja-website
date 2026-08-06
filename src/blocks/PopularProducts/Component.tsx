@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Link } from '@/navigation'
 import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { formatPrice } from '@/utilities/formatPrice'
+import { formatProductPrice } from '@/utilities/formatPrice'
 import {
   Carousel,
   CarouselContent,
@@ -23,6 +23,8 @@ type ProductItem = {
   price?: number | null
   currency?: string | null
   priceOnRequest?: boolean | null
+  priceFrom?: boolean | null
+  priceUnit?: string | null
   heroImage?: {
     url?: string | null
     alt?: string | null
@@ -47,6 +49,15 @@ export const PopularProductsBlock = ({
   viewAllLink,
 }: Props) => {
   const t = useTranslations('products')
+
+  const priceLabel = (product: ProductItem) => {
+    const base = formatProductPrice({
+      price: product.price as number,
+      currency: product.currency,
+      unitLabel: product.priceUnit ? t(`units.${product.priceUnit}`) : null,
+    })
+    return product.priceFrom ? t('priceFrom', { price: base }) : base
+  }
 
   const populated = (products ?? []).filter(
     (p): p is ProductItem => typeof p === 'object' && p !== null,
@@ -158,7 +169,7 @@ export const PopularProductsBlock = ({
                           {product.priceOnRequest
                             ? t('priceOnRequest')
                             : product.price != null
-                              ? `${formatPrice(product.price)} ${product.currency ?? 'UZS'}`
+                              ? priceLabel(product)
                               : null}
                         </span>
                         <span className="flex items-center gap-1 text-sm font-semibold text-[var(--primary)]">

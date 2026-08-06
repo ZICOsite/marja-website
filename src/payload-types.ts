@@ -1117,6 +1117,14 @@ export interface Product {
    * Цена товара
    */
   price?: number | null;
+  /**
+   * Товар выпускается в нескольких вариантах (напр. толщинах) с разной ценой. В поле «Цена» укажите минимальную — на витрине она покажется как «от 13 500».
+   */
+  priceFrom?: boolean | null;
+  /**
+   * Приписывается к цене: «13 500 UZS/м²». Пусто — цена без единицы.
+   */
+  priceUnit?: ('m2' | 'kg' | 'roll' | 'm3' | 'lm' | 'pcs') | null;
   currency?: ('UZS' | 'USD' | 'EUR' | 'RUB') | null;
   /**
    * Скрыть цену и показать "Цена по запросу"
@@ -2808,6 +2816,8 @@ export interface ProductsSelect<T extends boolean = true> {
   categories?: T;
   sku?: T;
   price?: T;
+  priceFrom?: T;
+  priceUnit?: T;
   currency?: T;
   priceOnRequest?: T;
   inStock?: T;

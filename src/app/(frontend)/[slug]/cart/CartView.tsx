@@ -7,14 +7,24 @@ import { ShoppingCart, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
-import { useCart } from '@/providers/Cart'
+import { useCart, type CartItem } from '@/providers/Cart'
 import { OrderDialog } from '@/components/Product/OrderDialog'
 import { getServerSideURL } from '@/utilities/getURL'
-import { formatPrice } from '@/utilities/formatPrice'
+import { formatProductPrice } from '@/utilities/formatPrice'
 
 export const CartView: React.FC<{ locale: string }> = ({ locale }) => {
   const t = useTranslations('cart')
+  const tProducts = useTranslations('products')
   const { items, isReady, totalCount, removeItem, clear } = useCart()
+
+  const priceLabel = (item: CartItem) => {
+    const base = formatProductPrice({
+      price: item.price as number,
+      currency: item.currency,
+      unitLabel: item.priceUnit ? tProducts(`units.${item.priceUnit}`) : null,
+    })
+    return item.priceFrom ? tProducts('priceFrom', { price: base }) : base
+  }
 
   // Avoid a flash of "empty cart" before localStorage hydration
   if (!isReady) {
@@ -78,7 +88,7 @@ export const CartView: React.FC<{ locale: string }> = ({ locale }) => {
                 <p className="text-sm text-primary font-bold mt-1">
                   {item.priceOnRequest || item.price == null
                     ? t('priceOnRequest')
-                    : `${formatPrice(item.price)} ${item.currency ?? 'UZS'}`}
+                    : priceLabel(item)}
                 </p>
               )}
             </div>

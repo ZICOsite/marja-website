@@ -159,6 +159,15 @@
       "prev": "Oldingi rasm",
       "next": "Keyingi rasm",
       "photo": "{index}-rasm"
+    },
+    "priceFrom": "{price} dan",
+    "units": {
+      "m2": "m²",
+      "kg": "kg",
+      "roll": "rulon",
+      "m3": "m³",
+      "lm": "p.m.",
+      "pcs": "dona"
     }
   },
   "calculator": {

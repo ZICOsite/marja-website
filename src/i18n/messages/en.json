@@ -159,6 +159,15 @@
       "prev": "Previous photo",
       "next": "Next photo",
       "photo": "Photo {index}"
+    },
+    "priceFrom": "from {price}",
+    "units": {
+      "m2": "m²",
+      "kg": "kg",
+      "roll": "roll",
+      "m3": "m³",
+      "lm": "lm",
+      "pcs": "pc"
     }
   },
   "calculator": {

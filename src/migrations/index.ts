@@ -27,6 +27,7 @@ import * as migration_20260609_141225 from './20260609_141225';
 import * as migration_20260614_152210_faq_block from './20260614_152210_faq_block';
 import * as migration_20260729_063535_calculator_block from './20260729_063535_calculator_block';
 import * as migration_20260730_065419_leads from './20260730_065419_leads';
+import * as migration_20260806_price_from_unit from './20260806_price_from_unit';
 
 export const migrations = [
   {
@@ -173,5 +174,10 @@ export const migrations = [
     up: migration_20260730_065419_leads.up,
     down: migration_20260730_065419_leads.down,
     name: '20260730_065419_leads'
+  },
+  {
+    up: migration_20260806_price_from_unit.up,
+    down: migration_20260806_price_from_unit.down,
+    name: '20260806_price_from_unit'
   },
 ];
