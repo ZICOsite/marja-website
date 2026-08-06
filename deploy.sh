@@ -24,10 +24,23 @@ docker compose --profile migrate build migrate
 echo "=== 4. Запускаем миграции ==="
 docker compose --profile migrate run --rm migrate
 
-echo "=== 5. Строим образ приложения ==="
+# Сборка — самый прожорливый шаг: `pnpm run build` берёт до 1.5 ГБ heap
+# (Dockerfile, max-old-space-size=1536). По умолчанию сайт продолжает работать
+# всю сборку, простой только на перезапуске. Если памяти в обрез и билд падает
+# по OOM — запускать как `STOP_APP_FOR_BUILD=1 ./deploy.sh`: сборка пройдёт
+# на освободившейся памяти, но сайт будет лежать до шага 7.
+# Postgres останавливать нельзя ни в каком режиме: билд ходит в базу.
+if [ "${STOP_APP_FOR_BUILD:-0}" = "1" ]; then
+  echo "=== 5. Останавливаем app на время сборки ==="
+  docker compose stop app
+else
+  echo "=== 5. app остаётся работать (STOP_APP_FOR_BUILD=1 — остановить) ==="
+fi
+
+echo "=== 6. Строим образ приложения ==="
 docker compose build app
 
-echo "=== 6. Запускаем приложение ==="
+echo "=== 7. Запускаем приложение ==="
 docker compose up -d
 
 echo "=== Готово! ==="
