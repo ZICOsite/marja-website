@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Loader2, Check } from 'lucide-react'
+import { Loader2, Check, ShoppingBag, ShoppingCart } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
@@ -20,15 +20,30 @@ import { trackLead } from '@/utilities/trackLead'
 
 type Props = {
   items: OrderProduct[]
-  /** Element that opens the dialog (e.g. a Button). */
-  trigger: React.ReactNode
+  /**
+   * Подпись на кнопке, открывающей диалог. По умолчанию — order.buttonLabel.
+   *
+   * Кнопку рисует сам компонент, а не родитель. Готовый элемент сюда передавать нельзя:
+   * если серверный компонент отдаёт элемент пропом, React при переполнении RSC-ряда
+   * (порог 3200, deferTask) выносит его отдельным рядом «$L», и тогда разметка кнопки
+   * не попадает ни в SSR-HTML, ни в DOM после гидратации — кнопка молча исчезает.
+   * Так на проде пропала кнопка заказа у товаров с длинными описаниями.
+   */
+  triggerLabel?: string
+  /** Иконка на кнопке. */
+  triggerIcon?: 'bag' | 'cart'
   /** Called after a successful submission (e.g. to clear the cart). */
   onSuccess?: () => void
 }
 
 type Status = 'idle' | 'submitting' | 'success' | 'error' | 'rateLimited'
 
-export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
+export const OrderDialog: React.FC<Props> = ({
+  items,
+  triggerLabel,
+  triggerIcon = 'bag',
+  onSuccess,
+}) => {
   const t = useTranslations('order')
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
@@ -64,7 +79,16 @@ export const OrderDialog: React.FC<Props> = ({ items, trigger, onSuccess }) => {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button size="lg" className="gap-2">
+          {triggerIcon === 'cart' ? (
+            <ShoppingCart className="w-5 h-5" />
+          ) : (
+            <ShoppingBag className="w-5 h-5" />
+          )}
+          {triggerLabel ?? t('buttonLabel')}
+        </Button>
+      </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>

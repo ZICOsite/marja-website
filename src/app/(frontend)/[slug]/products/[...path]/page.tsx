@@ -10,13 +10,10 @@ import { cache } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import RichText from '@/components/RichText'
 import { ProductGallery } from '@/components/ProductGallery'
 import { ProductCard } from '@/components/ProductCard'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { ProductTabs } from '@/components/ProductTabs'
-import { Button } from '@/components/ui/button'
-import { ShoppingBag } from 'lucide-react'
 import { OrderDialog } from '@/components/Product/OrderDialog'
 import { AddToCartButton } from '@/components/Cart/AddToCartButton'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
@@ -210,12 +207,7 @@ async function ProductDetailPage({
               <div className="flex flex-wrap items-center gap-3">
                 <OrderDialog
                   items={[{ title: product.title, url: productUrl, sku: product.sku }]}
-                  trigger={
-                    <Button size="lg" className="gap-2">
-                      <ShoppingBag className="w-5 h-5" />
-                      {tOrder('buttonLabel')}
-                    </Button>
-                  }
+                  triggerLabel={tOrder('buttonLabel')}
                 />
                 <AddToCartButton
                   product={{
@@ -236,12 +228,8 @@ async function ProductDetailPage({
           {/* Табы: Описание / Характеристики / Документация */}
           <div className="mb-16">
             <ProductTabs
-              hasDescription={!!product.description}
-              description={
-                product.description ? (
-                  <RichText data={product.description} enableGutter={false} locale={locale} />
-                ) : undefined
-              }
+              description={product.description}
+              locale={locale}
               specGroups={groupedSpecs}
               productTitle={product.title}
               standardLabel={product.standardLabel}

@@ -103,12 +103,8 @@ export const CartView: React.FC<{ locale: string }> = ({ locale }) => {
         <OrderDialog
           items={orderItems}
           onSuccess={clear}
-          trigger={
-            <Button size="lg" className="gap-2">
-              <ShoppingCart className="w-5 h-5" />
-              {t('checkout')}
-            </Button>
-          }
+          triggerLabel={t('checkout')}
+          triggerIcon="cart"
         />
       </div>
     </div>

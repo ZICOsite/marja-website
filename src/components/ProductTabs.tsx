@@ -1,6 +1,8 @@
 'use client'
 
 import { FileText } from 'lucide-react'
+import RichText from '@/components/RichText'
+import type { Product } from '@/payload-types'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import {
   Accordion,
@@ -26,8 +28,18 @@ type DocumentGroup = {
 }
 
 type Props = {
-  description?: React.ReactNode
-  hasDescription: boolean
+  /**
+   * Описание товара данными (lexical JSON), а не готовым элементом: RichText рендерится
+   * здесь, внутри клиентского компонента.
+   *
+   * Готовый <RichText/> сюда передавать нельзя. Если серверный компонент отдаёт элемент
+   * пропом, React при переполнении RSC-ряда (порог 3200, deferTask) выносит его отдельным
+   * рядом «$L», и разметка не попадает ни в SSR-HTML, ни в DOM после гидратации — контент
+   * молча исчезает. Так на проде пропала кнопка заказа (см. OrderDialog); здесь ценой
+   * была бы потеря всего текста описания. На обычные объекты этот механизм не действует.
+   */
+  description?: Product['description']
+  locale?: string
   specGroups: SpecGroup[]
   documents: DocumentGroup[]
   productTitle?: string
@@ -48,7 +60,7 @@ type Props = {
 
 export function ProductTabs({
   description,
-  hasDescription,
+  locale,
   specGroups,
   documents,
   productTitle,
@@ -57,6 +69,7 @@ export function ProductTabs({
   warrantyNote,
   labels,
 }: Props) {
+  const hasDescription = !!description
   const defaultTab = hasDescription ? 'description' : specGroups.length > 0 ? 'specs' : 'docs'
 
   return (
@@ -89,9 +102,9 @@ export function ProductTabs({
       </div>
 
       {/* Описание */}
-      {hasDescription && (
+      {description && (
         <TabsContent value="description" className="mt-8">
-          {description}
+          <RichText data={description} enableGutter={false} locale={locale} />
         </TabsContent>
       )}
 
