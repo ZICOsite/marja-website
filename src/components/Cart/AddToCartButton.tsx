@@ -20,7 +20,7 @@ export const AddToCartButton: React.FC<Props> = ({ product }) => {
     <Button
       variant="outline"
       size="lg"
-      className="gap-2"
+      className="gap-2 cursor-pointer"
       disabled={!isReady}
       aria-pressed={inCart}
       onClick={() => toggleItem(product)}

@@ -80,7 +80,7 @@ export const OrderDialog: React.FC<Props> = ({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button size="lg" className="gap-2">
+        <Button size="lg" className="gap-2 cursor-pointer">
           {triggerIcon === 'cart' ? (
             <ShoppingCart className="w-5 h-5" />
           ) : (

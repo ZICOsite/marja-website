@@ -79,7 +79,7 @@ export function ProductTabs({
           {hasDescription && (
             <TabsTrigger
               value="description"
-              className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap"
+              className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap cursor-pointer"
             >
               {labels.description}
             </TabsTrigger>
@@ -87,14 +87,14 @@ export function ProductTabs({
           {specGroups.length > 0 && (
             <TabsTrigger
               value="specs"
-              className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap"
+              className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap cursor-pointer"
             >
               {labels.specifications}
             </TabsTrigger>
           )}
           <TabsTrigger
             value="docs"
-            className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap"
+            className="rounded-none border-b-2 border-transparent px-3 py-3 text-sm sm:px-6 sm:text-base font-medium data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none whitespace-nowrap cursor-pointer"
           >
             {labels.documents}
           </TabsTrigger>
