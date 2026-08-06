@@ -302,7 +302,7 @@ export function catalogPriceToUnitPrice(key: ProductKey, catalogPrice: number): 
 
 const NORMS = {
   /** Расход праймера, кг/м² — зависит от впитываемости основания. */
-  primerPerM2: { concrete: 0.35, screed: 0.4, profiledSheet: 0, oldRoofing: 0.3 },
+  primerPerM2: { concrete: 0.4, screed: 0.3, profiledSheet: 0, oldRoofing: 0.5 },
   /** Расход обмазочной мастики, кг/м² на один слой. */
   masticPerM2PerLayer: 1.2,
   /** Запас на нахлёсты для рулонных материалов и мембран. */
@@ -586,8 +586,10 @@ export function calculate(input: CalcInput, prices: PriceMap = {}): CalcResult {
   } else {
     lines.push(line(primer, area * NORMS.primerPerM2[input.base]))
 
+    // В комбинированной схеме мастика — обмазка под ковёр, её всегда один слой:
+    // выбор слоёв наращивает только рулонную часть.
     const masticLayers = input.foundationMethod === 'combined' ? 1 : layers
-    const rollLayers = input.foundationMethod === 'combined' ? 1 : layers
+    const rollLayers = layers
 
     if (input.foundationMethod !== 'roll') {
       lines.push(line(mastic, area * NORMS.masticPerM2PerLayer * masticLayers))

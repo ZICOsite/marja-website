@@ -54,8 +54,8 @@ describe('Калькулятор объекта', () => {
 
     // 500 м² × 1,15 запаса ÷ 10 м² в рулоне = 57,5 → 58 рулонов
     expect(result.lines.find((line) => line.key === 'roofizolTpp')?.qty).toBe(58)
-    // 500 м² × 0,35 кг/м² = 175 кг праймера
-    expect(result.lines.find((line) => line.key === 'primerUniversal')?.qty).toBe(175)
+    // 500 м² × 0,4 кг/м² = 200 кг праймера
+    expect(result.lines.find((line) => line.key === 'primerUniversal')?.qty).toBe(200)
   })
 
   it('кровля в 1 слой: только верхний слой с посыпкой', () => {
@@ -109,8 +109,8 @@ describe('Калькулятор объекта', () => {
     })
 
     it('вертикаль парапета тоже грунтуется', () => {
-      // (500 + 60,5) × 0,35 кг/м² = 196,2 кг вместо 175
-      expect(qty(calculate(input({ area: 500, parapets: 100 })), 'primerUniversal')).toBe(196.2)
+      // (500 + 60,5) × 0,4 кг/м² = 224,2 кг вместо 200
+      expect(qty(calculate(input({ area: 500, parapets: 100 })), 'primerUniversal')).toBe(224.2)
     })
 
     it('у ПВХ примыкание решается краевой рейкой — рулонного усиления нет', () => {
@@ -289,7 +289,24 @@ describe('Калькулятор объекта', () => {
       expect(keys).not.toContain('roofizolTpp')
     })
 
-    it('комбинированная считается как один рулонный слой даже с посыпкой', () => {
+    it('в комбинированной слои наращивают рулонную часть, мастика остаётся одним слоем', () => {
+      const oneLayer = foundation({ foundationMethod: 'combined', layers: 1 })
+      const twoLayers = foundation({ foundationMethod: 'combined', layers: 2 })
+
+      // Мастика здесь обмазка под ковёр: 150 × 1,2 кг/м² при любом числе слоёв
+      const masticQty = (lines: typeof oneLayer) =>
+        lines.find((l) => l.key === 'masticWaterproof')?.qty
+      expect(masticQty(oneLayer)).toBe(180)
+      expect(masticQty(twoLayers)).toBe(180)
+
+      // 150 × 1,15 ÷ 10 = 17,25 → 18 рулонов на слой
+      const rollQty = (lines: typeof oneLayer) =>
+        lines.find((l) => l.key === 'gidroizolFundament')?.qty
+      expect(rollQty(oneLayer)).toBe(18)
+      expect(rollQty(twoLayers)).toBe(35)
+    })
+
+    it('комбинированная в два слоя с посыпкой тоже подкладывает плёночную марку', () => {
       const lines = foundation({
         foundationMethod: 'combined',
         layers: 2,
@@ -297,8 +314,8 @@ describe('Калькулятор объекта', () => {
       })
 
       expect(lines.some((l) => l.key === 'masticWaterproof')).toBe(true)
-      expect(lines.filter((l) => l.key === 'roofizolTkp')).toHaveLength(1)
-      expect(lines.some((l) => l.key === 'roofizolTpp')).toBe(false)
+      expect(lines.find((l) => l.key === 'roofizolTkp')?.qty).toBe(18)
+      expect(lines.find((l) => l.key === 'roofizolTpp')?.qty).toBe(18)
     })
   })
 
