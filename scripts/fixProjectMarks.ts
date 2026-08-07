@@ -29,8 +29,28 @@ const APPLY = process.env.APPLY === '1'
 const LOCALES = ['uz', 'ru', 'en', 'tg', 'kk'] as const
 type Locale = (typeof LOCALES)[number]
 
-/** Испорченное написание → верное. Границы слова здесь работают: обе стороны ASCII. */
-const MARKS: [RegExp, string][] = [[/\bCCI\b/g, 'TPP']]
+/**
+ * Испорченное написание → верное. Полный список получен инвентаризацией всех
+ * обозначений после ROOFIZOL/IZOMEMBRANE в нерусских локалях, так что вслепую
+ * ничего не заменяется: каждая строка сверена с русским оригиналом карточки.
+ *
+ * ТПП переводчик прочёл тремя разными способами: CCI (Торгово-промышленная
+ * палата), IES (иссиқлик электр станцияси) и ПСС. ЭПП превратилась в ЭП,
+ * ТКП в TCP, ЭКП в ECP.
+ *
+ * Порядок важен: точные формы идут раньше общего правила про РОФИЗОЛ.
+ * У кириллических кусков вместо \b стоит lookahead — граница слова в JS
+ * считается по ASCII и с кириллицей не срабатывает.
+ */
+const MARKS: [RegExp, string][] = [
+  [/\bCCI\b/g, 'TPP'],
+  [/ROOFIZOL(\s+)IES\b/g, 'ROOFIZOL$1TPP'],
+  [/РОФИЗОЛ(\s+)ПСС(?=[;,.\s]|$)/g, 'ROOFIZOL$1TPP'],
+  [/РОФИЗОЛ(\s+)ЭП(?=[;,.\s]|$)/g, 'ROOFIZOL$1EPP'],
+  [/РОФИЗОЛ/g, 'ROOFIZOL'],
+  [/\bTCP\b/g, 'TKP'],
+  [/\bECP\b/g, 'EKP'],
+]
 
 const exitAfterFlush = async (code: number): Promise<never> => {
   await new Promise<void>((resolve) => process.stdout.write('', () => resolve()))
