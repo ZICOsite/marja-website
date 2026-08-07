@@ -74,6 +74,16 @@ const CONTENT: Record<string, { tagline: string; heading: string; description: s
   },
 }
 
+/**
+ * process.exit() обрывает незаписанный хвост stdout, когда вывод идёт в файл или
+ * пайп, — на проде так потерялась вся часть после бэкапа. Ждём, пока очередь
+ * записи разойдётся, и только потом выходим.
+ */
+const exitAfterFlush = async (code: number): Promise<never> => {
+  await new Promise<void>((resolve) => process.stdout.write('', () => resolve()))
+  process.exit(code)
+}
+
 const run = async () => {
   // payload.config.ts читает process.env при загрузке модуля — импорт после dotenv.
   const config = (await import('@payload-config')).default
@@ -232,7 +242,7 @@ const run = async () => {
 
   if (failures.length) {
     console.log(`\nНЕ ЗАКРЫТО: ${failures.join(', ')}`)
-    process.exit(1)
+    await exitAfterFlush(1)
   }
 
   console.log(
@@ -240,10 +250,10 @@ const run = async () => {
       ? '\nГотово. Страницы отдаются force-dynamic — перезапуск app не нужен.'
       : '\nНичего не записано. Повторите с APPLY=1.',
   )
-  process.exit(0)
+  await exitAfterFlush(0)
 }
 
-run().catch((e) => {
+run().catch(async (e) => {
   console.error(e)
-  process.exit(1)
+  await exitAfterFlush(1)
 })
