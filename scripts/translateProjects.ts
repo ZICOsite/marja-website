@@ -142,7 +142,19 @@ const TERMS: { from: RegExp; to: Phrase }[] = [
   },
   // «Праймер битумная» — опечатка в исходных данных, тот же товар.
   {
-    from: /Битумный\s+праймер|Праймер\s+битумная|Bitumli\s+Praymer/gi,
+    from: /Битумный\s+праймер|Праймер\s+битумная/gi,
+    to: {
+      uz: 'Bitumli praymer',
+      en: 'Bitumen primer',
+      tg: 'Праймери битумӣ',
+      kk: 'Битум праймері',
+    },
+  },
+  // Карточка 164 заведена наполовину по-узбекски. Правило регистрозависимое:
+  // без этого оно повторно ловило «bitumli praymer», который сам же и подставил
+  // предыдущий термин, и портило регистр в середине строки.
+  {
+    from: /Bitumli\s+Praymer/g,
     to: {
       uz: 'Bitumli praymer',
       en: 'Bitumen primer',
@@ -163,9 +175,16 @@ const TERMS: { from: RegExp; to: Phrase }[] = [
     to: { uz: 'Nefras', en: 'Nefras', tg: 'Нефрас', kk: 'Нефрас' },
   },
   // Одиночное «Материал» перед перечислением марок (карточка 169).
+  // Без \b: в JS граница слова считается по ASCII, и с кириллицей не срабатывает —
+  // на сухом прогоне это слово так и осталось русским.
   {
-    from: /\bМатериал\b/g,
+    from: /Материал(?=\s|$)/g,
     to: { uz: 'Material', en: 'Material', tg: 'Мавод', kk: 'Материал' },
+  },
+  // В исходных данных марка местами слиплась с обозначением: ROOFIZOLТФП.
+  {
+    from: /(ROOFIZOL|IZOMEMBRANE)(?=[ТЭ])/gi,
+    to: { uz: '$1 ', en: '$1 ', tg: '$1 ', kk: '$1 ' },
   },
 ]
 
@@ -190,7 +209,8 @@ const LATIN: [RegExp, string][] = [
 
 /** Формы собственности в названиях. */
 const LEGAL: { from: RegExp; to: Phrase }[] = [
-  { from: /\bOOO\b|\bООО\b/g, to: { uz: 'MChJ', en: 'LLC', tg: 'ҶДММ', kk: 'ЖШС' } },
+  // Кириллическое ООО пишется без \b — с не-ASCII буквами граница слова не работает.
+  { from: /\bOOO\b|ООО/g, to: { uz: 'MChJ', en: 'LLC', tg: 'ҶДММ', kk: 'ЖШС' } },
   { from: /\bMCHJ\b|\bMChJ\b/g, to: { uz: 'MChJ', en: 'LLC', tg: 'ҶДММ', kk: 'ЖШС' } },
   { from: /\bAJ\b/g, to: { uz: 'AJ', en: 'JSC', tg: 'ҶСК', kk: 'АҚ' } },
 ]
