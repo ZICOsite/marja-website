@@ -18,12 +18,15 @@
  *     pnpm tsx scripts/addCalculatorBlock.ts | tee calc-block-apply.log
  *
  * Переменные:
- *   APPLY=1    — записать изменения (без неё только показывает план)
- *   MOVE_RU=1  — заодно перенести уже существующий блок в ru на ту же позицию
+ *   APPLY=1        — записать изменения (без неё только показывает план)
+ *   MOVE_RU=1      — заодно перенести уже существующий блок в ru на ту же позицию
+ *   SHOW_PRICES=1  — включить показ цен у создаваемых блоков (по умолчанию выключен)
  *
  * Скрипт идемпотентен: локаль, где блок уже стоит, пропускается.
- * Настройки блока (showPrices, disclaimer) копируются из ru — на проде галка
- * цен выключена, значит и остальные локали получат её выключенной.
+ * Настройки блока (showPrices, disclaimer) копируются из ru, если он там есть.
+ * Если блока нет нигде — он создаётся во всех пяти локалях, и showPrices берётся
+ * из SHOW_PRICES. Выключено по умолчанию: нормы расхода с ТУ ещё не сверены,
+ * поэтому объёмы показывать можно, а суммы — осознанное решение.
  */
 import dotenv from 'dotenv'
 import { getPayload } from 'payload'
@@ -32,14 +35,19 @@ dotenv.config()
 
 const APPLY = process.env.APPLY === '1'
 const MOVE_RU = process.env.MOVE_RU === '1'
+const SHOW_PRICES = process.env.SHOW_PRICES === '1'
 
 const LOCALES = ['ru', 'uz', 'en', 'tg', 'kk'] as const
 type Locale = (typeof LOCALES)[number]
 
-const TARGETS: Locale[] = ['uz', 'en', 'tg', 'kk']
-
 /** Терминология выверена по src/i18n/messages/*.json — там же переведён сам калькулятор. */
 const CONTENT: Record<string, { tagline: string; heading: string; description: string }> = {
+  ru: {
+    tagline: 'Посчитай',
+    heading: 'Рассчитайте материалы для вашего объекта',
+    description:
+      'Укажите площадь, основание и способ гидроизоляции — калькулятор подберёт состав покрытия и посчитает объём материалов. Точную смету с ценами подготовит менеджер.',
+  },
   uz: {
     tagline: 'Hisoblang',
     heading: 'Obyektingiz uchun materiallarni hisoblang',
@@ -99,9 +107,23 @@ const run = async () => {
 
   const ruLayout: any[] = before.ru.layout ?? []
   const ruCalc = ruLayout.find((b) => b.blockType === 'calculator')
-  if (!ruCalc) throw new Error('В ru нет блока calculator — не с чего копировать настройки')
+
+  // Настройки берём из ru, если блок там уже стоит. Если нет — блок заводится
+  // с нуля во всех локалях, включая ru, и цены по умолчанию скрыты.
+  const settings = ruCalc
+    ? { showPrices: ruCalc.showPrices, disclaimer: ruCalc.disclaimer ?? null }
+    : { showPrices: SHOW_PRICES, disclaimer: null }
+
   console.log(
-    `Шаблон из ru: showPrices=${ruCalc.showPrices}, disclaimer=${ruCalc.disclaimer ? 'задан' : 'пусто'}\n`,
+    ruCalc
+      ? `Шаблон из ru: showPrices=${settings.showPrices}, disclaimer=${settings.disclaimer ? 'задан' : 'пусто'}\n`
+      : `В ru блока нет — создаю во всех пяти локалях, showPrices=${settings.showPrices}` +
+          `${SHOW_PRICES ? '' : ' (SHOW_PRICES=1 — включить)'}\n`,
+  )
+
+  // Локали без блока. Когда его нет нигде, сюда попадает и ru.
+  const TARGETS = LOCALES.filter(
+    (locale) => !(before[locale].layout ?? []).some((b: any) => b.blockType === 'calculator'),
   )
 
   const failures: string[] = []
@@ -119,11 +141,11 @@ const run = async () => {
     })
   }
 
-  for (const locale of TARGETS) {
+  for (const locale of LOCALES) {
     const page = before[locale]
     const layout: any[] = page.layout ?? []
 
-    if (layout.some((b) => b.blockType === 'calculator')) {
+    if (!TARGETS.includes(locale)) {
       console.log(`${locale}: блок уже стоит — пропускаю`)
       continue
     }
@@ -138,8 +160,7 @@ const run = async () => {
     const block = {
       blockType: 'calculator',
       ...CONTENT[locale],
-      showPrices: ruCalc.showPrices,
-      disclaimer: ruCalc.disclaimer ?? null,
+      ...settings,
       blockName: null,
     }
     const next = [...layout.slice(0, at + 1), block, ...layout.slice(at + 1)]
@@ -158,10 +179,12 @@ const run = async () => {
     }
   }
 
-  // ru: блок уже есть, вопрос только в его месте.
+  // ru: если блок там уже был, остаётся вопрос его места.
   const ruAt = ruLayout.findIndex((b) => b.blockType === 'calculator')
   const ruSolutions = ruLayout.findIndex((b) => b.blockType === 'solutions')
-  if (ruAt === ruSolutions + 1) {
+  if (!ruCalc) {
+    // Блока не было — он только что создан сразу после solutions, двигать нечего.
+  } else if (ruAt === ruSolutions + 1) {
     console.log(`\nru: блок уже на позиции ${ruAt + 1}, сразу после solutions — не трогаю`)
   } else if (!MOVE_RU) {
     console.log(
