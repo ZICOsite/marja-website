@@ -104,7 +104,7 @@ const run = async () => {
 
   console.log(APPLY ? '=== РЕЖИМ ЗАПИСИ ===' : '=== СУХОЙ ПРОГОН (APPLY=1 — чтобы записать) ===')
 
-  const read = async (id: number, locale: string) => {
+  const read = async (id: number, locale: 'ru' | 'tg' | 'uz') => {
     const { docs } = await payload.find({
       collection: 'projects',
       where: { id: { equals: id } },
