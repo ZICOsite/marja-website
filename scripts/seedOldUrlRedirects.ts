@@ -60,7 +60,17 @@ const buildPairs = (): Pair[] => {
   for (const locale of LOCALES) {
     for (const [target, oldSlugs] of Object.entries(MAP)) {
       for (const oldSlug of oldSlugs) {
-        add(`/${locale}/products/${oldSlug}`, `/${locale}/products/${target}`)
+        const to = `/${locale}/products/${target}`
+
+        add(`/${locale}/products/${oldSlug}`, to)
+
+        // Маршрут получает сегменты пути НЕ декодированными — ровно поэтому
+        // соседний [contentSlug]/page.tsx зовёт decodeURIComponent руками.
+        // Таджикские слаги кириллические, поэтому для них нужен ещё и
+        // percent-encoded вариант `from`, иначе сравнение не совпадёт.
+        // encodeURI, а не encodeURIComponent: слэши внутри слага сохраняем.
+        const encoded = encodeURI(oldSlug)
+        if (encoded !== oldSlug) add(`/${locale}/products/${encoded}`, to)
       }
     }
 
