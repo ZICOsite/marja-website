@@ -10,6 +10,7 @@ import { cache } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { ProductGallery } from '@/components/ProductGallery'
 import { ProductCard } from '@/components/ProductCard'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
@@ -68,7 +69,15 @@ export default async function ProductsPathPage({
   }
 
   const category = await queryCategoryBySlug({ slug: lastSegment, locale })
-  if (!category) return notFound()
+
+  // Ni mahsulot, ni kategoriya topilmadi. Bu — eski saytdan qolgan slug bo'lishi
+  // mumkin: /{loc}/product/... pattern'i yo'l SHAKLINI to'g'rilaydi, lekin slug
+  // eski (tarjima qilingan) holicha qoladi. Shuning uchun 404 dan oldin
+  // `redirects` kolleksiyasiga qaraymiz — moslikni admin panelidan, deploysiz
+  // qo'shish mumkin bo'lsin.
+  if (!category) {
+    return <PayloadRedirects url={`/${locale}/products/${path.join('/')}`} />
+  }
 
   const activeFilters: string[] = Array.isArray(f) ? f : f ? [f] : []
 
