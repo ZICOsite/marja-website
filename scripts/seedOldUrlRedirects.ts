@@ -11,15 +11,23 @@
  * отдавали 200 после первой волны, 5 уходили дальше по 308, а 147 оставались
  * битыми — они и перечислены в карте.
  *
- * Записи кладутся в коллекцию `redirects`, поэтому пересборка приложения не
- * нужна: хук revalidateRedirects сбрасывает кэш по тегу сразу после записи.
+ * Записи кладутся в коллекцию `redirects`, поэтому пересобирать образ
+ * приложения не нужно.
+ *
+ * ВАЖНО: запись идёт с `context.disableRevalidate` — `revalidateTag` работает
+ * только внутри запроса Next и из скрипта бросает «Invariant: static generation
+ * store missing», роняя саму операцию. Значит кэш `unstable_cache` в работающем
+ * приложении сам не обновится, и после заливки нужен перезапуск:
+ *   docker compose restart app
+ * Правки из админки этого не требуют — там хук отрабатывает как обычно.
  *
  * Запуск:
  *   pnpm tsx scripts/seedOldUrlRedirects.ts           # сухой прогон
  *   APPLY=1 pnpm tsx scripts/seedOldUrlRedirects.ts   # записать
  *
- * На сервере — через образ migrate:
- *   docker compose --profile migrate run --rm -e APPLY=1 migrate \
+ * На сервере — через образ migrate (его надо пересобрать после git pull):
+ *   docker compose --profile migrate build migrate
+ *   docker compose --profile migrate run --rm -T -e APPLY=1 migrate \
  *     pnpm tsx scripts/seedOldUrlRedirects.ts
  */
 import dotenv from 'dotenv'
@@ -93,6 +101,7 @@ const run = async () => {
         await payload.create({
           collection: 'redirects',
           data: { from, to: { type: 'custom', url: to } },
+          context: { disableRevalidate: true },
         })
       }
       created++
@@ -109,6 +118,7 @@ const run = async () => {
         collection: 'redirects',
         id: current.id,
         data: { to: { type: 'custom', url: to } },
+        context: { disableRevalidate: true },
       })
     }
     updated++
