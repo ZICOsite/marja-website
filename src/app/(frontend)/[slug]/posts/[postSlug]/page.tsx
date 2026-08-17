@@ -25,6 +25,9 @@ type Args = {
     slug: string
     postSlug: string
   }>
+  // Странице не нужны, но их надо донести до PayloadRedirects: иначе редирект
+  // на старый URL срежет рекламные метки.
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 export async function generateStaticParams() {
@@ -48,9 +51,13 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function PostPage({ params: paramsPromise }: Args) {
+export default async function PostPage({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug: locale, postSlug = '' } = await paramsPromise
+  const searchParams = await searchParamsPromise
 
   setRequestLocale(locale)
 
@@ -58,12 +65,12 @@ export default async function PostPage({ params: paramsPromise }: Args) {
   const url = `/${locale}/posts/${decodedPostSlug}`
   const post = await queryPostBySlug({ slug: decodedPostSlug, locale })
 
-  if (!post) return <PayloadRedirects url={url} />
+  if (!post) return <PayloadRedirects searchParams={searchParams} url={url} />
 
   return (
     <article className="pt-16 pb-16">
       <PageClient />
-      <PayloadRedirects disableNotFound url={url} />
+      <PayloadRedirects disableNotFound searchParams={searchParams} url={url} />
       {draft && <LivePreviewListener />}
       <PostHero post={post} />
       <div className="flex flex-col items-center gap-4 pt-8">

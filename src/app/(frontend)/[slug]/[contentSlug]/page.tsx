@@ -25,6 +25,9 @@ type Args = {
     slug: string
     contentSlug?: string
   }>
+  // Странице не нужны, но их надо донести до PayloadRedirects: иначе редирект
+  // на старый URL срежет рекламные метки.
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 export async function generateStaticParams() {
@@ -50,9 +53,13 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function Page({ params: paramsPromise }: Args) {
+export default async function Page({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug: locale, contentSlug = 'home' } = await paramsPromise
+  const searchParams = await searchParamsPromise
 
   setRequestLocale(locale)
 
@@ -69,7 +76,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   if (!page) {
-    return <PayloadRedirects url={url} />
+    return <PayloadRedirects searchParams={searchParams} url={url} />
   }
 
   const { hero, layout } = page
@@ -77,7 +84,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   return (
     <article className="pt-16 pb-24">
       <PageClient />
-      <PayloadRedirects disableNotFound url={url} />
+      <PayloadRedirects disableNotFound searchParams={searchParams} url={url} />
       {draft && <LivePreviewListener />}
       <RenderHero {...hero} locale={locale} />
       {contentSlug === 'home' && <RecentActivityBar locale={locale} />}

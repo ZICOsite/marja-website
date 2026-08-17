@@ -1778,7 +1778,7 @@ export interface Lead {
 export interface Redirect {
   id: number;
   /**
-   * You will need to rebuild the website when changing this field.
+   * Полный путь с префиксом локали, ровно как он приходит из браузера: /uz/products/staryj-slug, /tg/hujjatguzori. Без префикса правило не сработает. Пересобирать сайт не нужно — редирект начинает действовать сразу после сохранения.
    */
   from: string;
   to?: {

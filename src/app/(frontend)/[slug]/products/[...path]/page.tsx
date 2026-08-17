@@ -36,7 +36,9 @@ export const dynamic = 'force-dynamic'
 
 type Args = {
   params: Promise<{ slug: string; path: string[] }>
-  searchParams: Promise<{ sort?: string; f?: string | string[] }>
+  // Шире, чем нужно самой странице: неизвестные параметры (рекламные метки)
+  // должны доехать до PayloadRedirects, иначе редирект их срежет.
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 type BreadcrumbItem = { label?: string | null; url?: string | null }
@@ -52,7 +54,9 @@ export default async function ProductsPathPage({
   searchParams: searchParamsPromise,
 }: Args) {
   const { slug: locale, path } = await paramsPromise
-  const { sort = '', f } = await searchParamsPromise
+  const searchParams = await searchParamsPromise
+  const sort = typeof searchParams.sort === 'string' ? searchParams.sort : ''
+  const f = searchParams.f
   setRequestLocale(locale)
 
   const lastSegment = path[path.length - 1]!
@@ -76,7 +80,12 @@ export default async function ProductsPathPage({
   // `redirects` kolleksiyasiga qaraymiz — moslikni admin panelidan, deploysiz
   // qo'shish mumkin bo'lsin.
   if (!category) {
-    return <PayloadRedirects url={`/${locale}/products/${path.join('/')}`} />
+    return (
+      <PayloadRedirects
+        searchParams={searchParams}
+        url={`/${locale}/products/${path.join('/')}`}
+      />
+    )
   }
 
   const activeFilters: string[] = Array.isArray(f) ? f : f ? [f] : []
