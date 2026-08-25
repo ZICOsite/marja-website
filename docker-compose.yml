@@ -76,14 +76,27 @@ services:
     restart: unless-stopped
     networks:
       - internal
+    # nginx читает сертификат один раз при старте и держит его в памяти: после
+    # успешного обновления certbot он продолжает отдавать прежний, пока его не
+    # перезагрузить. Раз в 12 часов перечитываем конфиг — reload бесшовный,
+    # старые соединения дорабатывают на прежних воркерах.
+    command: /bin/sh -c "while :; do sleep 12h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"
 
   certbot:
     image: certbot/certbot:latest
     volumes:
       - certbot-www:/var/www/certbot
       - certbot-certs:/etc/letsencrypt
-    # Авто-обновление сертификата каждые 12 часов
-    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew --quiet; sleep 12h & wait $${!}; done"
+    # Авто-обновление сертификата каждые 12 часов.
+    #
+    # Продление идёт по webroot: certbot кладёт файл-ответ в общий с nginx том
+    # certbot-www, nginx отдаёт его из /.well-known/acme-challenge/. Режим
+    # standalone здесь неработоспособен — порт 80 наружу опубликован у nginx,
+    # поэтому certbot поднимал бы свой сервер внутри своего же контейнера, куда
+    # Let's Encrypt не достучится. Именно так сертификат и протух в августе 2026:
+    # renew падал 30 дней подряд, а --quiet прятал ошибку. Без --quiet провал
+    # виден в `docker compose logs certbot`.
+    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done"
     restart: unless-stopped
 
 volumes:
