@@ -72,7 +72,7 @@ This is a **Payload CMS v3 + Next.js 15** full-stack application using the App R
 - `src/plugins/index.ts` — Plugin setup: SEO, Search, Redirects, Form Builder, Nested Docs.
 - `src/endpoints/` — Custom API endpoints (e.g., seed).
 - `src/search/` — Search plugin field synchronization customization.
-- `src/services/notifications/` — External notification integrations triggered on form submission: `telegram.ts` (posts to a Telegram bot) and `crm.ts` (pushes leads to an external CRM).
+- `src/services/notifications/` — External notification integrations triggered on form submission: `telegram.ts` (posts to a Telegram bot) and `amocrm.ts` (creates a lead + contact in amoCRM via API v4).
 
 ### Frontend
 
@@ -106,7 +106,10 @@ CRON_SECRET              # Authenticates cron job requests
 PREVIEW_SECRET           # Validates draft preview tokens
 TELEGRAM_BOT_TOKEN       # Telegram bot token for form submission notifications
 TELEGRAM_CHAT_ID         # Telegram chat ID to receive notifications
-CRM_WEBHOOK_URL          # Make.com webhook URL — forwards form submissions to amoCRM
+AMOCRM_BASE_URL          # amoCRM account URL, no trailing slash (https://apponov95.amocrm.ru)
+AMOCRM_ACCESS_TOKEN      # Long-lived token of the «Сайт marja.uz» integration
+AMOCRM_PIPELINE_ID       # Optional — defaults to 7313178
+AMOCRM_STATUS_ID         # Optional — defaults to 60899482 («Первичный контакт»)
 ```
 
 ## Key Patterns

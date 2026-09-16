@@ -10,7 +10,7 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { sendTelegramNotification } from '@/services/notifications/telegram'
-import { sendToCRM } from '@/services/notifications/crm'
+import { sendToAmoCRM } from '@/services/notifications/amocrm'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -94,7 +94,7 @@ export const plugins: Plugin[] = [
             const submission = doc as any
             Promise.all([
               sendTelegramNotification(submission),
-              sendToCRM(submission),
+              sendToAmoCRM(submission),
             ]).catch((err) => console.error('[FormSubmission] Notification error:', err))
           },
         ],

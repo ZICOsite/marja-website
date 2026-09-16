@@ -1,7 +1,7 @@
 'use server'
 
 import { sendTelegramNotification } from '@/services/notifications/telegram'
-import { sendToCRM } from '@/services/notifications/crm'
+import { sendToAmoCRM } from '@/services/notifications/amocrm'
 import { deliverLead, recordLead } from '@/services/leads'
 import { getClientIp } from '@/utilities/getClientIp'
 import { allowRequest, isDuplicate } from '@/services/rateLimit'
@@ -73,7 +73,7 @@ export async function submitProductOrder(input: OrderInput): Promise<OrderResult
 
   await deliverLead(leadId, {
     telegram: () => sendTelegramNotification(submission),
-    crm: () => sendToCRM(submission),
+    crm: () => sendToAmoCRM(submission),
   })
 
   return { ok: true }
