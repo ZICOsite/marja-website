@@ -1,7 +1,6 @@
 import Script from 'next/script'
 
-// GA4 Measurement ID. Env orqali override qilinishi mumkin, aks holda fallback.
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-45X0FRFYW1'
+import { GA_ID } from '@/utilities/analyticsIds'
 
 /**
  * Google Analytics 4 — gtag.js.

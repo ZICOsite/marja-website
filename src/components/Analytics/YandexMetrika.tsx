@@ -1,9 +1,8 @@
 import Script from 'next/script'
 
-import { YandexMetrikaPageviews } from './YandexMetrikaPageviews'
+import { YM_ID } from '@/utilities/analyticsIds'
 
-// Yandex Metrika hisoblagich ID. Env orqali override qilinishi mumkin, aks holda fallback.
-const YM_ID = process.env.NEXT_PUBLIC_YM_ID || '99615040'
+import { YandexMetrikaPageviews } from './YandexMetrikaPageviews'
 
 /**
  * Yandex Metrika — tag.js.

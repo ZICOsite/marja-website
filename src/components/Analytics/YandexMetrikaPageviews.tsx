@@ -3,12 +3,6 @@
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useRef } from 'react'
 
-declare global {
-  interface Window {
-    ym?: (id: number | string, action: string, ...args: unknown[]) => void
-  }
-}
-
 /**
  * Next.js App Router'da sahifalar client tomonda almashadi — brauzer qayta yuklanmaydi,
  * shuning uchun Metrika faqat birinchi kirishni hisoblaydi. Bu komponent har navigatsiyada
