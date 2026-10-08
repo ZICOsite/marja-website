@@ -13,6 +13,7 @@ import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { defaultTheme } from '@/providers/Theme/ThemeSelector/types'
 import { GoogleAnalytics } from '@/components/Analytics/GoogleAnalytics'
 import { YandexMetrika } from '@/components/Analytics/YandexMetrika'
+import { PhoneClickTracker } from '@/components/Analytics/PhoneClickTracker'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <GoogleAnalytics />
         <YandexMetrika />
+        <PhoneClickTracker />
         {children}
       </body>
     </html>

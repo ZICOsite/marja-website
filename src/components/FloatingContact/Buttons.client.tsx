@@ -102,11 +102,11 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
         </svg>
       </a>
 
+      {/* phone_click bosishi PhoneClickTracker tomonidan global hisoblanadi */}
       {telHref && (
         <a
           href={telHref}
           aria-label={phoneNumber ?? 'Позвонить'}
-          onClick={() => trackLead('phone_click')}
           className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
         >
           <Phone className="h-6 w-6" />
