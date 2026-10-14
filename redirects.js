@@ -20,6 +20,21 @@ const LOCALES = ['uz', 'ru', 'en', 'tg', 'kk']
 
 const p = (source, destination) => ({ source, destination, permanent: true })
 
+// Katalogning yuqori darajadagi kategoriyalari (product-categories, parent'siz).
+// Yangi kategoriya qo'shilsa — shu yerga ham.
+const CATEGORY_ROOTS = [
+  'bitumnaya-emulsiya-i-gruntovki',
+  'bitumnye-germetiki',
+  'bitumnye-laki',
+  'bitumnye-produkty',
+  'geotekstil',
+  'membrany',
+  'misc',
+  'paroizolyacziya-i-vetra-vlaga',
+  'rulonnaya-gidroizolyacziya',
+  'teploizolyaczionnye-materialy',
+].join('|')
+
 // Karta: YANGI yo'l (locale prefiksidan keyingi qismi, '' = bosh sahifa)
 //     -> { locale: [eski slug'lar], all: [hamma locale'da uchraydigan slug'lar] }
 //
@@ -164,17 +179,17 @@ const redirects = async () => {
 
   // 2) PrefiksSIZ eski URL'lar — slug o'zgargan yoki o'chgan sahifalar
   const legacyPageRedirects = [
-    p('/catalog', '/uz/products'),
-    p('/katalog', '/uz/products'),
-    p('/produkcziya', '/uz/products'),
-    p('/dokumentacziya', '/uz/dokumentatsiya'),
-    p('/kontakty', '/uz/kontakti'),
-    p('/karera-v-kompanii', '/uz/karyera-v-kompanii'),
-    p('/top-menedzhment-kompanii', '/uz/top-menedzhment'),
-    p('/poleznaya-informacziya', '/uz/posts'),
-    p('/galereya-vypolnenyh-obektov', '/uz/projects'),
-    p('/oplata-i-dostavka', '/uz/kontakti'),
-    p('/gidroizolyaczionnye-uslugi-i-raschet', '/uz'),
+    p('/catalog', '/ru/products'),
+    p('/katalog', '/ru/products'),
+    p('/produkcziya', '/ru/products'),
+    p('/dokumentacziya', '/ru/dokumentatsiya'),
+    p('/kontakty', '/ru/kontakti'),
+    p('/karera-v-kompanii', '/ru/karyera-v-kompanii'),
+    p('/top-menedzhment-kompanii', '/ru/top-menedzhment'),
+    p('/poleznaya-informacziya', '/ru/posts'),
+    p('/galereya-vypolnenyh-obektov', '/ru/projects'),
+    p('/oplata-i-dostavka', '/ru/kontakti'),
+    p('/gidroizolyaczionnye-uslugi-i-raschet', '/ru'),
   ]
 
   // 3) Mahsulot slug'lari mos kelmagan holatlar (yangi slug boshqacha).
@@ -189,13 +204,13 @@ const redirects = async () => {
 
   const productOverrides = [
     ...productOverrideMap.flatMap(([from, to]) => [
-      p(`/product/${from}`, `/uz/products/${to}`),
+      p(`/product/${from}`, `/ru/products/${to}`),
       ...LOCALES.map((l) => p(`/${l}/product/${from}`, `/${l}/products/${to}`)),
       ...LOCALES.map((l) => p(`/${l}/products/${from}`, `/${l}/products/${to}`)),
     ]),
     p(
       '/product/:slug(prajmer-bitumnyj-universalnyj.*)',
-      '/uz/products/prajmer-bitumnyj-universalnyj',
+      '/ru/products/prajmer-bitumnyj-universalnyj',
     ),
   ]
 
@@ -206,8 +221,8 @@ const redirects = async () => {
   // uchramasa (prepare-destination.js: `!paramKeys.some(k => destParams.includes(k))`).
   // Prefiksli qoidalarda `:loc` ishlatilgani uchun `:path*` bemalol yo'qoladi.
   // PrefiksSIZ qoidalarda esa bunday himoya yo'q, shuning uchun ular avval
-  // `/uz/...` shakliga o'tkaziladi, qolganini yuqoridagi qoida tugatadi —
-  // aks holda `/uz/dokumentatsiya?0=uploads/...` chiqib qolardi.
+  // `/ru/...` shakliga o'tkaziladi, qolganini yuqoridagi qoida tugatadi —
+  // aks holda `/ru/dokumentatsiya?0=uploads/...` chiqib qolardi.
   const patternRedirects = [
     // --- locale prefiksi bilan: real trafikning ~99.95% i ---
     p('/:loc(uz|ru|en|tg|kk)/product/:slug*', '/:loc/products/:slug*'),
@@ -219,13 +234,18 @@ const redirects = async () => {
     p('/:loc(uz|ru|en|tg|kk)/wp-content/:path*', '/:loc/dokumentatsiya'),
 
     // --- prefiksSIZ ---
-    p('/product/:slug*', '/uz/products/:slug*'),
-    p('/product-category/:slug*', '/uz/products/:slug*'),
+    p('/product/:slug*', '/ru/products/:slug*'),
+    p('/product-category/:slug*', '/ru/products/:slug*'),
     p('/mahsulot/:slug*', '/uz/products/:slug*'),
-    p('/products/:slug*', '/uz/products/:slug*'),
-    p('/posts/:slug*', '/uz/posts/:slug*'),
-    p('/category/:path*', '/uz/category/:path*'),
-    p('/wp-content/:path*', '/uz/wp-content/:path*'),
+    p('/products/:slug*', '/ru/products/:slug*'),
+    p('/posts/:slug*', '/ru/posts/:slug*'),
+    p('/category/:path*', '/ru/category/:path*'),
+    p('/wp-content/:path*', '/ru/wp-content/:path*'),
+
+    // Eski kategoriya yo'llari /product-category/ siz (GSC 404 eksporti, 14.10.2026):
+    // /rulonnaya-gidroizolyacziya/sigment-izol, /ru/geotekstil va h.k.
+    p(`/:loc(uz|ru|en|tg|kk)/:cat(${CATEGORY_ROOTS})/:sub*`, '/:loc/products/:cat/:sub*'),
+    p(`/:cat(${CATEGORY_ROOTS})/:sub*`, '/ru/products/:cat/:sub*'),
   ]
 
   return [
