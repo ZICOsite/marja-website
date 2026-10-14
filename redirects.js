@@ -44,7 +44,8 @@ const aliases = {
   // Bosh sahifa — eski "xizmatlar va hisob-kitob" sahifasi. Kalkulyator bloki
   // hozir aynan bosh sahifada joylashgan (pages.slug = 'home').
   '': {
-    all: ['gidroizolyaczionnye-uslugi-i-raschet'],
+    // spasibo-za-zayavku — eski "arizangiz uchun rahmat" sahifasi.
+    all: ['gidroizolyaczionnye-uslugi-i-raschet', 'spasibo-za-zayavku'],
     uz: ['gidroizolyatsiya-xizmatlari-va-hisoblash'],
     en: ['waterproofing-services-and-calculation'],
     kk: ['gidrooqshawlaghysh-qyzmetter-men-eseptewler'],
@@ -64,6 +65,15 @@ const aliases = {
     kk: ['pajdaly-aqparat'],
     tg: ['malumoti-mufid'],
   },
+
+  // Eski saytdan saqlangan yagona maqola. Tarjima qilingan slug'lari
+  // (en/kk/tg/uz) `redirects` kolleksiyasida turibdi.
+  'posts/stroitelstvo-nauchnogo-centra-i-rasshirennogo-kompleksa-po-proizvodstvu-gidroizolyacionnyh-materialov-m-korpus':
+    {
+      all: [
+        'stroitelstvo-nauchnogo-czentra-i-rasshirennogo-kompleksa-po-proizvodstvu-gidroizolyaczionnyh-materialov-m-kormpus',
+      ],
+    },
 
   projects: {
     all: ['galereya-vypolnenyh-obektov'],
@@ -90,7 +100,7 @@ const aliases = {
 
   // Eski "to'lov va yetkazib berish" sahifasining o'rni ham kontaktlar.
   kontakti: {
-    all: ['kontakty', 'contacts', 'oplata-i-dostavka'],
+    all: ['kontakty', 'contacts', 'oplata-i-dostavka', 'refund_returns'],
     uz: ['kontaktlar', 'tolov-va-yetkazib-berish'],
     en: ['payment-and-delivery'],
     kk: ['bajlanys', 'toelem-zhaene-zhetkizw'],
@@ -190,6 +200,12 @@ const redirects = async () => {
     p('/galereya-vypolnenyh-obektov', '/ru/projects'),
     p('/oplata-i-dostavka', '/ru/kontakti'),
     p('/gidroizolyaczionnye-uslugi-i-raschet', '/ru'),
+    p('/spasibo-za-zayavku', '/ru'),
+    p('/refund_returns', '/ru/kontakti'),
+    p(
+      '/stroitelstvo-nauchnogo-czentra-i-rasshirennogo-kompleksa-po-proizvodstvu-gidroizolyaczionnyh-materialov-m-kormpus',
+      '/ru/posts/stroitelstvo-nauchnogo-centra-i-rasshirennogo-kompleksa-po-proizvodstvu-gidroizolyacionnyh-materialov-m-korpus',
+    ),
   ]
 
   // 3) Mahsulot slug'lari mos kelmagan holatlar (yangi slug boshqacha).
@@ -248,12 +264,7 @@ const redirects = async () => {
     p(`/:cat(${CATEGORY_ROOTS})/:sub*`, '/ru/products/:cat/:sub*'),
   ]
 
-  return [
-    ...aliasRedirects,
-    ...legacyPageRedirects,
-    ...productOverrides,
-    ...patternRedirects,
-  ]
+  return [...aliasRedirects, ...legacyPageRedirects, ...productOverrides, ...patternRedirects]
 }
 
 export default redirects
