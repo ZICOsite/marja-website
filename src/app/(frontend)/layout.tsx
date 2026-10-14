@@ -49,4 +49,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
   },
+  // Search Console — подтверждение мета-тегом. Файл public/googleccdb11f8c442cd82.html
+  // подтверждает другой аккаунт, его не удалять.
+  verification: {
+    google: 'o9jRLgZNxn0W0dfjszPf1KB9VOj2DnIeY9GfCSoc_WI',
+  },
 }
