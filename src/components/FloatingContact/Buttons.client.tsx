@@ -93,7 +93,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Telegram"
-        onClick={() => trackLead('telegram_click')}
+        onClick={() => trackLead('telegram')}
         className="flex h-14 w-14 items-center justify-center rounded-full bg-[#229ED9] text-white shadow-lg transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#229ED9]"
       >
         {/* Иконка Telegram (бренд) */}
