@@ -7,8 +7,10 @@ import { setRequestLocale, getTranslations } from 'next-intl/server'
 import React from 'react'
 import PageClient from './page.client'
 import { ProjectCard } from './ProjectCard'
+import { buildAlternates } from '@/utilities/generateMeta'
 
-export const dynamic = 'force-dynamic'
+// ISR: сбрасывается хуком revalidateProject при изменении объекта.
+export const revalidate = 3600
 
 type Args = {
   params: Promise<{ slug: string }>
@@ -57,5 +59,5 @@ export default async function ProjectsPage({ params }: Args) {
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug: locale } = await params
   const t = await getTranslations({ locale, namespace: 'projects' })
-  return { title: t('title') }
+  return { title: t('title'), alternates: buildAlternates(locale, '/projects') }
 }

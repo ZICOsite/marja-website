@@ -24,6 +24,8 @@ export const revalidateProductCategory: CollectionAfterChangeHook = ({
         const path = `/${locale}/products${url}`
         payload.logger.info(`Revalidating product category: ${path}`)
         revalidatePath(path)
+        // Корень каталога (ISR) показывает дерево и карточки категорий
+        revalidatePath(`/${locale}/products`)
       }
       revalidateTag('product-categories-sitemap')
     }
@@ -32,6 +34,7 @@ export const revalidateProductCategory: CollectionAfterChangeHook = ({
       const url = getBreadcrumbUrl(previousDoc)
       for (const locale of locales) {
         revalidatePath(`/${locale}/products${url}`)
+        revalidatePath(`/${locale}/products`)
       }
       revalidateTag('product-categories-sitemap')
     }
@@ -56,6 +59,7 @@ export const revalidateDeleteProductCategory: CollectionAfterDeleteHook = ({
 
     for (const locale of locales) {
       revalidatePath(`/${locale}/products${url}`)
+      revalidatePath(`/${locale}/products`)
     }
     revalidateTag('product-categories-sitemap')
   }

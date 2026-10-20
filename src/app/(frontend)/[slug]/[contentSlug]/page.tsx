@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import type { Locale } from '@/i18n/routing'
 
-export const dynamic = 'force-dynamic'
+// ISR: страница отдаётся из кэша, при публикации в Payload её сразу сбрасывает
+// хук revalidatePage; revalidate — страховка, если хук не сработал.
+export const revalidate = 3600
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
@@ -25,9 +27,6 @@ type Args = {
     slug: string
     contentSlug?: string
   }>
-  // Странице не нужны, но их надо донести до PayloadRedirects: иначе редирект
-  // на старый URL срежет рекламные метки.
-  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 export async function generateStaticParams() {
@@ -53,13 +52,9 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function Page({
-  params: paramsPromise,
-  searchParams: searchParamsPromise,
-}: Args) {
+export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug: locale, contentSlug = 'home' } = await paramsPromise
-  const searchParams = await searchParamsPromise
 
   setRequestLocale(locale)
 
@@ -76,7 +71,10 @@ export default async function Page({
   }
 
   if (!page) {
-    return <PayloadRedirects searchParams={searchParams} url={url} />
+    // searchParams сюда не передаём: чтение searchParams делает страницу динамической
+    // (без кэша). Рекламные ссылки ведут на актуальные URL, а старые адреса из
+    // redirects.js (next.config) query-строку сохраняют сами.
+    return <PayloadRedirects url={url} />
   }
 
   const { hero, layout } = page
@@ -84,7 +82,7 @@ export default async function Page({
   return (
     <article className="pt-16 pb-24">
       <PageClient />
-      <PayloadRedirects disableNotFound searchParams={searchParams} url={url} />
+      <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
       <RenderHero {...hero} locale={locale} />
       {contentSlug === 'home' && <RecentActivityBar locale={locale} />}

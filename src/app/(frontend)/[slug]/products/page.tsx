@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
-export const dynamic = 'force-dynamic'
+// ISR: сбрасывается хуками revalidateProduct / revalidateProductCategory.
+export const revalidate = 3600
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -15,6 +16,7 @@ import { CategorySidebar, type CatNode } from './[...path]/CategorySidebar'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 import type { ProductsNotice } from '@/payload-types'
+import { buildAlternates } from '@/utilities/generateMeta'
 
 type Args = {
   params: Promise<{ slug: string }>
@@ -113,7 +115,7 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug: locale } = await paramsPromise
   const t = await getTranslations({ locale, namespace: 'products' })
-  return { title: t('catalog') }
+  return { title: t('catalog'), alternates: buildAlternates(locale, '/products') }
 }
 
 // ---------------------------------------------------------------------------

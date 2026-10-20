@@ -145,7 +145,11 @@ async function ProductDetailPage({
   // JSON-LD structured data for Google rich results
   const productUrl = `${getServerSideURL()}/${locale}/products/${path.join('/')}`
   const imageUrls = galleryImages.map((img) => img.url)
-  const jsonLd = {
+  // Без цены (priceOnRequest / не заполнена) разметку Product не выводим:
+  // Offer без price Google считает недействительным элементом (GSC «Описания товара»),
+  // а рейтинги/отзывы подставлять нельзя — их на сайте нет.
+  const hasPrice = !product.priceOnRequest && product.price != null
+  const jsonLd = hasPrice && {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
@@ -163,13 +167,10 @@ async function ProductDetailPage({
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
       itemCondition: 'https://schema.org/NewCondition',
-      ...(!product.priceOnRequest &&
-        product.price != null && {
-        ...(product.priceFrom
-          ? { lowPrice: String(product.price) }
-          : { price: String(product.price) }),
-        priceCurrency: product.currency ?? 'UZS',
-      }),
+      ...(product.priceFrom
+        ? { lowPrice: String(product.price) }
+        : { price: String(product.price) }),
+      priceCurrency: product.currency ?? 'UZS',
     },
   }
 
@@ -189,10 +190,12 @@ async function ProductDetailPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       <div className="py-12">
         <div className="container mx-auto px-4">
           {/* Breadcrumbs */}

@@ -13,6 +13,8 @@ export const revalidateProject: CollectionAfterChangeHook = ({
 
     for (const locale of locales) {
       revalidatePath(`/${locale}/projects`)
+      // Главная (ISR) показывает блок выполненных объектов
+      revalidatePath(`/${locale}`)
     }
   }
   return doc
@@ -29,6 +31,8 @@ export const revalidateDelete: CollectionAfterDeleteHook = ({
 
     for (const locale of locales) {
       revalidatePath(`/${locale}/projects`)
+      // Главная (ISR) показывает блок выполненных объектов
+      revalidatePath(`/${locale}`)
     }
   }
   return doc

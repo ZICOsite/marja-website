@@ -240,6 +240,8 @@ const redirects = async () => {
   // `/ru/...` shakliga o'tkaziladi, qolganini yuqoridagi qoida tugatadi —
   // aks holda `/ru/dokumentatsiya?0=uploads/...` chiqib qolardi.
   const patternRedirects = [
+    // /{loc}/home dublikat bosh sahifa (GSC: "kopiya, kanonik tanlanmagan") -> /{loc}
+    p('/:loc(uz|ru|en|tg|kk)/home', '/:loc'),
     // --- locale prefiksi bilan: real trafikning ~99.95% i ---
     p('/:loc(uz|ru|en|tg|kk)/product/:slug*', '/:loc/products/:slug*'),
     p('/:loc(uz|ru|en|tg|kk)/product-category/:slug*', '/:loc/products/:slug*'),

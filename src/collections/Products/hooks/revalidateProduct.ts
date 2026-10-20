@@ -15,6 +15,8 @@ export const revalidateProduct: CollectionAfterChangeHook = ({
       for (const locale of locales) {
         // Ревалидируем корень каталога (список категорий мог измениться)
         revalidatePath(`/${locale}/products`)
+        // Главная статическая (ISR) и показывает блок популярных товаров
+        revalidatePath(`/${locale}`)
       }
       // Тегированная ревалидация: страница товара использует этот тег
       revalidateTag(`product-${doc.slug}`)
@@ -27,6 +29,7 @@ export const revalidateProduct: CollectionAfterChangeHook = ({
     if (previousDoc?._status === 'published' && doc._status !== 'published') {
       for (const locale of locales) {
         revalidatePath(`/${locale}/products`)
+        revalidatePath(`/${locale}`)
       }
       revalidateTag(`product-${previousDoc.slug}`)
       revalidateTag('products-sitemap')
@@ -48,6 +51,7 @@ export const revalidateDeleteProduct: CollectionAfterDeleteHook = ({
 
     for (const locale of locales) {
       revalidatePath(`/${locale}/products`)
+      revalidatePath(`/${locale}`)
     }
     revalidateTag(`product-${doc?.slug}`)
     revalidateTag('products-sitemap')
