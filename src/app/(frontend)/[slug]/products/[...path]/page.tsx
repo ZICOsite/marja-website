@@ -24,6 +24,7 @@ import { CategoryListing, type ListingItem } from './CategoryListing'
 import { getServerSideURL } from '@/utilities/getURL'
 import { buildAlternates } from '@/utilities/generateMeta'
 import { formatProductPrice } from '@/utilities/formatPrice'
+import { buildProductMetaDescription } from '@/utilities/productMeta'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 import type { ProductsNotice } from '@/payload-types'
@@ -507,9 +508,28 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     // URL kategoriya prefiksli bo'lsa ham. Shu tufayli canonical va hreflang
     // dublikatlarni bitta sahifaga birlashtiradi.
     const canonicalPath = `/products/${product.slug}`
+    const t = await getTranslations({ locale, namespace: 'products' })
+
+    // Цена в сниппете — всегда из карточки (см. utilities/productMeta.ts)
+    let priceText: string | null = null
+    if (product.priceOnRequest) {
+      priceText = `${t('priceOnRequest')}.`
+    } else if (product.price != null) {
+      const base = formatProductPrice({
+        price: product.price as number,
+        currency: product.currency,
+        unitLabel: product.priceUnit ? t(`units.${product.priceUnit}`) : null,
+      })
+      priceText = t('metaPrice', { price: product.priceFrom ? t('priceFrom', { price: base }) : base })
+    }
+
+    const rawTitle = product.meta?.title || product.title
     return {
-      title: product.meta?.title || product.title,
-      description: product.meta?.description || product.shortDescription || undefined,
+      title: rawTitle ? (/MARJA/i.test(rawTitle) ? rawTitle : `${rawTitle} | MARJA`) : undefined,
+      description: buildProductMetaDescription(
+        product.meta?.description || product.shortDescription,
+        priceText,
+      ),
       openGraph: {
         images:
           typeof product.meta?.image === 'object' && product.meta.image?.url

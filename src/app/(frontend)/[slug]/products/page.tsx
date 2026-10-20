@@ -115,7 +115,11 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug: locale } = await paramsPromise
   const t = await getTranslations({ locale, namespace: 'products' })
-  return { title: t('catalog'), alternates: buildAlternates(locale, '/products') }
+  return {
+    title: t('catalogMetaTitle'),
+    description: t('catalogMetaDescription'),
+    alternates: buildAlternates(locale, '/products'),
+  }
 }
 
 // ---------------------------------------------------------------------------

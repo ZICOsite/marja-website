@@ -161,6 +161,9 @@
       "photo": "{index}-rasm"
     },
     "priceFrom": "{price} dan",
+    "metaPrice": "Narxi {price}.",
+    "catalogMetaTitle": "Gidroizolyatsiya va tom materiallari katalogi | MARJA",
+    "catalogMetaDescription": "MARJA katalogi: rulonli gidroizolyatsiya, bitum mastika va praymer, bitum, membranalar, geotekstil va issiqlik izolyatsiyasi. Zavod narxlari, Toshkentda yetkazib berish.",
     "units": {
       "m2": "m²",
       "kg": "kg",

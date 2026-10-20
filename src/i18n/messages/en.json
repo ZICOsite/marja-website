@@ -161,6 +161,9 @@
       "photo": "Photo {index}"
     },
     "priceFrom": "from {price}",
+    "metaPrice": "Price {price}.",
+    "catalogMetaTitle": "Waterproofing & Roofing Materials Catalog | MARJA",
+    "catalogMetaDescription": "MARJA catalog: roll waterproofing, bitumen mastic and primer, bitumen, membranes, geotextile and insulation. Factory prices, delivery across Tashkent.",
     "units": {
       "m2": "m²",
       "kg": "kg",
