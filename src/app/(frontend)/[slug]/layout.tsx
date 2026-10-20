@@ -40,8 +40,11 @@ type Props = {
   params: Promise<{ slug: string }>
 }
 
+// Пустой список: на сборке ничего не пререндерим, страницы рендерятся при первом
+// запросе и дальше живут в ISR-кэше. На проде сборка до Postgres не достаёт
+// (порт закрыт), и пререндер /{loc}/products, /{loc}/cart ронял билд.
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ slug: locale }))
+  return []
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
