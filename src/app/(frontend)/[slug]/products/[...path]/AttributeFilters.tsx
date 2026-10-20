@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { X, SlidersHorizontal } from 'lucide-react'
 
@@ -15,31 +14,21 @@ export type FilterAttr = {
 type Props = {
   attrs: FilterAttr[]
   selected: string[] // tokens like "thickness:5mm"
-  currentSort: string
+  onChange: (next: string[]) => void
 }
 
-export const AttributeFilters: React.FC<Props> = ({ attrs, selected, currentSort }) => {
+export const AttributeFilters: React.FC<Props> = ({ attrs, selected, onChange }) => {
   const t = useTranslations('products')
-  const router = useRouter()
-  const pathname = usePathname()
-
   if (attrs.length === 0) return null
-
-  const buildUrl = (nextSelected: string[]) => {
-    const params = new URLSearchParams()
-    if (currentSort) params.set('sort', currentSort)
-    nextSelected.forEach((v) => params.append('f', v))
-    return `${pathname}${params.size ? `?${params.toString()}` : ''}`
-  }
 
   const toggle = (token: string) => {
     const next = selected.includes(token)
       ? selected.filter((s) => s !== token)
       : [...selected, token]
-    router.push(buildUrl(next))
+    onChange(next)
   }
 
-  const reset = () => router.push(buildUrl([]))
+  const reset = () => onChange([])
 
   return (
     <div className="rounded-2xl border border-border bg-background overflow-hidden">

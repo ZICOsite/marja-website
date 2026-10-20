@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Funnel } from 'lucide-react'
 import { cn } from '@/utilities/ui'
@@ -13,18 +12,12 @@ const SORT_OPTIONS: SortKey[] = ['', 'new', 'price_asc', 'price_desc']
 type Props = {
   current: string
   total: number
+  onChange: (sort: string) => void
 }
 
-export const SortBar: React.FC<Props> = ({ current, total }) => {
+export const SortBar: React.FC<Props> = ({ current, total, onChange }) => {
   const t = useTranslations('products')
-  const router = useRouter()
-  const pathname = usePathname()
-
-  const setSort = (sort: SortKey) => {
-    const params = new URLSearchParams()
-    if (sort) params.set('sort', sort)
-    router.push(`${pathname}${params.size ? `?${params.toString()}` : ''}`)
-  }
+  const setSort = (sort: SortKey) => onChange(sort)
 
   const currentSort = (SORT_OPTIONS.includes(current as SortKey) ? current : '') as SortKey
 

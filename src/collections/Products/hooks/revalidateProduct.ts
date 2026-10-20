@@ -1,5 +1,6 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidateCatalogRoute } from '@/hooks/revalidateCatalog'
 
 export const revalidateProduct: CollectionAfterChangeHook = ({
   doc,
@@ -7,6 +8,8 @@ export const revalidateProduct: CollectionAfterChangeHook = ({
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
+    // Карточки товаров и категории (ISR)
+    revalidateCatalogRoute()
     const locales = payload.config.localization
       ? payload.config.localization.locales.map((l) => (typeof l === 'string' ? l : l.code))
       : ['uz']
@@ -45,6 +48,8 @@ export const revalidateDeleteProduct: CollectionAfterDeleteHook = ({
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
+    // Карточки товаров и категории (ISR)
+    revalidateCatalogRoute()
     const locales = payload.config.localization
       ? payload.config.localization.locales.map((l) => (typeof l === 'string' ? l : l.code))
       : ['uz']

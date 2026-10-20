@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import { revalidateCatalogAfterChange, revalidateCatalogAfterDelete } from '@/hooks/revalidateCatalog'
 
 export const Attributes: CollectionConfig<'attributes'> = {
   slug: 'attributes',
@@ -14,6 +15,10 @@ export const Attributes: CollectionConfig<'attributes'> = {
     update: authenticated,
     delete: authenticated,
     read: anyone,
+  },
+  hooks: {
+    afterChange: [revalidateCatalogAfterChange],
+    afterDelete: [revalidateCatalogAfterDelete],
   },
   fields: [
     {

@@ -12,6 +12,11 @@ import { ProductCard } from '@/components/ProductCard'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 
+// Поиск зависит от ?q= — всегда рендерим на запрос. Без этого после перехода
+// на ISR (layout локали с generateStaticParams) Next пытался сделать страницу
+// статической и падал с DYNAMIC_SERVER_USAGE → 500.
+export const dynamic = 'force-dynamic'
+
 type Args = {
   params: Promise<{ slug: string }>
   searchParams: Promise<{ q?: string }>

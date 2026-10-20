@@ -18,9 +18,9 @@ import { ProductTabs } from '@/components/ProductTabs'
 import { OrderDialog } from '@/components/Product/OrderDialog'
 import { AddToCartButton } from '@/components/Cart/AddToCartButton'
 import { CategorySidebar, type CatNode } from './CategorySidebar'
-import { SortBar } from './SortBar'
 import { RelatedProductsSlider } from './RelatedProductsSlider'
-import { AttributeFilters, type FilterAttr } from './AttributeFilters'
+import { type FilterAttr } from './AttributeFilters'
+import { CategoryListing, type ListingItem } from './CategoryListing'
 import { getServerSideURL } from '@/utilities/getURL'
 import { buildAlternates } from '@/utilities/generateMeta'
 import { formatProductPrice } from '@/utilities/formatPrice'
@@ -28,7 +28,18 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 import type { ProductsNotice } from '@/payload-types'
 
-export const dynamic = 'force-dynamic'
+// ISR: карточки товаров и категории кэшируются на час и сбрасываются хуками
+// Payload при изменении товаров/категорий/атрибутов. Сортировка и фильтры
+// категорий работают на клиенте (CategoryListing), searchParams здесь не читаем —
+// иначе страница снова станет динамической.
+export const revalidate = 3600
+
+// Пустой список: на сборке ничего не пререндерим (прод-билд не видит Postgres),
+// страницы собираются при первом запросе и живут в ISR-кэше. Без этой функции
+// Next считает маршрут динамическим и не кэширует его.
+export async function generateStaticParams() {
+  return []
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -36,9 +47,6 @@ export const dynamic = 'force-dynamic'
 
 type Args = {
   params: Promise<{ slug: string; path: string[] }>
-  // Шире, чем нужно самой странице: неизвестные параметры (рекламные метки)
-  // должны доехать до PayloadRedirects, иначе редирект их срежет.
-  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 type BreadcrumbItem = { label?: string | null; url?: string | null }
@@ -49,14 +57,8 @@ type PayloadLocale = Parameters<Awaited<ReturnType<typeof getPayload>>['find']>[
 // Page — определяем: товар или категория
 // ---------------------------------------------------------------------------
 
-export default async function ProductsPathPage({
-  params: paramsPromise,
-  searchParams: searchParamsPromise,
-}: Args) {
+export default async function ProductsPathPage({ params: paramsPromise }: Args) {
   const { slug: locale, path } = await paramsPromise
-  const searchParams = await searchParamsPromise
-  const sort = typeof searchParams.sort === 'string' ? searchParams.sort : ''
-  const f = searchParams.f
   setRequestLocale(locale)
 
   const lastSegment = path[path.length - 1]!
@@ -81,24 +83,11 @@ export default async function ProductsPathPage({
   // qo'shish mumkin bo'lsin.
   if (!category) {
     return (
-      <PayloadRedirects
-        searchParams={searchParams}
-        url={`/${locale}/products/${path.join('/')}`}
-      />
+      <PayloadRedirects url={`/${locale}/products/${path.join('/')}`} />
     )
   }
 
-  const activeFilters: string[] = Array.isArray(f) ? f : f ? [f] : []
-
-  return (
-    <CategoryPage
-      category={category}
-      locale={locale}
-      path={path}
-      sort={sort}
-      activeFilters={activeFilters}
-    />
-  )
+  return <CategoryPage category={category} locale={locale} path={path} />
 }
 
 // ---------------------------------------------------------------------------
@@ -318,48 +307,47 @@ async function CategoryPage({
   category,
   locale,
   path,
-  sort,
-  activeFilters,
 }: {
   category: Awaited<ReturnType<typeof queryCategoryBySlug>>
   locale: string
   path: string[]
-  sort: string
-  activeFilters: string[]
 }) {
   if (!category) return notFound()
   const t = await getTranslations({ locale, namespace: 'products' })
 
   const [subcategories, products, allCategories, filterAttrs, notice] = await Promise.all([
     querySubcategories({ parentId: String(category.id), locale }),
-    queryProductsByCategory({ categoryId: String(category.id), locale, sort }),
+    queryProductsByCategory({ categoryId: String(category.id), locale }),
     queryAllCategories({ locale }),
     queryFilterableAttrs({ categoryId: String(category.id), locale }),
     getCachedGlobal('products-notice', 0, locale)() as Promise<ProductsNotice>,
   ])
 
-  // Apply attribute filters client-side (AND between attrs, OR within same attr)
-  const filteredProducts =
-    activeFilters.length === 0
-      ? products
-      : products.filter((p) => {
-        const productTokens = new Set(
-          ((p as { filterValues?: Array<{ value?: string | null }> }).filterValues ?? []).map(
-            (fv) => fv.value ?? '',
-          ),
-        )
-        const bySlug = new Map<string, string[]>()
-        for (const token of activeFilters) {
-          const colonIdx = token.indexOf(':')
-          if (colonIdx === -1) continue
-          const slug = token.slice(0, colonIdx)
-          if (!bySlug.has(slug)) bySlug.set(slug, [])
-          bySlug.get(slug)!.push(token)
-        }
-        return Array.from(bySlug.values()).every((tokens) =>
-          tokens.some((t) => productTokens.has(t)),
-        )
-      })
+  const items: ListingItem[] = products.map((product) => ({
+    id: String(product.id),
+    title: product.title,
+    price: (product.price as number | null) ?? null,
+    publishedAt: (product.publishedAt as string | null) ?? null,
+    filterTokens: (
+      (product as { filterValues?: Array<{ value?: string | null }> }).filterValues ?? []
+    ).flatMap((fv) => (fv.value ? [fv.value] : [])),
+    node: (
+      <ProductCard
+        href={`/${locale}/products/${product.slug}`}
+        title={product.title}
+        sku={product.sku}
+        inStock={product.inStock}
+        heroImage={product.heroImage}
+        shortDescription={product.shortDescription}
+        price={product.price as number | null}
+        priceOnRequest={product.priceOnRequest}
+        priceFrom={product.priceFrom}
+        priceUnit={product.priceUnit}
+        currency={product.currency}
+        locale={locale}
+      />
+    ),
+  }))
 
   const tree = buildCategoryTree(allCategories)
 
@@ -409,7 +397,7 @@ async function CategoryPage({
         )}
 
         {/* Подкатегории как pills — только когда есть прямые товары */}
-        {subcategories.length > 0 && filteredProducts.length > 0 && (
+        {subcategories.length > 0 && products.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-8">
             {subcategories.map((sub) => (
               <Link
@@ -423,51 +411,25 @@ async function CategoryPage({
           </div>
         )}
 
-        {/* Layout: sidebar слева, товары справа */}
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="w-full lg:w-64 shrink-0 flex flex-col gap-4">
-            {notice?.enabled && notice.text && notice.position === 'above' && (
-              <ProductsNoticeCard text={notice.text} />
-            )}
-            <CategorySidebar tree={tree} locale={locale} currentPath={path} />
-            {filteredProducts.length > 0 && (
-              <AttributeFilters
-                attrs={filterAttrs}
-                selected={activeFilters}
-                currentSort={sort}
-              />
-            )}
-            {notice?.enabled && notice.text && notice.position === 'below' && (
-              <ProductsNoticeCard text={notice.text} />
-            )}
-          </div>
-
-          {/* Правая часть */}
-          <div className="flex-1 min-w-0">
-            {filteredProducts.length > 0 ? (
-              <>
-                <SortBar current={sort} total={filteredProducts.length} />
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {filteredProducts.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      href={`/${locale}/products/${product.slug}`}
-                      title={product.title}
-                      sku={product.sku}
-                      inStock={product.inStock}
-                      heroImage={product.heroImage}
-                      shortDescription={product.shortDescription}
-                      price={product.price as number | null}
-                      priceOnRequest={product.priceOnRequest}
-                      priceFrom={product.priceFrom}
-                      priceUnit={product.priceUnit}
-                      currency={product.currency}
-                      locale={locale}
-                    />
-                  ))}
-                </div>
-              </>
-            ) : subcategories.length > 0 ? (
+        {/* Layout: sidebar слева, товары справа (фильтры/сортировка — на клиенте) */}
+        <CategoryListing
+          items={items}
+          attrs={filterAttrs}
+          sidebarBefore={
+            <>
+              {notice?.enabled && notice.text && notice.position === 'above' && (
+                <ProductsNoticeCard text={notice.text} />
+              )}
+              <CategorySidebar tree={tree} locale={locale} currentPath={path} />
+            </>
+          }
+          sidebarAfter={
+            notice?.enabled &&
+            notice.text &&
+            notice.position === 'below' && <ProductsNoticeCard text={notice.text} />
+          }
+          emptyContent={
+            subcategories.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {subcategories.map((sub) => {
                   const imgUrl =
@@ -512,9 +474,9 @@ async function CategoryPage({
               </div>
             ) : (
               <div className="py-16 text-center text-muted-foreground">{t('noProducts')}</div>
-            )}
-          </div>
-        </div>
+            )
+          }
+        />
       </div>
     </div>
   )
@@ -643,20 +605,9 @@ const querySubcategories = cache(
 )
 
 const queryProductsByCategory = cache(
-  async ({ categoryId, locale, sort }: { categoryId: string; locale: string; sort: string }) => {
+  async ({ categoryId, locale }: { categoryId: string; locale: string }) => {
     const { isEnabled: draft } = await draftMode()
     const payload = await getPayload({ config: configPromise })
-
-    const payloadSort =
-      sort === 'new'
-        ? '-publishedAt'
-        : sort === 'title'
-          ? 'title'
-          : sort === 'price_asc'
-            ? 'price'
-            : sort === 'price_desc'
-              ? '-price'
-              : 'order'
 
     const result = await payload.find({
       collection: 'products',
@@ -665,7 +616,7 @@ const queryProductsByCategory = cache(
       pagination: false,
       overrideAccess: draft,
       locale: locale as PayloadLocale,
-      sort: payloadSort,
+      sort: 'order',
       where: {
         and: [
           { categories: { in: [categoryId] } },
