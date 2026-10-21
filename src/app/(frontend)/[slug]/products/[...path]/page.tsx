@@ -186,7 +186,23 @@ async function ProductDetailPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <div className="py-12">
+      {/* Телефон: цена и «Заказать» всегда под рукой. На мобильном кнопка в карточке
+          уходила за первый экран (фото + шапка), а с рекламы 63% визитов — со смартфонов.
+          Справа оставлено место под плавающие кнопки Telegram/звонка. */}
+      <div className="fixed inset-x-0 bottom-0 z-40 lg:hidden border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="flex items-center gap-3 px-4 py-3 pr-24">
+          {(product.priceOnRequest || product.price != null) && (
+            <p className="min-w-0 flex-1 truncate text-lg font-bold text-primary">
+              {product.priceOnRequest ? t('priceOnRequest') : priceLabel}
+            </p>
+          )}
+          <OrderDialog
+            items={[{ title: product.title, url: productUrl, sku: product.sku }]}
+            triggerLabel={tOrder('buttonLabel')}
+          />
+        </div>
+      </div>
+      <div className="py-12 pb-28 lg:pb-12">
         <div className="container mx-auto px-4">
           {/* Breadcrumbs */}
           <Breadcrumbs items={breadcrumbs} className="mb-8" />
@@ -324,6 +340,19 @@ async function CategoryPage({
     getCachedGlobal('products-notice', 0, locale)() as Promise<ProductsNotice>,
   ])
 
+  // Категория-«папка» (например, «Рулонная гидроизоляция»): своих товаров нет,
+  // только подкатегории. Раньше здесь были одни плитки подкатегорий без цен —
+  // с рекламы на такую страницу уходило 2/3 посетителей за ~10 секунд. Теперь
+  // показываем товары каждой подкатегории сразу, с ценами и группами.
+  const subGroups =
+    products.length === 0 && subcategories.length > 0
+      ? await querySubcategoryGroups({
+          subcategories: subcategories.map((s) => ({ id: String(s.id), title: s.title, slug: s.slug ?? '' })),
+          allCategories,
+          locale,
+        })
+      : []
+
   const items: ListingItem[] = products.map((product) => ({
     id: String(product.id),
     title: product.title,
@@ -398,7 +427,7 @@ async function CategoryPage({
         )}
 
         {/* Подкатегории как pills — только когда есть прямые товары */}
-        {subcategories.length > 0 && products.length > 0 && (
+        {subcategories.length > 0 && (products.length > 0 || subGroups.length > 0) && (
           <div className="flex flex-wrap gap-2 mb-8">
             {subcategories.map((sub) => (
               <Link
@@ -430,7 +459,41 @@ async function CategoryPage({
             notice.position === 'below' && <ProductsNoticeCard text={notice.text} />
           }
           emptyContent={
-            subcategories.length > 0 ? (
+            subGroups.length > 0 ? (
+              <div className="flex flex-col gap-12">
+                {subGroups.map((group) => (
+                  <section key={group.id}>
+                    <h2 className="text-xl md:text-2xl font-bold font-heading mb-5">
+                      <Link
+                        href={`/${locale}/products/${path.join('/')}/${group.slug}`}
+                        className="hover:text-primary transition-colors"
+                      >
+                        {group.title} →
+                      </Link>
+                    </h2>
+                    <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-5">
+                      {group.products.map((product) => (
+                        <ProductCard
+                          key={product.id}
+                          href={`/${locale}/products/${product.slug}`}
+                          title={product.title}
+                          sku={product.sku}
+                          inStock={product.inStock}
+                          heroImage={product.heroImage}
+                          shortDescription={product.shortDescription}
+                          price={product.price as number | null}
+                          priceOnRequest={product.priceOnRequest}
+                          priceFrom={product.priceFrom}
+                          priceUnit={product.priceUnit}
+                          currency={product.currency}
+                          locale={locale}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            ) : subcategories.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {subcategories.map((sub) => {
                   const imgUrl =
@@ -649,6 +712,76 @@ const queryProductsByCategory = cache(
     return result.docs
   },
 )
+
+/**
+ * Товары подкатегорий для категории-«папки», сгруппированные по подкатегориям.
+ * Подкатегория включает и своих потомков (на случай вложенности глубже одного
+ * уровня). Один запрос к БД на все подкатегории. Пустые группы не возвращаем.
+ */
+async function querySubcategoryGroups({
+  subcategories,
+  allCategories,
+  locale,
+}: {
+  subcategories: { id: string; title: string; slug: string }[]
+  allCategories: FlatCat[]
+  locale: string
+}) {
+  const parentOf = (c: FlatCat): string | null =>
+    typeof c.parent === 'object' && c.parent !== null
+      ? String(c.parent.id)
+      : c.parent != null
+        ? String(c.parent)
+        : null
+
+  const childrenOf = new Map<string, string[]>()
+  for (const c of allCategories) {
+    const p = parentOf(c)
+    if (!p) continue
+    childrenOf.set(p, [...(childrenOf.get(p) ?? []), String(c.id)])
+  }
+  const descendants = (id: string): string[] => {
+    const out = [id]
+    for (const child of childrenOf.get(id) ?? []) out.push(...descendants(child))
+    return out
+  }
+
+  const groups = subcategories.map((sub) => ({ ...sub, ids: new Set(descendants(sub.id)) }))
+  const allIds = Array.from(new Set(groups.flatMap((g) => Array.from(g.ids))))
+
+  const { isEnabled: draft } = await draftMode()
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'products',
+    draft,
+    limit: 200,
+    pagination: false,
+    overrideAccess: draft,
+    locale: locale as PayloadLocale,
+    sort: 'order',
+    where: {
+      and: [
+        { categories: { in: allIds } },
+        ...(draft ? [] : [{ _status: { equals: 'published' } }]),
+      ],
+    },
+    depth: 1,
+  })
+
+  const categoryIdsOf = (p: (typeof docs)[number]): string[] =>
+    (Array.isArray(p.categories) ? p.categories : []).map((c) =>
+      String(typeof c === 'object' && c !== null ? c.id : c),
+    )
+
+  return groups
+    .map((g) => ({
+      id: g.id,
+      title: g.title,
+      slug: g.slug,
+      products: docs.filter((p) => categoryIdsOf(p).some((id) => g.ids.has(id))),
+    }))
+    .filter((g) => g.products.length > 0)
+}
 
 const queryFilterableAttrs = cache(
   async ({ categoryId, locale }: { categoryId: string; locale: string }): Promise<FilterAttr[]> => {

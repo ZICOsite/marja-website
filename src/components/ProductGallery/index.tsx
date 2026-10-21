@@ -75,7 +75,7 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
 
   if (images.length === 0) {
     return (
-      <div className="w-full rounded-2xl aspect-square bg-sidebar-accent flex items-center justify-center">
+      <div className="w-full rounded-2xl aspect-[4/3] lg:aspect-square bg-sidebar-accent flex items-center justify-center">
         <span className="text-muted-foreground text-sm">No image</span>
       </div>
     )
@@ -94,7 +94,7 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
                 <button
                   type="button"
                   onClick={() => openLightbox(i)}
-                  className="group relative w-full rounded-2xl overflow-hidden aspect-square bg-sidebar-accent block cursor-zoom-in"
+                  className="group relative w-full rounded-2xl overflow-hidden aspect-[4/3] lg:aspect-square bg-sidebar-accent block cursor-zoom-in"
                   aria-label={t('photo', { index: i + 1 })}
                 >
                   <Image
