@@ -40,7 +40,7 @@ export function LeanPrinciplesBlockComponent({ heading, description, principles 
                   {String(index + 1).padStart(2, '0')}
                 </div>
                 <div className="w-8 h-0.5 bg-[var(--primary)] mb-4 group-hover:w-12 transition-all duration-300" />
-                <h3 className="font-bold font-heading text-foreground group-hover:text-primary dark:group-hover:text-white mb-2 leading-snug font-sans transition-colors duration-300">
+                <h3 className="font-bold font-heading text-foreground group-hover:text-primary dark:group-hover:text-white mb-2 leading-snug transition-colors duration-300">
                   {principle.title}
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">

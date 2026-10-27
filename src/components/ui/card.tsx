@@ -25,7 +25,7 @@ const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({ classNa
   return (
     <h3
       data-slot="card-title"
-      className={cn('text-2xl leading-none font-semibold tracking-tight', className)}
+      className={cn('text-2xl leading-none font-semibold', className)}
       {...props}
     />
   )

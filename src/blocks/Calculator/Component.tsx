@@ -22,7 +22,7 @@ export const CalculatorBlockComponent = async ({
   const prices = await fetchCatalogPrices()
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-950">
+    <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           {tagline && (
@@ -31,11 +31,11 @@ export const CalculatorBlockComponent = async ({
             </p>
           )}
           {heading && (
-            <h2 className="font-heading text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
+            <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">
               {heading}
             </h2>
           )}
-          {description && <p className="mt-4 text-gray-600 dark:text-gray-300">{description}</p>}
+          {description && <p className="mt-4 text-muted-foreground">{description}</p>}
         </div>
 
         <CalculatorForm

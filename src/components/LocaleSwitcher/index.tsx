@@ -32,7 +32,7 @@ export function LocaleSwitcher() {
 
   return (
     <Select value={locale} onValueChange={handleChange}>
-      <SelectTrigger className="w-[130px] h-8 text-xs gap-1" aria-label={t('selectLanguage')}>
+      <SelectTrigger className="w-[130px] h-8 text-xs gap-1 border-marja-white/30 text-marja-white [&_svg]:!text-marja-white/80" aria-label={t('selectLanguage')}>
         <Globe className="w-3.5 h-3.5 shrink-0" />
         <SelectValue />
       </SelectTrigger>

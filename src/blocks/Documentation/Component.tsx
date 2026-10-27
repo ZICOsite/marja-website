@@ -38,11 +38,11 @@ function formatFileSize(bytes?: number | null): string {
 
 function FileTypeIcon({ mimeType }: { mimeType?: string | null }) {
   if (mimeType?.includes('pdf'))
-    return <FileText className="w-5 h-5 text-red-500 shrink-0" />
+    return <FileText className="w-5 h-5 text-marja-navy shrink-0" />
   if (mimeType?.startsWith('image/'))
-    return <FileImage className="w-5 h-5 text-blue-400 shrink-0" />
+    return <FileImage className="w-5 h-5 text-primary shrink-0" />
   if (mimeType?.includes('zip') || mimeType?.includes('rar') || mimeType?.includes('archive'))
-    return <Archive className="w-5 h-5 text-amber-500 shrink-0" />
+    return <Archive className="w-5 h-5 text-marja-gold shrink-0" />
   return <File className="w-5 h-5 text-muted-foreground shrink-0" />
 }
 

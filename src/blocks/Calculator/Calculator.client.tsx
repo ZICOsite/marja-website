@@ -77,7 +77,7 @@ function Segmented<T extends string | number>({
             className={`rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors ${
               active
                 ? 'border-primary bg-primary text-primary-foreground'
-                : 'border-gray-200 bg-white text-gray-700 hover:border-primary/50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200'
+                : 'border-border bg-card text-foreground hover:border-primary/50'
             }`}
           >
             {option.label}
@@ -159,12 +159,12 @@ function NumberField({
           className={suffix ? 'pr-14' : undefined}
         />
         {suffix && (
-          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-gray-400">
+          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-muted-foreground">
             {suffix}
           </span>
         )}
       </div>
-      {hint && <p className="text-xs text-gray-500">{hint}</p>}
+      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
     </div>
   )
 }
@@ -258,10 +258,10 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
   return (
     <div className="grid gap-6 lg:grid-cols-5">
       {/* Форма */}
-      <div className="lg:col-span-3 rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900 md:p-8">
+      <div className="lg:col-span-3 rounded-2xl border border-border bg-card p-6 md:p-8">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+            <span className="text-sm font-semibold text-foreground">
               {t('fields.objectType')}
             </span>
             <Segmented
@@ -275,7 +275,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
           </div>
 
           <div className="flex flex-col gap-2">
-            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+            <span className="text-sm font-semibold text-foreground">
               {t('fields.inputMode')}
             </span>
             <Segmented
@@ -410,7 +410,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
           </div>
 
           <div className="flex flex-col gap-2">
-            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+            <span className="text-sm font-semibold text-foreground">
               {t('fields.layers')}
             </span>
             <Segmented
@@ -424,8 +424,8 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
           </div>
 
           {showMaterials && (
-            <div className="flex flex-col gap-3 rounded-xl border border-gray-100 bg-gray-50/60 p-4 dark:border-gray-800 dark:bg-gray-900/40">
-              <span className="text-sm font-semibold text-gray-900 dark:text-white">
+            <div className="flex flex-col gap-3 rounded-xl border border-border bg-muted/60 p-4">
+              <span className="text-sm font-semibold text-foreground">
                 {t('fields.materials')}
               </span>
 
@@ -456,7 +456,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
               </div>
 
               {isRoof && input.roofMethod === 'torch' && (
-                <p className="text-xs leading-relaxed text-gray-500 dark:text-gray-400">
+                <p className="text-xs leading-relaxed text-muted-foreground">
                   {t('hints.layerRoles')}
                 </p>
               )}
@@ -495,7 +495,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
           </div>
 
           {!isRoof && (
-            <label className="flex cursor-pointer items-center gap-3 text-sm text-gray-700 dark:text-gray-200">
+            <label className="flex cursor-pointer items-center gap-3 text-sm text-foreground">
               <Checkbox
                 checked={input.geotextile}
                 onCheckedChange={(checked) => set('geotextile', checked === true)}
@@ -508,31 +508,31 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
 
       {/* Результат */}
       <div className="lg:col-span-2">
-        <div className="sticky top-24 rounded-2xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900/60">
+        <div className="sticky top-24 rounded-2xl border border-border bg-muted p-6">
           <div className="mb-4 flex items-center gap-2">
             <CalculatorIcon className="h-5 w-5 text-primary" />
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t('result.title')}</h3>
+            <h3 className="text-lg font-bold text-foreground">{t('result.title')}</h3>
           </div>
 
           {result.lines.length === 0 ? (
-            <p className="text-sm text-gray-500 dark:text-gray-400">{t('result.empty')}</p>
+            <p className="text-sm text-muted-foreground">{t('result.empty')}</p>
           ) : (
             <>
-              <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
+              <p className="mb-4 text-sm text-muted-foreground">
                 {t('result.area', { area: formatPrice(result.area) })}
               </p>
 
-              <ul className="flex flex-col divide-y divide-gray-200 dark:divide-gray-800">
+              <ul className="flex flex-col divide-y divide-border">
                 {result.lines.map((item) => (
                   <li key={item.key} className="flex items-start justify-between gap-3 py-3">
                     <div className="min-w-0">
                       <a
                         href={`/${locale ?? 'uz'}/products/${PRODUCTS[item.key].slug}`}
-                        className="text-sm font-medium text-gray-900 hover:text-primary dark:text-white"
+                        className="text-sm font-medium text-foreground hover:text-primary"
                       >
                         {t(`materials.${item.key}`)}
                       </a>
-                      <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+                      <p className="mt-0.5 text-xs text-muted-foreground">
                         {item.qty} {t(`units.${item.unit}`)}
                         {item.coverage
                           ? ` · ${formatPrice(item.qty * item.coverage)} ${t('units.m2')}`
@@ -540,7 +540,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
                       </p>
                     </div>
                     {showPrices && (
-                      <span className="shrink-0 text-sm font-semibold text-gray-900 dark:text-white">
+                      <span className="shrink-0 text-sm font-semibold text-foreground">
                         {item.total == null ? t('result.priceOnRequest') : formatPrice(item.total)}
                       </span>
                     )}
@@ -549,19 +549,19 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
               </ul>
 
               {showPrices && (
-                <div className="mt-4 border-t border-gray-200 pt-4 dark:border-gray-800">
+                <div className="mt-4 border-t border-border pt-4">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                    <span className="text-sm text-muted-foreground">
                       {/* Часть позиций без цены — итог неполный, и подписать его
                           просто «Итого» было бы враньём. */}
                       {result.pricesComplete ? t('result.total') : t('result.totalPartial')}
                     </span>
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">
+                    <span className="text-xl font-bold text-foreground">
                       {formatPrice(result.total)} UZS
                     </span>
                   </div>
                   {!result.pricesComplete && (
-                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                    <p className="mt-2 text-xs text-muted-foreground">
                       {t('result.missingPrices')}
                     </p>
                   )}
@@ -572,7 +572,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
                 {t('lead.button')}
               </Button>
 
-              <p className="mt-3 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
                 {/* С выключенными ценами оговорка про цены только путает: в расчёте
                     их нет, и обещать «цены могут отличаться» не о чем. */}
                 {disclaimer || t(showPrices ? 'result.disclaimer' : 'result.disclaimerVolumes')}
@@ -591,7 +591,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
 
           {status === 'success' ? (
             <div className="py-6 text-center">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-marja-blue/10 text-marja-blue">
                 <Check className="h-6 w-6" />
               </div>
               <p className="font-medium">{t('lead.success')}</p>
@@ -667,7 +667,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
 
               {status === 'error' && <p className="text-sm text-destructive">{t('lead.error')}</p>}
               {status === 'rateLimited' && (
-                <p className="text-sm text-amber-600 dark:text-amber-500">
+                <p className="text-sm text-amber-700 dark:text-amber-400">
                   {t('lead.rateLimited')}
                 </p>
               )}

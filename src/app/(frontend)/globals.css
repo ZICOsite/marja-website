@@ -20,11 +20,21 @@
    {
     font-weight: unset;
     font-size: unset;
-    font-family: monospace;
+    letter-spacing: 0;
   }
 
-  a, p {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  /* Брендбук п. 2.4: H1–H3 — шрифт заголовков, H4–H6 и весь остальной текст — шрифт текста */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+  }
+
+  /* В AvantGardeCTT нет таджикских и казахских букв (Ғ Қ Ҳ Ҷ Ӣ Ӯ, Ә Ң Ө Ұ Ү Һ І) —
+     заголовок собирался бы из двух шрифтов вперемешку. Для этих локалей заголовки на Fact. */
+  html:lang(tg),
+  html:lang(kk) {
+    --font-heading: var(--font-body);
   }
 }
 
@@ -49,8 +59,11 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
-  --font-mono: var(--font-geist-mono);
-  --font-sans: var(--font-inter);
+  /* Брендбук п. 2.4: заголовки — AvantGardeCTT, текст — Fact (ParaType), файлы в src/fonts,
+     переменные --font-avantgarde / --font-fact ставит next/font на <html>. Arial — запасной. */
+  --font-heading: var(--font-avantgarde), Arial, sans-serif;
+  --font-body: var(--font-fact), Arial, sans-serif;
+  --font-sans: var(--font-body);
 }
 
 @layer utilities {
@@ -93,38 +106,45 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.3211 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.3211 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.3211 0 0);
-  --primary: oklch(0.55 0.188 259.8145);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.967 0.0029 264.5419);
-  --secondary-foreground: oklch(0.4461 0.0263 256.8018);
-  --muted: oklch(0.9846 0.0017 247.8389);
-  --muted-foreground: oklch(0.551 0.0234 264.3637);
-  --accent: oklch(0.9514 0.025 236.8242);
-  --accent-foreground: oklch(0.3791 0.1378 265.5222);
+  /* Брендбук MARJA 2026, п. 2.1: на сайте только эти 5 цветов и их прозрачности */
+  --marja-navy: #042d57; /* основной: логотип, заголовки, текст, футер */
+  --marja-blue: #184c99; /* вторичный: кнопки, ссылки, активные состояния */
+  --marja-gold: #dfa95c; /* акцент: цифры, метки, главный CTA; не для мелкого текста на белом */
+  --marja-grey: #d7d7d8; /* фоны секций, разделители, рамки */
+  --marja-white: #ffffff;
+
+  --background: var(--marja-white);
+  --foreground: var(--marja-navy);
+  --card: var(--marja-white);
+  --card-foreground: var(--marja-navy);
+  --popover: var(--marja-white);
+  --popover-foreground: var(--marja-navy);
+  --primary: var(--marja-blue);
+  --primary-foreground: var(--marja-white);
+  --secondary: color-mix(in srgb, var(--marja-grey) 40%, var(--marja-white));
+  --secondary-foreground: var(--marja-navy);
+  --muted: color-mix(in srgb, var(--marja-grey) 40%, var(--marja-white));
+  --muted-foreground: color-mix(in srgb, var(--marja-navy) 75%, var(--marja-white));
+  --accent: color-mix(in srgb, var(--marja-navy) 6%, var(--marja-white));
+  --accent-foreground: var(--marja-navy);
   --destructive: oklch(0.6368 0.2078 25.3313);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.9276 0.0058 264.5313);
-  --input: oklch(0.9276 0.0058 264.5313);
-  --ring: oklch(0.6231 0.188 259.8145);
-  --chart-1: oklch(0.6231 0.188 259.8145);
-  --chart-2: oklch(0.5461 0.2152 262.8809);
-  --chart-3: oklch(0.4882 0.2172 264.3763);
-  --chart-4: oklch(0.4244 0.1809 265.6377);
-  --chart-5: oklch(0.3791 0.1378 265.5222);
-  --sidebar: oklch(0.9846 0.0017 247.8389);
-  --sidebar-foreground: oklch(0.3211 0 0);
-  --sidebar-primary: oklch(0.6231 0.188 259.8145);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.9514 0.025 236.8242);
-  --sidebar-accent-foreground: oklch(0.3791 0.1378 265.5222);
-  --sidebar-border: oklch(0.9276 0.0058 264.5313);
-  --sidebar-ring: oklch(0.6231 0.188 259.8145);
+  --border: var(--marja-grey);
+  --input: var(--marja-grey);
+  --ring: var(--marja-blue);
+  --chart-1: var(--marja-navy);
+  --chart-2: var(--marja-blue);
+  --chart-3: var(--marja-gold);
+  --chart-4: var(--marja-grey);
+  --chart-5: color-mix(in srgb, var(--marja-navy) 50%, var(--marja-white));
+  --sidebar: color-mix(in srgb, var(--marja-grey) 40%, var(--marja-white));
+  --sidebar-foreground: var(--marja-navy);
+  --sidebar-primary: var(--marja-blue);
+  --sidebar-primary-foreground: var(--marja-white);
+  --sidebar-accent: color-mix(in srgb, var(--marja-navy) 6%, var(--marja-white));
+  --sidebar-accent-foreground: var(--marja-navy);
+  --sidebar-border: var(--marja-grey);
+  --sidebar-ring: var(--marja-blue);
   --radius: 0.375rem;
   --shadow-x: 0;
   --shadow-y: 1px;
@@ -145,38 +165,38 @@
 }
 
 [data-theme='dark'] {
-  --background: #030616;
-  --foreground: oklch(0.9219 0 0);
-  --card: oklch(0.2686 0 0);
-  --card-foreground: oklch(0.9219 0 0);
-  --popover: oklch(0.2686 0 0);
-  --popover-foreground: oklch(0.9219 0 0);
-  --primary: oklch(0.55 0.188 259.8145);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.2686 0 0);
-  --secondary-foreground: oklch(0.9219 0 0);
-  --muted: oklch(0.2393 0 0);
-  --muted-foreground: oklch(0.7155 0 0);
-  --accent: oklch(0.3791 0.1378 265.5222);
-  --accent-foreground: oklch(0.8823 0.0571 254.1284);
+  --background: var(--marja-navy);
+  --foreground: var(--marja-white);
+  --card: color-mix(in srgb, var(--marja-white) 6%, var(--marja-navy));
+  --card-foreground: var(--marja-white);
+  --popover: color-mix(in srgb, var(--marja-white) 6%, var(--marja-navy));
+  --popover-foreground: var(--marja-white);
+  --primary: var(--marja-blue);
+  --primary-foreground: var(--marja-white);
+  --secondary: color-mix(in srgb, var(--marja-white) 10%, var(--marja-navy));
+  --secondary-foreground: var(--marja-white);
+  --muted: color-mix(in srgb, var(--marja-white) 8%, var(--marja-navy));
+  --muted-foreground: color-mix(in srgb, var(--marja-white) 75%, var(--marja-navy));
+  --accent: color-mix(in srgb, var(--marja-white) 10%, var(--marja-navy));
+  --accent-foreground: var(--marja-white);
   --destructive: oklch(0.6368 0.2078 25.3313);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.3715 0 0);
-  --input: oklch(0.3715 0 0);
-  --ring: oklch(0.6231 0.188 259.8145);
-  --chart-1: oklch(0.7137 0.1434 254.624);
-  --chart-2: oklch(0.6231 0.188 259.8145);
-  --chart-3: oklch(0.5461 0.2152 262.8809);
-  --chart-4: oklch(0.4882 0.2172 264.3763);
-  --chart-5: oklch(0.4244 0.1809 265.6377);
-  --sidebar: oklch(0.2046 0 0);
-  --sidebar-foreground: oklch(0.9219 0 0);
-  --sidebar-primary: oklch(0.6231 0.188 259.8145);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.3791 0.1378 265.5222);
-  --sidebar-accent-foreground: oklch(0.8823 0.0571 254.1284);
-  --sidebar-border: oklch(0.3715 0 0);
-  --sidebar-ring: oklch(0.6231 0.188 259.8145);
+  --border: color-mix(in srgb, var(--marja-white) 15%, var(--marja-navy));
+  --input: color-mix(in srgb, var(--marja-white) 15%, var(--marja-navy));
+  --ring: var(--marja-gold);
+  --chart-1: var(--marja-white);
+  --chart-2: var(--marja-gold);
+  --chart-3: var(--marja-grey);
+  --chart-4: var(--marja-blue);
+  --chart-5: color-mix(in srgb, var(--marja-white) 50%, var(--marja-navy));
+  --sidebar: color-mix(in srgb, var(--marja-white) 6%, var(--marja-navy));
+  --sidebar-foreground: var(--marja-white);
+  --sidebar-primary: var(--marja-blue);
+  --sidebar-primary-foreground: var(--marja-white);
+  --sidebar-accent: color-mix(in srgb, var(--marja-white) 10%, var(--marja-navy));
+  --sidebar-accent-foreground: var(--marja-white);
+  --sidebar-border: color-mix(in srgb, var(--marja-white) 15%, var(--marja-navy));
+  --sidebar-ring: var(--marja-gold);
   --radius: 0.375rem;
   --shadow-x: 0;
   --shadow-y: 1px;
@@ -195,6 +215,12 @@
 }
 
 @theme inline {
+  --color-marja-navy: var(--marja-navy);
+  --color-marja-blue: var(--marja-blue);
+  --color-marja-gold: var(--marja-gold);
+  --color-marja-grey: var(--marja-grey);
+  --color-marja-white: var(--marja-white);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -227,10 +253,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -266,7 +288,7 @@ html[data-theme='light'] {
 }
 
 .logo {
-  color: #1a557e;
+  color: var(--marja-navy);
 }
 
 html[data-theme='dark'] .logo {

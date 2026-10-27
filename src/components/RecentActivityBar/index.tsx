@@ -96,9 +96,9 @@ export async function RecentActivityBar({ locale = 'uz' }: Props) {
                   className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-[var(--primary)] transition-colors whitespace-nowrap group"
                 >
                   {item.type === 'post' ? (
-                    <FileText className="w-3.5 h-3.5 shrink-0 text-blue-500" />
+                    <FileText className="w-3.5 h-3.5 shrink-0 text-marja-navy" />
                   ) : (
-                    <Building2 className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
+                    <Building2 className="w-3.5 h-3.5 shrink-0 text-primary" />
                   )}
                   <span className="truncate max-w-[160px] sm:max-w-[240px]">
                     {item.title}

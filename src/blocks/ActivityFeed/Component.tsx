@@ -113,8 +113,8 @@ export async function ActivityFeedBlockComponent({ tagline, title, description, 
                 <div
                   className={`mt-0.5 p-2 rounded-xl shrink-0 ${
                     isPost
-                      ? 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400'
-                      : 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400'
+                      ? 'bg-marja-gold/20 text-marja-navy'
+                      : 'bg-primary/10 text-primary'
                   }`}
                 >
                   {isPost ? (
@@ -129,8 +129,8 @@ export async function ActivityFeedBlockComponent({ tagline, title, description, 
                     <span
                       className={`text-xs font-bold uppercase tracking-wider ${
                         isPost
-                          ? 'text-blue-600 dark:text-blue-400'
-                          : 'text-emerald-600 dark:text-emerald-400'
+                          ? 'bg-marja-gold text-marja-navy px-1.5 py-0.5 rounded-sm'
+                          : 'text-primary'
                       }`}
                     >
                       {t(item.type)}

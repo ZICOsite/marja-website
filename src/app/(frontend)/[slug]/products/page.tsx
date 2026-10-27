@@ -88,7 +88,7 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
                         ) : (
                           <div className="h-full bg-gradient-to-br from-primary/10 to-primary/5" />
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-marja-navy/40 to-transparent" />
                       </div>
                       <div className="p-5 flex flex-col flex-1">
                         <h2 className="text-lg font-bold font-heading group-hover:text-primary transition-colors">

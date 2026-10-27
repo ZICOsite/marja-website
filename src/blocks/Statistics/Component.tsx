@@ -118,16 +118,16 @@ export const StatsBlock = ({ items }: Props) => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-primary dark:bg-blue-900 relative overflow-hidden"
+      className="py-20 bg-marja-navy relative overflow-hidden"
     >
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center text-white">
           {items?.map((item, i) => (
             <div key={i}>
-              <div className="text-4xl md:text-5xl font-bold font-heading mb-2">
+              <div className="text-4xl md:text-5xl font-bold font-heading mb-2 text-marja-gold">
                 <AnimatedCounter value={item.value} triggered={triggered} />
               </div>
-              <div className="text-blue-100 font-medium uppercase tracking-widest text-sm">
+              <div className="text-marja-white/80 font-medium uppercase tracking-widest text-sm">
                 {item.label}
               </div>
             </div>

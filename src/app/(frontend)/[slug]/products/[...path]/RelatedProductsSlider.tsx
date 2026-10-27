@@ -57,7 +57,7 @@ export function RelatedProductsSlider({ products, locale }: Props) {
                   </h3>
                   {related.sku && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      {t('sku')}: <span className="font-mono">{related.sku}</span>
+                      {t('sku')}: <span className="tabular-nums">{related.sku}</span>
                     </p>
                   )}
                 </div>

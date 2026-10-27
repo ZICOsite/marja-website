@@ -42,10 +42,10 @@ export function WarrantyFeaturesBlockComponent({
             className="absolute inset-0 w-full h-full"
             imgClassName="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-slate-900/70" />
+          <div className="absolute inset-0 bg-marja-navy/70" />
         </>
       ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-800" />
+        <div className="absolute inset-0 bg-gradient-to-br from-marja-navy to-marja-blue" />
       )}
 
       <div className="relative z-10 container">

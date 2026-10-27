@@ -20,8 +20,25 @@ const config = {
         DEFAULT: {
           css: [
             {
-              '--tw-prose-body': 'var(--text)',
-              '--tw-prose-headings': 'var(--text)',
+              // Брендбук п. 2.1: без этого typography красит жирный, ссылки, маркеры и т. п.
+              // своей серой палитрой (#101828 и др.). Токены меняются вместе с темой.
+              '--tw-prose-body': 'var(--foreground)',
+              '--tw-prose-headings': 'var(--foreground)',
+              '--tw-prose-lead': 'var(--foreground)',
+              '--tw-prose-bold': 'var(--foreground)',
+              '--tw-prose-links': 'var(--primary)',
+              '--tw-prose-counters': 'var(--muted-foreground)',
+              '--tw-prose-bullets': 'var(--muted-foreground)',
+              '--tw-prose-hr': 'var(--border)',
+              '--tw-prose-quotes': 'var(--foreground)',
+              '--tw-prose-quote-borders': 'var(--marja-gold)',
+              '--tw-prose-captions': 'var(--muted-foreground)',
+              '--tw-prose-kbd': 'var(--foreground)',
+              '--tw-prose-code': 'var(--foreground)',
+              '--tw-prose-pre-code': 'var(--marja-white)',
+              '--tw-prose-pre-bg': 'var(--marja-navy)',
+              '--tw-prose-th-borders': 'var(--border)',
+              '--tw-prose-td-borders': 'var(--border)',
               h1: {
                 fontWeight: 'normal',
                 marginBottom: '0.25em',

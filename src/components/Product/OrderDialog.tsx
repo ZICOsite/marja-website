@@ -98,7 +98,7 @@ export const OrderDialog: React.FC<Props> = ({
 
         {status === 'success' ? (
           <div className="py-6 text-center">
-            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-marja-blue/10 text-marja-blue">
               <Check className="h-6 w-6" />
             </div>
             <p className="font-medium">{t('success')}</p>
@@ -157,7 +157,7 @@ export const OrderDialog: React.FC<Props> = ({
 
             {status === 'error' && <p className="text-sm text-destructive">{t('error')}</p>}
             {status === 'rateLimited' && (
-              <p className="text-sm text-amber-600 dark:text-amber-500">{t('rateLimited')}</p>
+              <p className="text-sm text-amber-700 dark:text-amber-400">{t('rateLimited')}</p>
             )}
 
             <Button type="submit" size="lg" className="gap-2" disabled={status === 'submitting'}>

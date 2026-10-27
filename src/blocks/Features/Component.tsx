@@ -31,7 +31,7 @@ export const FeaturesBlock = ({ items }: Props) => {
                 <h3 className="text-xl font-bold mb-4 text-foreground group-hover:text-white">
                   {item.title}
                 </h3>
-                <p className="text-muted-foreground group-hover:text-blue-100 transition-colors">
+                <p className="text-muted-foreground group-hover:text-marja-white/80 transition-colors">
                   {item.description}
                 </p>
               </div>

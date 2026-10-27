@@ -90,7 +90,7 @@ export default async function Page({ params, searchParams: searchParamsPromise }
 
       {/* Шапка с поиском */}
       <div className="container mb-12">
-        <div className="prose dark:prose-invert max-w-none text-center">
+        <div className="prose max-w-none text-center">
           <h1 className="mb-8 lg:mb-10">{t('title')}</h1>
           <div className="max-w-[50rem] mx-auto">
             <Search />

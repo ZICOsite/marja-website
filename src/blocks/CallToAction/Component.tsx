@@ -13,7 +13,7 @@ export const CallToActionBlock = ({ title, titleTag = 'h2', links, richText, loc
     <div className="CallToAction">
       <div className="container">
         <div className="CallToAction__content max-w-3xl">
-          <p className="bg-[var(--primary)] px-3 py-1 text-white text-xs font-bold uppercase tracking-widest rounded-full">
+          <p className="bg-marja-gold px-3 py-1 text-marja-navy text-xs font-bold uppercase tracking-widest rounded-full">
             {t('cta.abovetitle')}
           </p>
           {title && (

@@ -105,7 +105,7 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
                     className="object-contain"
                     priority={i === 0}
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-marja-navy/0 group-hover:bg-marja-navy/20 transition-colors duration-200 flex items-center justify-center">
                     <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-8 h-8 drop-shadow-md" />
                   </div>
                 </button>
@@ -175,7 +175,7 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
 
       {/* Lightbox */}
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
-        <DialogContent aria-describedby={undefined} className="max-w-5xl w-full p-0 bg-gray-500 border-0 overflow-hidden [&>button]:text-white [&>button]:bg-black/40 [&>button]:rounded-full [&>button]:p-1 [&>button]:top-3 [&>button]:right-3">
+        <DialogContent aria-describedby={undefined} className="max-w-5xl w-full p-0 bg-marja-navy border-0 overflow-hidden [&>button]:text-white [&>button]:bg-marja-navy/40 [&>button]:rounded-full [&>button]:p-1 [&>button]:top-3 [&>button]:right-3">
           <DialogTitle className="sr-only">{t('photo', { index: lightboxCurrent + 1 })}</DialogTitle>
           <Carousel
             setApi={setLightboxApi}
@@ -203,14 +203,14 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
               <>
                 <button
                   onClick={() => lightboxApi?.scrollPrev()}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 transition-colors cursor-pointer"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-marja-navy/50 hover:bg-marja-navy/70 transition-colors cursor-pointer"
                   aria-label={t('prev')}
                 >
                   <ChevronLeft className="w-5 h-5 text-white" />
                 </button>
                 <button
                   onClick={() => lightboxApi?.scrollNext()}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 transition-colors cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-marja-navy/50 hover:bg-marja-navy/70 transition-colors cursor-pointer"
                   aria-label={t('next')}
                 >
                   <ChevronRight className="w-5 h-5 text-white" />
@@ -221,7 +221,7 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
 
           {/* Counter */}
           {!hasSingle && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-3 py-1 rounded-full">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-marja-navy/40 px-3 py-1 rounded-full">
               {lightboxCurrent + 1} / {images.length}
             </div>
           )}

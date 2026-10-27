@@ -41,14 +41,14 @@ export function LeanResultsBlockComponent({ heading, description, stats, compari
         </div>
 
         {validStats.length > 0 && (
-          <div className="bg-primary rounded-3xl p-8 md:p-12 mb-10">
+          <div className="bg-marja-navy rounded-3xl p-8 md:p-12 mb-10">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
               {validStats.map((stat, i) => (
                 <div key={i}>
-                  <div className="text-4xl md:text-5xl font-bold font-heading mb-2">
+                  <div className="text-4xl md:text-5xl font-bold font-heading mb-2 text-marja-gold">
                     {stat.value}
                   </div>
-                  <div className="text-blue-100 text-[10px] md:text-[12px] xl:text-sm font-medium uppercase tracking-widest text-balance">
+                  <div className="text-marja-white/80 text-[10px] md:text-[12px] xl:text-sm font-medium uppercase tracking-widest text-balance">
                     {stat.label}
                   </div>
                 </div>
@@ -73,13 +73,13 @@ export function LeanResultsBlockComponent({ heading, description, stats, compari
                       {comparison.before}
                     </span>
                     <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />
-                    <span className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-bold">
+                    <span className="px-3 py-1.5 rounded-lg bg-marja-gold/25 text-marja-navy text-sm font-bold">
                       {comparison.after}
                     </span>
                   </div>
                 </div>
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
-                  <TrendingUp className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <div className="w-10 h-10 rounded-xl bg-marja-gold/25 flex items-center justify-center shrink-0">
+                  <TrendingUp className="w-5 h-5 text-marja-navy" />
                 </div>
               </div>
             ))}

@@ -18,7 +18,7 @@
         font-size: clamp(14px, 2vw, 16px);
 
         &:hover {
-          color: var(--primary);
+          color: var(--marja-gold);
         }
       }
     }

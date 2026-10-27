@@ -18,7 +18,7 @@ export const TeamBlockComponent = ({ heading, text, members }: Props) => {
               </h2>
             )}
             {text && (
-              <p className="text-slate-600 dark:text-white text-lg leading-relaxed">{text}</p>
+              <p className="text-muted-foreground text-lg leading-relaxed">{text}</p>
             )}
           </div>
         )}
@@ -28,9 +28,9 @@ export const TeamBlockComponent = ({ heading, text, members }: Props) => {
             {members.map((member, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm overflow-hidden"
+                className="bg-card rounded-2xl shadow-sm overflow-hidden"
               >
-                <div className="w-full aspect-square bg-blue-50 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
+                <div className="w-full aspect-square bg-muted flex items-center justify-center overflow-hidden">
                   {member.photo ? (
                     <Media
                       resource={member.photo}
@@ -38,14 +38,14 @@ export const TeamBlockComponent = ({ heading, text, members }: Props) => {
                       imgClassName="w-full h-full object-cover"
                     />
                   ) : (
-                    <User className="w-16 h-16 text-blue-200 dark:text-slate-500" strokeWidth={1.5} />
+                    <User className="w-16 h-16 text-marja-grey" strokeWidth={1.5} />
                   )}
                 </div>
                 <div className="p-4">
-                  <h4 className="font-bold text-slate-900 dark:text-white font-sans">
+                  <h4 className="font-bold text-foreground font-sans">
                     {member.name}
                   </h4>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                  <p className="text-sm text-muted-foreground mt-0.5">
                     {member.position}
                   </p>
                 </div>

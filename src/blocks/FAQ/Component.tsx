@@ -32,7 +32,7 @@ export const FAQBlockComponent = ({ tagline, title, description, items }: Props)
   }
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-950">
+    <section className="py-20 bg-background">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -46,22 +46,22 @@ export const FAQBlockComponent = ({ tagline, title, description, items }: Props)
               </p>
             )}
             {title && (
-              <h2 className="text-3xl md:text-4xl font-bold font-heading text-gray-900 dark:text-white">
+              <h2 className="text-3xl md:text-4xl font-bold font-heading text-foreground">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="mt-4 text-gray-600 dark:text-gray-300">{description}</p>
+              <p className="mt-4 text-muted-foreground">{description}</p>
             )}
           </div>
 
           <Accordion type="single" collapsible className="w-full">
             {faqItems.map((item, i) => (
               <AccordionItem key={i} value={`faq-${i}`}>
-                <AccordionTrigger className="text-left text-[18px] md:text-xl text-gray-900 dark:text-white cursor-pointer">
+                <AccordionTrigger className="text-left text-[18px] md:text-xl text-foreground cursor-pointer">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-base text-gray-600 dark:text-gray-300 whitespace-pre-line">
+                <AccordionContent className="text-base text-muted-foreground whitespace-pre-line">
                   {item.answer}
                 </AccordionContent>
               </AccordionItem>

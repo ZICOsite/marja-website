@@ -66,7 +66,7 @@ export const SolutionsBlock = ({ tagline, title, description, cards }: Props) =>
                   />
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-marja-navy via-marja-navy/20 to-transparent"></div>
 
                 <div className="absolute bottom-8 left-8 right-8">
                   <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">

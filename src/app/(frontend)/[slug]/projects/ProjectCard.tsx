@@ -115,7 +115,7 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
       <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
         <DialogContent
           aria-describedby={undefined}
-          className="max-w-5xl w-full p-0 bg-gray-900 border-0 overflow-hidden [&>button]:text-white [&>button]:bg-black/40 [&>button]:rounded-full [&>button]:p-1 [&>button]:top-3 [&>button]:right-3"
+          className="max-w-5xl w-full p-0 bg-marja-navy border-0 overflow-hidden [&>button]:text-white [&>button]:bg-marja-navy/40 [&>button]:rounded-full [&>button]:p-1 [&>button]:top-3 [&>button]:right-3"
         >
           <DialogTitle className="sr-only">{project.title}</DialogTitle>
           <Carousel
@@ -144,14 +144,14 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
               <>
                 <button
                   onClick={() => lightboxApi?.scrollPrev()}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 transition-colors cursor-pointer"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-marja-navy/50 hover:bg-marja-navy/70 transition-colors cursor-pointer"
                   aria-label={t('prev')}
                 >
                   <ChevronLeft className="w-5 h-5 text-white" />
                 </button>
                 <button
                   onClick={() => lightboxApi?.scrollNext()}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 transition-colors cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 h-10 w-10 flex items-center justify-center rounded-full bg-marja-navy/50 hover:bg-marja-navy/70 transition-colors cursor-pointer"
                   aria-label={t('next')}
                 >
                   <ChevronRight className="w-5 h-5 text-white" />
@@ -161,7 +161,7 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
           </Carousel>
 
           {!hasSingle && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-3 py-1 rounded-full">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-marja-navy/40 px-3 py-1 rounded-full">
               {lightboxCurrent + 1} / {images.length}
             </div>
           )}

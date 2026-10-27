@@ -143,7 +143,7 @@ export const PopularProductsBlock = ({
                         className={`absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full ${
                           product.inStock
                             ? 'bg-green-100 text-green-700'
-                            : 'bg-red-100 text-red-700'
+                            : 'bg-marja-grey/60 text-marja-navy'
                         }`}
                       >
                         {product.inStock ? t('inStock') : t('outOfStock')}
@@ -153,7 +153,7 @@ export const PopularProductsBlock = ({
                     <div className="p-5 flex flex-col flex-1">
                       {product.sku && (
                         <p className="text-xs text-muted-foreground mb-1">
-                          {t('sku')}: <span className="font-mono">{product.sku}</span>
+                          {t('sku')}: <span className="tabular-nums">{product.sku}</span>
                         </p>
                       )}
                       <h3 className="font-sans font-semibold text-base leading-snug group-hover:text-[var(--primary)] transition-colors line-clamp-2 mb-2">

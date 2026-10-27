@@ -17,8 +17,8 @@ type Props = {
   items?: Item[] | null
 }
 
-const COLOR_TOP = '#60a5fa'
-const COLOR_BOT = '#3b82f6'
+const COLOR_TOP = '#184c99'
+const COLOR_BOT = '#042d57'
 
 export function MarketingAnalysisBlockComponent({ heading, series1Label, items }: Props) {
   const uid = useId()
@@ -74,12 +74,12 @@ export function MarketingAnalysisBlockComponent({ heading, series1Label, items }
                       </linearGradient>
                     </defs>
 
-                    <CartesianGrid stroke="#e2e8f0" strokeOpacity={0.8} strokeDasharray="4 4" />
+                    <CartesianGrid stroke="#d7d7d8" strokeOpacity={0.8} strokeDasharray="4 4" />
                     <XAxis
                       dataKey="year"
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: '#94a3b8', fontSize: 12 }}
+                      tick={{ fill: '#43617f', fontSize: 12 }}
                       dy={8}
                     />
                     <YAxis hide />
@@ -88,7 +88,7 @@ export function MarketingAnalysisBlockComponent({ heading, series1Label, items }
                       <LabelList
                         dataKey={key1}
                         position="top"
-                        style={{ fill: '#64748b', fontSize: 12, fontWeight: 600 }}
+                        style={{ fill: '#042d57', fontSize: 12, fontWeight: 600 }}
                       />
                     </Bar>
                   </BarChart>

@@ -59,7 +59,7 @@ export async function Footer({ locale }: Props) {
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="footer mt-auto border-t border-border bg-accent text-accent-foreground dark:bg-card">
+    <footer className="footer mt-auto bg-marja-navy text-marja-white">
       <div className="container py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Logo + description */}
         <div className="footer__col">

@@ -25,7 +25,7 @@ export const AddToCartButton: React.FC<Props> = ({ product }) => {
       aria-pressed={inCart}
       onClick={() => toggleItem(product)}
     >
-      {inCart ? <Check className="w-5 h-5 text-green-600" /> : <ShoppingCart className="w-5 h-5" />}
+      {inCart ? <Check className="w-5 h-5 text-marja-blue" /> : <ShoppingCart className="w-5 h-5" />}
       {inCart ? t('inCart') : t('addToCart')}
     </Button>
   )

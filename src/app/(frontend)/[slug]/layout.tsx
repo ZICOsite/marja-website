@@ -4,9 +4,8 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
-import { GeistMono } from 'geist/font/mono'
-import { Inter } from 'next/font/google'
 
+import { avantGarde, fact } from '@/fonts'
 import { AdminBar } from '@/components/AdminBar'
 import { GoogleAnalytics } from '@/components/Analytics/GoogleAnalytics'
 import { PhoneClickTracker } from '@/components/Analytics/PhoneClickTracker'
@@ -21,11 +20,8 @@ import { defaultTheme } from '@/providers/Theme/ThemeSelector/types'
 import { routing, type Locale } from '@/i18n/routing'
 import { getServerSideURL } from '@/utilities/getURL'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { cn } from '@/utilities/ui'
 
 import '../globals.css'
-
-const inter = Inter({ subsets: ['latin', 'cyrillic'], variable: '--font-inter' })
 
 // <html lang> живёт здесь, а не в (frontend)/layout.tsx: раньше корневой layout брал
 // локаль через getLocale(), а тот без params читает заголовки запроса. Это делало
@@ -61,7 +57,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html
-      className={cn(inter.variable, GeistMono.variable)}
+      className={`${fact.variable} ${avantGarde.variable}`}
       lang={locale}
       data-theme={defaultTheme}
       suppressHydrationWarning

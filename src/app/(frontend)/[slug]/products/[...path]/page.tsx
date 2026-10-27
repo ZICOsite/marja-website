@@ -215,13 +215,13 @@ async function ProductDetailPage({
             <div>
               {product.sku && (
                 <p className="text-sm text-muted-foreground mb-2">
-                  {t('sku')}: <span className="font-mono">{product.sku}</span>
+                  {t('sku')}: <span className="tabular-nums">{product.sku}</span>
                 </p>
               )}
               <h1 className="text-3xl md:text-4xl font-bold font-heading mb-4">{product.title}</h1>
 
               <span
-                className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mb-6 ${product.inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mb-6 ${product.inStock ? 'bg-green-100 text-green-700' : 'bg-marja-grey/60 text-marja-navy'
                   }`}
               >
                 {product.inStock ? t('inStock') : t('outOfStock')}
@@ -408,7 +408,7 @@ async function CategoryPage({
         {imgUrl && (
           <div className="relative rounded-2xl overflow-hidden h-44 mb-8">
             <Image src={'/banner.png'} alt={imgAlt} fill sizes="100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-marja-navy/70 to-transparent" />
             <div className="absolute bottom-6 left-8">
               <h1 className="text-2xl font-bold font-heading text-white">{category.title}</h1>
               {category.description && (
@@ -520,7 +520,7 @@ async function CategoryPage({
                         ) : (
                           <div className="h-full bg-gradient-to-br from-primary/10 to-primary/5" />
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-marja-navy/40 to-transparent" />
                       </div>
                       <div className="p-5 flex flex-col flex-1">
                         <h2 className="text-lg font-bold font-heading group-hover:text-primary transition-colors">

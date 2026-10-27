@@ -33,7 +33,7 @@ export const CopyLinkButton: React.FC = () => {
       type="button"
     >
       {copied ? (
-        <Check className="w-4 h-4 text-green-500 shrink-0" />
+        <Check className="w-4 h-4 text-marja-blue shrink-0" />
       ) : (
         <Link2 className="w-4 h-4 shrink-0" />
       )}

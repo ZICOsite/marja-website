@@ -130,7 +130,7 @@ export const CompletedProjectsBlock = ({
                     </svg>
                   </div>
                 )}
-                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-marja-navy/70 via-marja-navy/30 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5 z-10 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className={cn(
                     'font-sans font-bold text-white leading-snug',

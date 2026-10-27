@@ -30,7 +30,7 @@ export const CareersBlockComponent = ({ heading, photo, sections }: Props) => {
             {sections.map((section, index) => (
               <div key={index}>
                 {section.title && (
-                  <h2 className="text-2xl md:text-3xl font-bold font-heading text-center mb-8 font-sans">
+                  <h2 className="text-2xl md:text-3xl font-bold font-heading text-center mb-8">
                     {section.title}
                   </h2>
                 )}
@@ -41,14 +41,14 @@ export const CareersBlockComponent = ({ heading, photo, sections }: Props) => {
                       <RichText
                         data={section.content}
                         enableGutter={false}
-                        className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                        className="text-foreground leading-relaxed"
                       />
                     )}
                     {section.contentRight && (
                       <RichText
                         data={section.contentRight}
                         enableGutter={false}
-                        className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                        className="text-foreground leading-relaxed"
                       />
                     )}
                   </div>
@@ -57,7 +57,7 @@ export const CareersBlockComponent = ({ heading, photo, sections }: Props) => {
                     <RichText
                       data={section.content}
                       enableGutter={false}
-                      className="text-center text-slate-700 dark:text-slate-300 leading-relaxed space-y-4"
+                      className="text-center text-foreground leading-relaxed space-y-4"
                     />
                   )
                 )}

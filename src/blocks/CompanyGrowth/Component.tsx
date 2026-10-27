@@ -46,7 +46,7 @@ export function CompanyGrowthBlockComponent({
                   className="absolute inset-0 w-full h-full"
                   imgClassName="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-marja-navy/80 via-marja-navy/20 to-transparent" />
 
                 {validStats.length > 0 && (
                   <div className="absolute bottom-0 left-0 right-0 p-6">

@@ -61,7 +61,7 @@ export async function ProductCard({
         ) : null}
         <span
           className={`absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full ${
-            inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+            inStock ? 'bg-green-100 text-green-700' : 'bg-marja-grey/60 text-marja-navy'
           }`}
         >
           {inStock ? t('inStock') : t('outOfStock')}
@@ -70,7 +70,7 @@ export async function ProductCard({
       <div className="p-5 flex flex-col flex-1">
         {sku && (
           <p className="text-xs text-muted-foreground mb-1">
-            {t('sku')}: <span className="font-mono">{sku}</span>
+            {t('sku')}: <span className="tabular-nums">{sku}</span>
           </p>
         )}
         <h3 className="font-semibold group-hover:text-primary transition-colors line-clamp-2 flex-1 font-sans">

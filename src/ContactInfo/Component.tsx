@@ -14,7 +14,7 @@ export const TopBar = async ({ locale }: Props) => {
   const address = data?.addresses?.[0]
 
   return (
-    <div className="topBar py-4 bg-accent text-accent-foreground">
+    <div className="topBar py-4 bg-marja-navy text-marja-white">
       <div className="container flex items-center justify-between flex-wrap gap-4">
         <div className="topBar__left flex items-center gap-3 text-[12px] md:text-sm flex-wrap">
           {data?.email && (
