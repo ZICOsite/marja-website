@@ -70,7 +70,7 @@ const Navbar = ({ menu, className }: NavbarProps) => {
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <Logo />
+                    <Logo variant="vertical" className="h-20 w-auto" />
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-6 py-4">

@@ -70,8 +70,8 @@ export async function Footer({ locale }: Props) {
         {/* Logo + description */}
         <div className="footer__col">
           {/* Брендбук п. 4: белый логотип ≥ 200 px. Версии с дескриптором «Quruqlik va ishonchni saqlaymiz»
-              от дизайнера пока нет — стоит горизонтальный блок без него. */}
-          <Logo className="w-[200px] text-marja-white" />
+              от дизайнера пока нет — стоит вертикальный блок без него. */}
+          <Logo variant="vertical" className="w-[120px] text-marja-white" />
           {footerData?.description && (
             <p className="footer__col-txt text-balance">{footerData.description}</p>
           )}
