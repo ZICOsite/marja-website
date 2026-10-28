@@ -568,7 +568,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
                 </div>
               )}
 
-              <Button className="mt-5 w-full cursor-pointer" size="lg" onClick={() => setOpen(true)}>
+              <Button variant="accent" className="mt-5 w-full" size="lg" onClick={() => setOpen(true)}>
                 {t('lead.button')}
               </Button>
 

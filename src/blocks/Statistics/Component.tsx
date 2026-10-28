@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import type { StatsBlock as StatsBlockProps } from '@/payload-types'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 // Parse a value string like "1200+", "98%", "3.5K", "$500M" into parts
 function parseValue(raw: string): { prefix: string; number: number; suffix: string } {
@@ -120,6 +121,11 @@ export const StatsBlock = ({ items }: Props) => {
       ref={sectionRef}
       className="py-20 bg-marja-navy relative overflow-hidden"
     >
+      {/* Брендбук п. 5: паттерн окон по краям секции, как в калькуляторе; золотом на navy */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-0 text-marja-gold/8 [--windows-fade:linear-gradient(to_right,#000,transparent_25%,transparent_75%,#000)]"
+      />
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center text-white">
           {items?.map((item, i) => (

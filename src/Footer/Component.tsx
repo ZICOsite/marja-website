@@ -13,6 +13,7 @@ import type { Locale } from '@/i18n/routing'
 
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 import {
   Dialog,
@@ -59,11 +60,18 @@ export async function Footer({ locale }: Props) {
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="footer mt-auto bg-marja-navy text-marja-white">
-      <div className="container py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <footer className="footer relative mt-auto overflow-hidden bg-marja-navy text-marja-white">
+      {/* Брендбук п. 5: дуга из логотипа по верхнему краю футера */}
+      <BrandGraphic
+        variant="arc"
+        className="-right-24 -top-10 w-[min(900px,120%)] text-marja-white/8"
+      />
+      <div className="container relative py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Logo + description */}
         <div className="footer__col">
-          <Logo />
+          {/* Брендбук п. 4: белый логотип ≥ 200 px. Версии с дескриптором «Quruqlik va ishonchni saqlaymiz»
+              от дизайнера пока нет — стоит горизонтальный блок без него. */}
+          <Logo className="w-[200px] text-marja-white" />
           {footerData?.description && (
             <p className="footer__col-txt text-balance">{footerData.description}</p>
           )}
@@ -143,7 +151,7 @@ export async function Footer({ locale }: Props) {
         )}
       </div>
 
-      <div className="footer__bottom py-8">
+      <div className="footer__bottom pt-8 pb-52 md:pb-8 border-t border-marja-white/15">
         <div className="container flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm">{t('copyright', { year: new Date().getFullYear() })}</p>
           <div className="flex space-x-6 mt-4 md:mt-0">

@@ -10,6 +10,7 @@ import { setRequestLocale, getTranslations } from 'next-intl/server'
 import React from 'react'
 import PageClient from './page.client'
 import { buildAlternates } from '@/utilities/generateMeta'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,7 +37,12 @@ export default async function Page({ params }: Args) {
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <div className="relative isolate overflow-hidden pt-24 pb-24">
+      {/* Брендбук п. 5: паттерн окон по краям, как на «Контактах»; -z-10 — под карточками */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-0 -z-10 text-marja-navy/8 [--windows-fade:linear-gradient(to_right,#000,transparent_15%,transparent_85%,#000)]"
+      />
       <PageClient />
       <div className="container mb-12">
         <h1 className="text-4xl md:text-5xl font-bold font-heading">{t('title')}</h1>

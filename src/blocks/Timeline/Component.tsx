@@ -1,5 +1,6 @@
 import type { TimelineBlock as TimelineBlockProps } from '@/payload-types'
 import { Star } from 'lucide-react'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type Props = TimelineBlockProps
 
@@ -7,8 +8,14 @@ export const TimelineBlockComponent = ({ heading, items }: Props) => {
   if (!items?.length) return null
 
   return (
-    <section className="py-20 bg-background overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="relative py-20 bg-background overflow-hidden">
+      {/* Брендбук п. 5 («О компании»): паттерн окон по краям на всю высоту, как в статистике; серым */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-0 text-marja-grey/60 [--windows-fade:linear-gradient(to_right,#000,transparent_15%,transparent_85%,#000)]"
+      />
+
+      <div className="container relative mx-auto px-4">
         {heading && (
           <h2 className="text-3xl md:text-4xl font-bold font-heading text-center mb-16">
             {heading}

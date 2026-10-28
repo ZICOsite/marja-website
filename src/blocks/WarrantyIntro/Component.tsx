@@ -3,6 +3,8 @@
 import { ShieldCheck } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
+import { BrandGraphic } from '@/components/BrandGraphic'
+
 type Props = {
   heading?: string | null
   text?: string | null
@@ -14,7 +16,11 @@ export function WarrantyIntroBlockComponent({ heading, text, years }: Props) {
 
   return (
     <section className="py-24 relative overflow-hidden">
-
+      {/* Брендбук п. 5: паттерн окон по краям секции, как на «Контактах» */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-0 text-marja-navy/8 [--windows-fade:linear-gradient(to_right,#000,transparent_15%,transparent_85%,#000)]"
+      />
       <div className="container relative">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
 

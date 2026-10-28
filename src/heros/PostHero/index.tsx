@@ -9,6 +9,7 @@ import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { CopyLinkButton } from './CopyLinkButton'
 import { PostGallery, type GalleryImage } from './PostGallery'
 import { PostVideoEmbed } from './PostVideoEmbed'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 export const PostHero: React.FC<{
   post: Post
@@ -38,7 +39,12 @@ export const PostHero: React.FC<{
   }
 
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
+      {/* Брендбук п. 5: буква «M» справа от заголовка поста */}
+      <BrandGraphic
+        variant="m"
+        className="hidden md:block right-[5%] top-0 h-56 text-marja-navy/6"
+      />
       <div className="container z-10 relative pb-8">
         {categories && categories.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-6">

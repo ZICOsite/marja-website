@@ -14,9 +14,10 @@ export const TopBar = async ({ locale }: Props) => {
   const address = data?.addresses?.[0]
 
   return (
+    // Брендбук п. 4: фон navy, текст белый 80–100 %, телефон и активный язык — gold
     <div className="topBar py-4 bg-marja-navy text-marja-white">
       <div className="container flex items-center justify-between flex-wrap gap-4">
-        <div className="topBar__left flex items-center gap-3 text-[12px] md:text-sm flex-wrap">
+        <div className="topBar__left flex items-center gap-3 text-[12px] md:text-sm flex-wrap text-marja-white/85">
           {data?.email && (
             <a href={`mailto:${data.email}`} className="flex items-center gap-1.5 font-sans">
               <Mail className="shrink-0" size={16} />
@@ -43,7 +44,7 @@ export const TopBar = async ({ locale }: Props) => {
         </div>
         <div className="topBar__right flex items-center gap-3 text-[12px] md:text-sm flex-wrap">
           {phone?.number && (
-            <a href={`tel:${phone.number}`} className="flex items-center gap-1.5">
+            <a href={`tel:${phone.number}`} className="flex items-center gap-1.5 text-marja-gold">
               <Phone className="shrink-0" size={16} />
               {phone.number}
             </a>

@@ -17,6 +17,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import { ProductsNoticeCard } from '@/ProductsNotice/Component'
 import type { ProductsNotice } from '@/payload-types'
 import { buildAlternates } from '@/utilities/generateMeta'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type Args = {
   params: Promise<{ slug: string }>
@@ -53,9 +54,11 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold font-heading">{t('catalog')}</h1>
-              <p className="text-muted-foreground mt-2 text-lg">{t('catalogDescription')}</p>
+            {/* Брендбук п. 5: шапка каталога — синяя панель, паттерн окон золотом справа */}
+            <div className="relative mb-8 overflow-hidden rounded-md bg-marja-blue px-6 py-8 md:px-8">
+              <BrandGraphic variant="windows" className="inset-y-0 right-0 w-2/3 text-marja-gold/20 md:text-marja-gold/80" />
+              <h1 className="relative text-4xl md:text-5xl font-bold font-heading text-marja-gold">{t('catalog')}</h1>
+              <p className="relative text-white mt-2 text-lg">{t('catalogDescription')}</p>
             </div>
 
             {topCategories.length === 0 ? (

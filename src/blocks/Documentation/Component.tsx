@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Archive, Download, File, FileImage, FileText } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/utilities/ui'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type MediaFile = {
   url?: string | null
@@ -63,8 +64,13 @@ export const DocumentationBlockComponent = ({ heading, categories }: Props) => {
   )
 
   return (
-    <section className="py-16">
-      <div className="container mx-auto px-4">
+    <section className="relative overflow-hidden py-16">
+      {/* Брендбук п. 5: полоса окон над заголовком, растворяется вниз */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-x-0 top-0 h-72 text-marja-navy/6 [--windows-fade:linear-gradient(to_bottom,#000,transparent)]"
+      />
+      <div className="container relative mx-auto px-4">
         {heading && (
           <h2 className="text-3xl md:text-4xl font-bold font-heading text-center mb-8">
             {heading}

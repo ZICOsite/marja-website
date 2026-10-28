@@ -11,6 +11,7 @@ import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 export const revalidate = 600
 
@@ -42,7 +43,12 @@ export default async function Page({ params: paramsPromise }: Args) {
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <div className="relative isolate overflow-hidden pt-24 pb-24">
+      {/* Брендбук п. 5: паттерн окон по краям, как на «Контактах»; -z-10 — под карточками */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-0 -z-10 text-marja-navy/8 [--windows-fade:linear-gradient(to_right,#000,transparent_15%,transparent_85%,#000)]"
+      />
       <PageClient />
       <div className="container mb-16">
         <div className="prose max-w-none">

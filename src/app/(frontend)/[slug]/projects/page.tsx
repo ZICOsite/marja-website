@@ -8,6 +8,7 @@ import React from 'react'
 import PageClient from './page.client'
 import { ProjectCard } from './ProjectCard'
 import { buildAlternates } from '@/utilities/generateMeta'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 // ISR: сбрасывается хуком revalidateProject при изменении объекта.
 export const revalidate = 3600
@@ -37,8 +38,13 @@ export default async function ProjectsPage({ params }: Args) {
   return (
     <div className="pt-24 pb-24">
       <PageClient />
-      <div className="container mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold font-heading text-center">{t('title')}</h1>
+      {/* Брендбук п. 5: силуэт здания встаёт из-за заголовка */}
+      <div className="container relative mb-12">
+        <BrandGraphic
+          variant="building-full"
+          className="bottom-0 left-1/2 h-48 -translate-x-1/2 text-marja-navy/6"
+        />
+        <h1 className="relative text-4xl md:text-5xl font-bold font-heading text-center">{t('title')}</h1>
       </div>
 
       <div className="container">

@@ -1,5 +1,7 @@
 import { Mail, MapPin, Phone } from 'lucide-react'
 
+import { BrandGraphic } from '@/components/BrandGraphic'
+
 type Office = {
   name: string
   address: string
@@ -39,8 +41,13 @@ export const ContactsBlockComponent = ({
   const hasPhones = phones && phones.length > 0
 
   return (
-    <section className="py-16 bg-background">
-      <div className="container">
+    <section className="relative overflow-hidden py-16 bg-background">
+      {/* Брендбук п. 5: паттерн окон по краям секции, как в калькуляторе */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-0 text-marja-navy/8 [--windows-fade:linear-gradient(to_right,#000,transparent_15%,transparent_85%,#000)]"
+      />
+      <div className="container relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="flex flex-col gap-10">
             {hasOffices && (

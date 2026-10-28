@@ -4,6 +4,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LabelL
 import { useId, useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 
+import { BrandGraphic } from '@/components/BrandGraphic'
+
 type Item = {
   id?: string | null
   year?: string | null
@@ -36,8 +38,13 @@ export function MarketingAnalysisBlockComponent({ heading, series1Label, items }
   }))
 
   return (
-    <section className="py-24 bg-background">
-      <div className="container">
+    <section className="relative overflow-hidden py-24 bg-background">
+      {/* Брендбук п. 5: паттерн окон по краям секции, как на «Контактах» */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-0 text-marja-navy/8 [--windows-fade:linear-gradient(to_right,#000,transparent_15%,transparent_85%,#000)]"
+      />
+      <div className="container relative">
         {heading && (
           <h2 className="text-3xl md:text-4xl font-bold font-heading mb-12">{heading}</h2>
         )}

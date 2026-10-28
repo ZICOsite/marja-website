@@ -1,6 +1,7 @@
 import { ShieldCheck, Factory, Users, Star, Award, BadgeCheck, type LucideIcon } from 'lucide-react'
 import { Media } from '@/components/Media'
 import type { Media as MediaType } from '@/payload-types'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 const iconMap: Record<string, LucideIcon> = {
   shieldCheck: ShieldCheck,
@@ -47,6 +48,9 @@ export function WarrantyFeaturesBlockComponent({
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-marja-navy to-marja-blue" />
       )}
+
+      {/* Брендбук п. 5: силуэт здания у нижней границы, белым поверх тёмного фона */}
+      <BrandGraphic variant="building-full" className="bottom-0 right-0 h-[70%] text-marja-white/8" />
 
       <div className="relative z-10 container">
         <div className="max-w-2xl mx-auto text-center mb-16">

@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
+import { BrandGraphic } from '@/components/BrandGraphic'
 import {
   Carousel,
   CarouselContent,
@@ -68,8 +69,12 @@ export const ProjectCard: React.FC<Props> = ({ project }) => {
         {/* Слайдер с badge */}
         <div className="relative">
           {images.length === 0 ? (
-            <div className="h-64 bg-sidebar-accent flex items-center justify-center">
-              <span className="text-muted-foreground text-sm">No image</span>
+            // Брендбук п. 5: заглушка фото объекта — блок окон
+            <div className="relative h-64 overflow-hidden bg-sidebar-accent">
+              <BrandGraphic
+                variant="windows-block"
+                className="left-1/2 top-1/2 h-3/5 -translate-x-1/2 -translate-y-1/2 text-marja-navy/10"
+              />
             </div>
           ) : (
             <Carousel setApi={setApi} opts={{ loop: images.length > 1 }} className="w-full">

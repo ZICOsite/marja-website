@@ -8,6 +8,7 @@ import { useLocale } from 'next-intl'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title' | 'heroImage'>
 
@@ -42,7 +43,15 @@ export const Card: React.FC<{
       ref={card.ref}
     >
       <div className="relative w-full ">
-        {!cardImage && <div className="">No image</div>}
+        {/* Брендбук п. 5: заглушка поста без обложки — буква «M» */}
+        {!cardImage && (
+          <div className="relative aspect-video overflow-hidden bg-sidebar-accent">
+            <BrandGraphic
+              variant="m"
+              className="left-1/2 top-1/2 h-1/2 -translate-x-1/2 -translate-y-1/2 text-marja-navy/10"
+            />
+          </div>
+        )}
         {cardImage && <Media resource={cardImage} size="33vw" />}
       </div>
       <div className="p-4">

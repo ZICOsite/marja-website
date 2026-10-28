@@ -1,6 +1,8 @@
 import React from 'react'
 import type { CalculatorBlock as CalculatorBlockProps } from '@/payload-types'
 
+import { BrandGraphic } from '@/components/BrandGraphic'
+
 import { CalculatorForm } from './Calculator.client'
 import { fetchCatalogPrices } from './prices'
 
@@ -22,8 +24,13 @@ export const CalculatorBlockComponent = async ({
   const prices = await fetchCatalogPrices()
 
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="relative overflow-hidden py-20 bg-background">
+      {/* Брендбук п. 5: паттерн окон по краям секции, к форме растворяется */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-0 text-marja-navy/8 [--windows-fade:linear-gradient(to_right,#000,transparent_25%,transparent_75%,#000)]"
+      />
+      <div className="container relative mx-auto px-4">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           {tagline && (
             <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-primary">

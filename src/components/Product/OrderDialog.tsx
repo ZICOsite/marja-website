@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/dialog'
 import { submitProductOrder, type OrderProduct } from '@/actions/submitProductOrder'
 import { trackLead } from '@/utilities/trackLead'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type Props = {
   items: OrderProduct[]
@@ -91,6 +92,11 @@ export const OrderDialog: React.FC<Props> = ({
       </DialogTrigger>
 
       <DialogContent>
+        {/* Брендбук п. 5: полоса окон по верху модалки; -z-10 — под текстом, над фоном окна */}
+        <BrandGraphic
+          variant="windows"
+          className="-z-10 inset-x-0 top-0 h-28 text-marja-navy/6 [--windows-fade:linear-gradient(to_bottom,#000,transparent)]"
+        />
         <DialogHeader>
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>

@@ -14,6 +14,7 @@ import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { ProductGallery } from '@/components/ProductGallery'
 import { ProductCard } from '@/components/ProductCard'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { BrandGraphic } from '@/components/BrandGraphic'
 import { ProductTabs } from '@/components/ProductTabs'
 import { OrderDialog } from '@/components/Product/OrderDialog'
 import { AddToCartButton } from '@/components/Cart/AddToCartButton'
@@ -408,8 +409,7 @@ async function CategoryPage({
         {imgUrl && (
           <div className="relative rounded-2xl overflow-hidden h-44 mb-8">
             <Image src={'/banner.png'} alt={imgAlt} fill sizes="100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-r from-marja-navy/70 to-transparent" />
-            <div className="absolute bottom-6 left-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-marja-navy/70 to-transparent" />            <div className="absolute bottom-6 left-8">
               <h1 className="text-2xl font-bold font-heading text-white">{category.title}</h1>
               {category.description && (
                 <p className="text-white/80 mt-1 text-sm max-w-md">{category.description}</p>
@@ -418,10 +418,11 @@ async function CategoryPage({
           </div>
         )}
         {!imgUrl && (
-          <div className="mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold font-heading">{category.title}</h1>
+          <div className="relative mb-8 overflow-hidden rounded-md bg-marja-grey/40 px-6 py-8 md:px-8">
+            <BrandGraphic variant="windows" className="inset-y-0 right-0 w-2/3 text-marja-navy/8" />
+            <h1 className="relative text-4xl md:text-5xl font-bold font-heading">{category.title}</h1>
             {category.description && (
-              <p className="text-muted-foreground text-lg mt-2">{category.description}</p>
+              <p className="relative text-muted-foreground text-lg mt-2">{category.description}</p>
             )}
           </div>
         )}

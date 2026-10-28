@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import { formatProductPrice } from '@/utilities/formatPrice'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type ProductCardProps = {
   href: string
@@ -58,7 +59,13 @@ export async function ProductCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="object-contain group-hover:scale-105 transition-transform duration-300"
           />
-        ) : null}
+        ) : (
+          // Брендбук п. 5: заглушка фото — блок окон вместо пустого места
+          <BrandGraphic
+            variant="windows-block"
+            className="left-1/2 top-1/2 h-3/4 -translate-x-1/2 -translate-y-1/2 text-marja-navy/10"
+          />
+        )}
         <span
           className={`absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full ${
             inStock ? 'bg-green-100 text-green-700' : 'bg-marja-grey/60 text-marja-navy'

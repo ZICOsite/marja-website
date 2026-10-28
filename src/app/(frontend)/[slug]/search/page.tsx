@@ -11,6 +11,7 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import { ProductCard } from '@/components/ProductCard'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 // Поиск зависит от ?q= — всегда рендерим на запрос. Без этого после перехода
 // на ISR (layout локали с generateStaticParams) Next пытался сделать страницу
@@ -89,8 +90,13 @@ export default async function Page({ params, searchParams: searchParamsPromise }
       <PageClient />
 
       {/* Шапка с поиском */}
-      <div className="container mb-12">
-        <div className="prose max-w-none text-center">
+      {/* Брендбук п. 5: паттерн окон за шапкой поиска, растворяется от центра */}
+      <div className="container relative mb-12">
+        <BrandGraphic
+          variant="windows"
+          className="-inset-y-8 inset-x-0 text-marja-navy/6 [--windows-fade:radial-gradient(ellipse_at_center,#000,transparent_70%)]"
+        />
+        <div className="prose max-w-none text-center relative">
           <h1 className="mb-8 lg:mb-10">{t('title')}</h1>
           <div className="max-w-[50rem] mx-auto">
             <Search />

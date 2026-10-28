@@ -1,6 +1,7 @@
 import { User } from 'lucide-react'
 import type { TeamBlock as TeamBlockProps } from '@/payload-types'
 import { Media } from '@/components/Media'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type Props = {
   className?: string
@@ -8,8 +9,13 @@ type Props = {
 
 export const TeamBlockComponent = ({ heading, text, members }: Props) => {
   return (
-    <section>
-      <div className="container mx-auto px-4">
+    <section className="relative overflow-hidden">
+      {/* Брендбук п. 5: полоса окон над заголовком, растворяется вниз */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-x-0 top-0 h-72 text-marja-navy/6 [--windows-fade:linear-gradient(to_bottom,#000,transparent)]"
+      />
+      <div className="container relative mx-auto px-4">
         {(heading || text) && (
           <div className="max-w-4xl mb-14 mx-auto text-center">
             {heading && (

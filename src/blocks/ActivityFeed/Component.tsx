@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { FileText, Building2, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import type { Locale } from '@/i18n/routing'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type ActivityItem = {
   id: string | number
@@ -78,8 +79,13 @@ export async function ActivityFeedBlockComponent({ tagline, title, description, 
   if (!items.length) return null
 
   return (
-    <section className="py-24">
-      <div className="container mx-auto px-4">
+    <section className="relative overflow-hidden py-24">
+      {/* Брендбук п. 5: полоса окон над заголовком, растворяется вниз */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-x-0 top-0 h-72 text-marja-navy/6 [--windows-fade:linear-gradient(to_bottom,#000,transparent)]"
+      />
+      <div className="container relative mx-auto px-4">
         <div className="mb-12">
           {tagline && (
             <span className="text-[var(--primary)] font-bold uppercase tracking-widest text-sm block mb-2">

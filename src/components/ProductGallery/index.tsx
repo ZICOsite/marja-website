@@ -4,6 +4,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/utilities/ui'
+import { BrandGraphic } from '@/components/BrandGraphic'
 import {
   Carousel,
   CarouselContent,
@@ -75,8 +76,12 @@ export const ProductGallery: React.FC<Props> = ({ images }) => {
 
   if (images.length === 0) {
     return (
-      <div className="w-full rounded-2xl aspect-[4/3] lg:aspect-square bg-sidebar-accent flex items-center justify-center">
-        <span className="text-muted-foreground text-sm">No image</span>
+      // Брендбук п. 5: заглушка фото товара — блок окон
+      <div className="relative w-full overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-square bg-sidebar-accent">
+        <BrandGraphic
+          variant="windows-block"
+          className="left-1/2 top-1/2 h-1/2 -translate-x-1/2 -translate-y-1/2 text-marja-navy/10"
+        />
       </div>
     )
   }

@@ -14,6 +14,7 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion'
 import { cn } from '@/utilities/ui'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type MediaImage = {
   url?: string | null
@@ -47,8 +48,13 @@ export function ReadySolutionsBlockComponent({ title, description, tabs }: Props
   if (validTabs.length === 0) return null
 
   return (
-    <section className='pb-16'>
-      <div className="container mx-auto px-4">
+    <section className="relative overflow-hidden pb-16">
+      {/* Брендбук п. 5: полоса окон над заголовком, растворяется вниз */}
+      <BrandGraphic
+        variant="windows"
+        className="inset-x-0 top-0 h-72 text-marja-navy/6 [--windows-fade:linear-gradient(to_bottom,#000,transparent)]"
+      />
+      <div className="container relative mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4">{title}</h2>
           {description && (

@@ -35,10 +35,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale, catego
   }, [headerTheme])
 
   return (
-    <header className="sticky top-0 z-20 py-2 bg-[var(--background)] shadow-md" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="container flex justify-between">
-        <Link href={`/${locale}`} aria-label={t('home')}>
-          <Logo className="logo" />
+    // Брендбук п. 4: белая шапка с границей 1 px grey вместо тени. py-3.5 = охранное поле логотипа 14 px.
+    <header className="sticky top-0 z-20 py-3.5 bg-[var(--background)] border-b border-marja-grey" {...(theme ? { 'data-theme': theme } : {})}>
+      <div className="container flex items-center justify-between gap-3.5">
+        <Link href={`/${locale}`} aria-label={`MARJA — ${t('home')}`} className="shrink-0">
+          <Logo className="logo w-[120px] lg:w-[180px]" />
         </Link>
         <HeaderNav data={data} locale={locale} categories={categories} />
       </div>

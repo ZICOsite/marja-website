@@ -4,6 +4,7 @@ import type { AboutCompanyBlock as AboutCompanyBlockProps } from '@/payload-type
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 const iconMap: Record<string, LucideIcon> = {
   shield: ShieldCheck,
@@ -31,8 +32,10 @@ export const AboutCompanyBlock = ({
   locale,
 }: Props) => {
   return (
-    <section className="py-24 overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="relative py-24 overflow-hidden">
+      {/* Брендбук п. 5: силуэт здания, «стоит» на нижней границе секции */}
+      <BrandGraphic variant="building" className="bottom-0 right-0 h-[70%] text-marja-navy/6" />
+      <div className="container relative mx-auto px-4">
         <div className="flex flex-col items-start lg:flex-row gap-16">
           <div className="w-full lg:w-1/2 relative">
             <div className="hidden lg:block absolute -top-10 -left-10 w-40 h-40 bg-marja-navy/5 rounded-full -z-10"></div>

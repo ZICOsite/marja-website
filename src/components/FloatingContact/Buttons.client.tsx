@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dialog'
 import { submitConsultationRequest } from '@/actions/submitConsultationRequest'
 import { trackLead } from '@/utilities/trackLead'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 const TELEGRAM_URL = 'https://telegram.me/uz_marja'
 const BUBBLE_DELAY_MS = 20000
@@ -73,16 +74,16 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end gap-3">
       {showBubble && (
         <button
           type="button"
           onClick={openDialog}
-          className="cursor-pointer animate-in fade-in slide-in-from-bottom-2 relative flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-medium text-foreground shadow-xl ring-1 ring-black/5 transition-transform hover:scale-105"
+          className="cursor-pointer animate-in fade-in slide-in-from-bottom-2 relative flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-medium text-foreground shadow-xl ring-1 ring-marja-navy/10 transition-transform hover:scale-105"
         >
           <span className="absolute -top-1.5 -right-1.5 flex h-3 w-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-primary" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-marja-gold opacity-75" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-marja-gold" />
           </span>
           {t('bubbleLabel')}
         </button>
@@ -94,7 +95,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
         rel="noopener noreferrer"
         aria-label="Telegram"
         onClick={() => trackLead('telegram')}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#229ED9] text-white shadow-lg transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#229ED9]"
+        className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full bg-[#229ED9] text-white shadow-lg transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#229ED9]"
       >
         {/* Иконка Telegram (бренд) */}
         <svg viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor" aria-hidden="true">
@@ -107,7 +108,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
         <a
           href={telHref}
           aria-label={phoneNumber ?? 'Позвонить'}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+          className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full bg-marja-navy text-marja-white shadow-lg ring-2 ring-marja-white transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-marja-navy"
         >
           <Phone className="h-6 w-6" />
         </a>
@@ -115,6 +116,11 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent>
+          {/* Брендбук п. 5: полоса окон по верху модалки; -z-10 — под текстом, над фоном окна */}
+          <BrandGraphic
+            variant="windows"
+            className="-z-10 inset-x-0 top-0 h-28 text-marja-navy/6 [--windows-fade:linear-gradient(to_bottom,#000,transparent)]"
+          />
           <DialogHeader>
             <DialogTitle>{t('title')}</DialogTitle>
             <DialogDescription>{t('description')}</DialogDescription>
@@ -171,7 +177,7 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
                 <p className="text-sm text-amber-700 dark:text-amber-400">{t('rateLimited')}</p>
               )}
 
-              <Button type="submit" size="lg" className="gap-2" disabled={status === 'submitting'}>
+              <Button type="submit" variant="accent" size="lg" className="gap-2" disabled={status === 'submitting'}>
                 {status === 'submitting' && <Loader2 className="w-4 h-4 animate-spin" />}
                 {status === 'submitting' ? t('submitting') : t('submit')}
               </Button>

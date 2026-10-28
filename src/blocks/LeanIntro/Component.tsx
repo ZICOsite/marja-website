@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import { Media } from '@/components/Media'
 import type { Media as MediaType } from '@/payload-types'
+import { BrandGraphic } from '@/components/BrandGraphic'
 
 type Point = {
   id?: string | null
@@ -20,8 +21,10 @@ export function LeanIntroBlockComponent({ label, heading, description, image, po
   const validPoints = (points ?? []).filter((p): p is Point => !!p.text)
 
   return (
-    <section className="py-24 bg-background overflow-hidden">
-      <div className="container">
+    <section className="relative py-24 bg-background overflow-hidden">
+      {/* Брендбук п. 5: силуэт здания у нижней границы секции */}
+      <BrandGraphic variant="building" className="bottom-0 right-0 h-[50%] md:h-full text-marja-navy/6" />
+      <div className="container relative">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
           <div className="flex-1">
             {label && (
