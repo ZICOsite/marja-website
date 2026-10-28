@@ -76,7 +76,7 @@ export const SolutionsBlock = ({ tagline, title, description, cards }: Props) =>
                   <h3 className="text-3xl font-bold text-white mb-2">{card.title}</h3>
                   <p className="text-white/70 mb-4 line-clamp-2 font-sans">{card.description}</p>
 
-                  <button className="flex items-center text-[var(--primary)] font-sans font-bold group-hover:underline">
+                  <button className="flex items-center text-white font-sans font-bold group-hover:underline">
                     {t('viewSystem')} <ArrowRight className="ml-2 w-4 h-4" />
                   </button>
                 </div>
