@@ -5,12 +5,14 @@ import { sendToAmoCRM } from '@/services/notifications/amocrm'
 import { deliverLead, recordLead } from '@/services/leads'
 import { getClientIp } from '@/utilities/getClientIp'
 import { allowRequest, isDuplicate } from '@/services/rateLimit'
+import { NO_NAME, isValidPhone } from '@/utilities/leadContact'
 
 /** См. пояснение к причинам в submitCalculatorRequest. */
 export type ConsultationResult = { ok: boolean; reason?: 'rateLimited' }
 
 export type ConsultationInput = {
-  name: string
+  /** Необязательно — см. NO_NAME. */
+  name?: string
   phone: string
   /** Honeypot: заполняется только ботами. */
   website?: string
@@ -19,11 +21,11 @@ export type ConsultationInput = {
 export async function submitConsultationRequest(
   input: ConsultationInput,
 ): Promise<ConsultationResult> {
-  const name = input?.name?.trim()
+  const name = input?.name?.trim() ?? ''
   const phone = input?.phone?.trim()
 
-  if (!name || !phone) return { ok: false }
-  if (name.length > 200 || phone.length > 50) return { ok: false }
+  if (!isValidPhone(phone)) return { ok: false }
+  if (name.length > 200) return { ok: false }
   // Honeypot — молча подтверждаем, чтобы бот не подбирал обход.
   if (input?.website?.trim()) return { ok: true }
 
@@ -36,7 +38,7 @@ export async function submitConsultationRequest(
   if (!allowRequest('consultation', ip)) return { ok: false, reason: 'rateLimited' }
 
   const submissionData = [
-    { field: 'Имя', value: name },
+    ...(name ? [{ field: 'Имя', value: name }] : []),
     { field: 'Телефон', value: phone },
   ]
 
@@ -45,7 +47,7 @@ export async function submitConsultationRequest(
   // Сначала БД, потом отправка — см. пояснение в submitCalculatorRequest.
   const leadId = await recordLead({
     source: 'consultation',
-    name,
+    name: name || NO_NAME,
     phone,
     ip,
     details: submissionData,

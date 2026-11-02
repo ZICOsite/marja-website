@@ -5,6 +5,7 @@ import { sendToAmoCRM } from '@/services/notifications/amocrm'
 import { deliverLead, recordLead } from '@/services/leads'
 import { getClientIp } from '@/utilities/getClientIp'
 import { allowRequest, isDuplicate } from '@/services/rateLimit'
+import { NO_NAME, isValidPhone } from '@/utilities/leadContact'
 
 /** См. пояснение к причинам в submitCalculatorRequest. */
 export type OrderResult = { ok: boolean; reason?: 'rateLimited' }
@@ -16,7 +17,8 @@ export type OrderProduct = {
 }
 
 export type OrderInput = {
-  name: string
+  /** Необязательно — см. NO_NAME. */
+  name?: string
   phone: string
   items: OrderProduct[]
   /** Honeypot: заполняется только ботами. */
@@ -24,13 +26,13 @@ export type OrderInput = {
 }
 
 export async function submitProductOrder(input: OrderInput): Promise<OrderResult> {
-  const name = input?.name?.trim()
+  const name = input?.name?.trim() ?? ''
   const phone = input?.phone?.trim()
   const items = (input?.items ?? []).filter((it) => it?.title?.trim())
 
   // Basic server-side validation
-  if (!name || !phone || items.length === 0) return { ok: false }
-  if (name.length > 200 || phone.length > 50) return { ok: false }
+  if (!isValidPhone(phone) || items.length === 0) return { ok: false }
+  if (name.length > 200) return { ok: false }
   // Honeypot — молча подтверждаем, чтобы бот не подбирал обход.
   if (input?.website?.trim()) return { ok: true }
 
@@ -55,7 +57,7 @@ export async function submitProductOrder(input: OrderInput): Promise<OrderResult
       : { field: 'Товар', value: productLines[0]! }
 
   const submissionData = [
-    { field: 'Имя', value: name },
+    ...(name ? [{ field: 'Имя', value: name }] : []),
     { field: 'Телефон', value: phone },
     productField,
   ]
@@ -65,7 +67,7 @@ export async function submitProductOrder(input: OrderInput): Promise<OrderResult
   // Сначала БД, потом отправка — см. пояснение в submitCalculatorRequest.
   const leadId = await recordLead({
     source: 'order',
-    name,
+    name: name || NO_NAME,
     phone,
     ip,
     details: submissionData,

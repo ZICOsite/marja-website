@@ -268,6 +268,31 @@ describe('Данные заявок по формам', () => {
     expect(JSON.stringify(data.details)).toContain('Roofizol ТКП')
   })
 
+  it('заявка без имени принимается: в БД «—», в Telegram/CRM поля «Имя» нет', async () => {
+    const res = await submitProductOrder({
+      phone: '+998 90 555-44-33',
+      items: [{ title: 'Пеноплекс' }],
+    })
+
+    expect(res).toEqual({ ok: true })
+    const data = lastCreated()
+    expect(data.name).toBe('—')
+    expect(JSON.stringify(data.details)).not.toContain('Имя')
+    expect(telegram).toHaveBeenCalledTimes(1)
+
+    const res2 = await submitConsultationRequest({ phone: '901112233' })
+    expect(res2).toEqual({ ok: true })
+    expect(lastCreated().name).toBe('—')
+  })
+
+  it('телефон без нужного числа цифр отклоняется и в БД не пишется', async () => {
+    expect(await submitConsultationRequest({ phone: '12-34' })).toEqual({ ok: false })
+    expect(await submitProductOrder({ phone: 'abc', items: [{ title: 'Пеноплекс' }] })).toEqual({
+      ok: false,
+    })
+    expect(create).not.toHaveBeenCalled()
+  })
+
   it('спам и дубли в БД не пишутся', async () => {
     await submitConsultationRequest({
       name: 'Bot',

@@ -16,7 +16,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { submitProductOrder, type OrderProduct } from '@/actions/submitProductOrder'
-import { trackLead } from '@/utilities/trackLead'
+import { trackEvent, trackLead } from '@/utilities/trackLead'
 import { BrandGraphic } from '@/components/BrandGraphic'
 
 type Props = {
@@ -48,15 +48,15 @@ export const OrderDialog: React.FC<Props> = ({
   const t = useTranslations('order')
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
-  const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [website, setWebsite] = useState('')
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next)
-    if (!next) {
+    if (next) {
+      trackEvent('order_dialog_open', { items: items.length })
+    } else {
       setStatus('idle')
-      setName('')
       setPhone('')
       setWebsite('')
     }
@@ -64,10 +64,11 @@ export const OrderDialog: React.FC<Props> = ({
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name.trim() || !phone.trim() || status === 'submitting' || items.length === 0) return
+    if (!phone.trim() || status === 'submitting' || items.length === 0) return
 
     setStatus('submitting')
-    const res = await submitProductOrder({ name, phone, items, website })
+    // Только телефон: имя менеджер уточнит при звонке (см. utilities/leadContact).
+    const res = await submitProductOrder({ phone, items, website })
     if (res.ok) {
       setStatus('success')
       trackLead('product_order', { items: items.length })
@@ -125,22 +126,12 @@ export const OrderDialog: React.FC<Props> = ({
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="order-name">{t('name')}</Label>
-              <Input
-                id="order-name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={t('namePlaceholder')}
-                autoComplete="name"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col gap-1.5">
               <Label htmlFor="order-phone">{t('phone')}</Label>
               <Input
                 id="order-phone"
                 type="tel"
+                inputMode="tel"
+                autoFocus
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder={t('phonePlaceholder')}

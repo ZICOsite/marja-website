@@ -39,3 +39,15 @@ export function trackLead(source: LeadSource, extra?: Record<string, unknown>): 
   // Metrika: uchinchi argument — maqsad identifikatori, to'rtinchisi — parametrlari.
   window.ym?.(YM_ID, 'reachGoal', GOAL, params)
 }
+
+/**
+ * Промежуточное событие воронки (не заявка и не конверсия Ads): например, открытие окна заказа.
+ * Нужно, чтобы видеть, доходят ли люди до формы вообще. В Метрике засчитается,
+ * только если там создана JS-цель с тем же идентификатором.
+ */
+export function trackEvent(name: 'order_dialog_open' | 'consultation_open', params?: Record<string, unknown>): void {
+  if (typeof window === 'undefined') return
+  const gtag = (window as unknown as { gtag?: Gtag }).gtag
+  if (typeof gtag === 'function') gtag('event', name, params)
+  window.ym?.(YM_ID, 'reachGoal', name, params)
+}

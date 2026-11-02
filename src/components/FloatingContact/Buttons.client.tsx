@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { submitConsultationRequest } from '@/actions/submitConsultationRequest'
-import { trackLead } from '@/utilities/trackLead'
+import { trackEvent, trackLead } from '@/utilities/trackLead'
 import { BrandGraphic } from '@/components/BrandGraphic'
 
 const TELEGRAM_URL = 'https://telegram.me/uz_marja'
@@ -33,7 +33,6 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
   const [showBubble, setShowBubble] = useState(false)
   const [open, setOpen] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
-  const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [website, setWebsite] = useState('')
 
@@ -46,7 +45,6 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
     setOpen(next)
     if (!next) {
       setStatus('idle')
-      setName('')
       setPhone('')
       setWebsite('')
     }
@@ -55,14 +53,16 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
   const openDialog = () => {
     setShowBubble(false)
     setOpen(true)
+    trackEvent('consultation_open')
   }
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name.trim() || !phone.trim() || status === 'submitting') return
+    if (!phone.trim() || status === 'submitting') return
 
     setStatus('submitting')
-    const res = await submitConsultationRequest({ name, phone, website })
+    // Только телефон: имя менеджер уточнит при звонке (см. utilities/leadContact).
+    const res = await submitConsultationRequest({ phone, website })
 
     if (res.ok) {
       setStatus('success')
@@ -136,22 +136,12 @@ export const FloatingContactButtons: React.FC<Props> = ({ telHref, phoneNumber }
           ) : (
             <form onSubmit={onSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="consultation-name">{t('name')}</Label>
-                <Input
-                  id="consultation-name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={t('namePlaceholder')}
-                  autoComplete="name"
-                  required
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
                 <Label htmlFor="consultation-phone">{t('phone')}</Label>
                 <Input
                   id="consultation-phone"
                   type="tel"
+                  inputMode="tel"
+                  autoFocus
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder={t('phonePlaceholder')}
