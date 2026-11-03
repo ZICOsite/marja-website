@@ -9,6 +9,7 @@ import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
+import { notFound } from 'next/navigation'
 import { setRequestLocale } from 'next-intl/server'
 import React, { cache } from 'react'
 import { homeStatic } from '@/endpoints/seed/home-static'
@@ -56,6 +57,11 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug: locale, contentSlug = 'home' } = await paramsPromise
 
+  // Проверка в layout не спасает: Next рендерит страницу параллельно с ним. Адреса
+  // с точкой (/<мусор>.html от сканеров) обходят middleware, и чужая «локаль» роняла
+  // Intl.DateTimeFormat в блоках с датами — 500 вместо 404.
+  if (!routing.locales.includes(locale as Locale)) notFound()
+
   setRequestLocale(locale)
 
   const decodedContentSlug = decodeURIComponent(contentSlug)
@@ -93,6 +99,8 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug: locale, contentSlug = 'home' } = await paramsPromise
+  if (!routing.locales.includes(locale as Locale)) notFound()
+
   const decodedContentSlug = decodeURIComponent(contentSlug)
   const page = await queryPageBySlug({ slug: decodedContentSlug, locale })
   const path = decodedContentSlug === 'home' ? '' : `/${decodedContentSlug}`
