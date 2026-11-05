@@ -235,7 +235,8 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!contact.name.trim() || !contact.phone.trim() || status === 'submitting') return
+    // Имя необязательно: менеджер уточнит его при звонке, см. utilities/leadContact.
+    if (!contact.phone.trim() || status === 'submitting') return
 
     setStatus('submitting')
     const res = await submitCalculatorRequest({
@@ -606,7 +607,6 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
                   onChange={(e) => setContact({ ...contact, name: e.target.value })}
                   placeholder={t('lead.namePlaceholder')}
                   autoComplete="name"
-                  required
                 />
               </div>
 
@@ -615,6 +615,7 @@ export const CalculatorForm: React.FC<Props> = ({ showPrices, disclaimer, locale
                 <Input
                   id="calc-phone"
                   type="tel"
+                  inputMode="tel"
                   value={contact.phone}
                   onChange={(e) => setContact({ ...contact, phone: e.target.value })}
                   placeholder={t('lead.phonePlaceholder')}

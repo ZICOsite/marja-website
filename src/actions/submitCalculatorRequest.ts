@@ -14,6 +14,7 @@ import { fetchCatalogPrices } from '@/blocks/Calculator/prices'
 import { formatPrice } from '@/utilities/formatPrice'
 import { getClientIp } from '@/utilities/getClientIp'
 import { allowRequest, isDuplicate } from '@/services/rateLimit'
+import { NO_NAME, isValidPhone } from '@/utilities/leadContact'
 
 /**
  * `rateLimited` — заявка не ушла, но это живой человек: ему показываем честное
@@ -25,7 +26,8 @@ export type CalculatorResult = { ok: boolean; reason?: 'rateLimited' }
 export type TimingKey = 'now' | 'month' | 'quarter'
 
 export type CalculatorContact = {
-  name: string
+  /** Необязательно — см. NO_NAME. */
+  name?: string
   phone: string
   city?: string
   comment?: string
@@ -119,7 +121,7 @@ export async function submitCalculatorRequest(
   const name = clean(input?.contact?.name, 200)
   const phone = clean(input?.contact?.phone, 50)
 
-  if (!name || !phone) return { ok: false }
+  if (!isValidPhone(phone)) return { ok: false }
   // Honeypot — молча подтверждаем, чтобы бот не подбирал обход.
   if (clean(input?.contact?.website, 100)) return { ok: true }
 
@@ -200,7 +202,7 @@ export async function submitCalculatorRequest(
   // бесследно потерянную заявку. Запись не блокирует отправку, см. recordLead.
   const leadId = await recordLead({
     source: 'calculator',
-    name,
+    name: name || NO_NAME,
     phone,
     city,
     timing: safeTiming,
