@@ -65,7 +65,7 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
               <p className="text-muted-foreground">{t('noCategories')}</p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                {topCategories.map((cat) => {
+                {topCategories.map((cat, i) => {
                   const imgUrl =
                     typeof cat.image === 'object' && cat.image?.url ? cat.image.url : null
                   const imgAlt =
@@ -85,6 +85,8 @@ export default async function ProductsCatalogPage({ params: paramsPromise }: Arg
                             src={imgUrl}
                             alt={imgAlt || cat.title}
                             fill
+                            // Первый ряд карточек — LCP на десктопе: грузить сразу, а не лениво
+                            priority={i < 3}
                             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                             className="object-contain transition-transform duration-500 group-hover:scale-105"
                           />

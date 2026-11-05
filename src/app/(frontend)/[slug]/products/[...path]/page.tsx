@@ -354,7 +354,12 @@ async function CategoryPage({
         })
       : []
 
-  const items: ListingItem[] = products.map((product) => ({
+  // Главная картинка первого экрана: баннер категории, а без него — первые карточки
+  // (на десктопе ряд из 3). По умолчанию next/image грузит лениво, и браузер узнавал
+  // о LCP-картинке только после JS: LCP категории на мобилке был 8,3 с.
+  const hasBanner = typeof category.image === 'object' && !!category.image?.url
+
+  const items: ListingItem[] = products.map((product, i) => ({
     id: String(product.id),
     title: product.title,
     price: (product.price as number | null) ?? null,
@@ -376,6 +381,7 @@ async function CategoryPage({
         priceUnit={product.priceUnit}
         currency={product.currency}
         locale={locale}
+        priority={!hasBanner && i < 3}
       />
     ),
   }))
@@ -408,7 +414,14 @@ async function CategoryPage({
         {/* Баннер категории */}
         {imgUrl && (
           <div className="relative rounded-2xl overflow-hidden h-44 mb-8">
-            <Image src={'/banner.png'} alt={imgAlt} fill sizes="100vw" className="object-cover" />
+            <Image
+              src={'/banner.png'}
+              alt={imgAlt}
+              fill
+              priority
+              sizes="(max-width: 1440px) 100vw, 1440px"
+              className="object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-r from-marja-navy/70 to-transparent" />            <div className="absolute bottom-6 left-8">
               <h1 className="text-2xl font-bold font-heading text-white">{category.title}</h1>
               {category.description && (
@@ -496,7 +509,7 @@ async function CategoryPage({
               </div>
             ) : subcategories.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                {subcategories.map((sub) => {
+                {subcategories.map((sub, i) => {
                   const imgUrl =
                     typeof sub.image === 'object' && sub.image?.url ? sub.image.url : null
                   const imgAlt =
@@ -515,6 +528,7 @@ async function CategoryPage({
                             src={imgUrl}
                             alt={imgAlt || sub.title}
                             fill
+                            priority={!hasBanner && i < 3}
                             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                             className="object-contain transition-transform duration-500 group-hover:scale-105"
                           />

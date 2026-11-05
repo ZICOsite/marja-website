@@ -17,6 +17,8 @@ type ProductCardProps = {
   priceUnit?: string | null
   currency?: string | null
   locale: string
+  /** Первые карточки на первом экране: грузить сразу, а не лениво (LCP) */
+  priority?: boolean
 }
 
 export async function ProductCard({
@@ -32,6 +34,7 @@ export async function ProductCard({
   priceUnit,
   currency,
   locale,
+  priority = false,
 }: ProductCardProps) {
   const t = await getTranslations({ locale, namespace: 'products' })
   const priceBase = formatProductPrice({
@@ -56,6 +59,7 @@ export async function ProductCard({
             src={img.url}
             alt={img.alt ?? ''}
             fill
+            priority={priority}
             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="object-contain group-hover:scale-105 transition-transform duration-300"
           />
